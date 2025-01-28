@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const products = [
     { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '/analytics', icon: ChartPieIcon },
     { name: 'Engagement', description: 'Speak directly to your customers', href: '/engagement', icon: CursorArrowRaysIcon },
-    { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '/security', icon: FingerPrintIcon },
+    { name: 'Security', description: 'Your customers data will be safe and secure', href: '/security', icon: FingerPrintIcon },
     { name: 'Integrations', description: 'Connect with third-party tools', href: '/integrations', icon: SquaresPlusIcon },
     { name: 'Automations', description: 'Build strategic funnels that will convert', href: '/automations', icon: ArrowPathIcon },
 ];
@@ -19,8 +19,11 @@ const callsToAction = [
 function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+
+
     return (
         <header className="bg-white">
+
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
                     <Link to="/" className="-m-1.5 p-1.5">
@@ -89,6 +92,7 @@ function Header() {
                         </PopoverPanel>
                     </Popover>
 
+
                     <Popover className="relative">
                         <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
                             Entertainment
@@ -146,6 +150,7 @@ function Header() {
                         Business
                     </Link>
                 </PopoverGroup>
+
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
                         Log in <span aria-hidden="true">&rarr;</span>
@@ -213,19 +218,21 @@ function Header() {
                                 </Link>
                             </div>
                             <div className="py-6">
-                                <Link
-                                    to="/"
+                                <button
+                                    onClick={() => setisOpenLogin(true)}
                                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                                 >
                                     Log in
-                                </Link>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </DialogPanel>
             </Dialog>
+
+
         </header>
+
     )
 }
-
 export default Header;

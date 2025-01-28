@@ -1,14 +1,10 @@
-import Footer from "./components/Footer"
-import Header from "./components/Header"
+import RootRouting from "./routes"
 
 
 function App() {
 
   return (
-    <>
-      <Header />
-      <Footer />
-    </>
+    <RootRouting />
   )
 }
 
