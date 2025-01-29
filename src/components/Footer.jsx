@@ -5,7 +5,7 @@ import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 function Footer() {
     return (
         <footer className="bg-gray-900 text-gray-300 py-8">
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+            <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4">
                 {/* Logo and Description */}
                 <div className="space-y-4">
                     <img
@@ -24,41 +24,56 @@ function Footer() {
                     <h2 className="text-xl font-semibold text-white mb-4">Quick Links</h2>
                     <ul className="space-y-2">
                         <li>
-                            <Link
-                                to="/"
-                                className="hover:text-white transition duration-200"
-                            >
-                                Home
+                            <Link to="/" className="hover:text-white transition duration-200"  >
+                                About Us
                             </Link>
                         </li>
 
                         <li>
-                            <Link
-                                to="/politics"
-                                className="hover:text-white transition duration-200"
-                            >
-                                Politics
+                            <Link to="/politics" className="hover:text-white transition duration-200">
+                                Crime Updates
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                to="/sports"
-                                className="hover:text-white transition duration-200"
-                            >
-                                Sports
+                            <Link to="/sports" className="hover:text-white transition duration-200">
+                                Breaking News
                             </Link>
                         </li>
                         <li>
-                            <Link
-                                to="/contact"
-                                className="hover:text-white transition duration-200"
-                            >
+                            <Link to="/contact" className="hover:text-white transition duration-200">
                                 Contact Us
                             </Link>
                         </li>
                     </ul>
                 </div>
 
+                {/* Quick Links */}
+                <div>
+                    <h2 className="text-xl font-semibold text-white mb-4">Quick Links</h2>
+                    <ul className="space-y-2">
+                        <li>
+                            <Link to="/" className="hover:text-white transition duration-200"  >
+                                About Us
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link to="/politics" className="hover:text-white transition duration-200">
+                                Crime Updates
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/sports" className="hover:text-white transition duration-200">
+                                Breaking News
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/contact" className="hover:text-white transition duration-200">
+                                Contact Us
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
 
                 {/* Social Media */}
                 <div>
