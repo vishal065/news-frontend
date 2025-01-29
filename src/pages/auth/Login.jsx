@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     return (
@@ -14,8 +15,8 @@ const Login = () => {
                         Sign in to your account
                     </h2>
                 </div>
-                <form className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-md" action="#" method="POST">
-                    <div className="-space-y-px rounded-md shadow-sm">
+                <form className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-md">
+                    <div className="rounded-md shadow-md">
                         <div>
                             <label htmlFor="email-address" className="sr-only">
                                 Email address
@@ -26,7 +27,7 @@ const Login = () => {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="relative block w-full rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                className="relative block w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
                                 placeholder="Email address"
                             />
                         </div>
@@ -40,14 +41,13 @@ const Login = () => {
                                 type="password"
                                 autoComplete="current-password"
                                 required
-                                className="relative block w-full rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                className="relative block w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
                                 placeholder="Password"
                             />
                         </div>
                     </div>
 
                     <div className="flex items-center justify-end">
-
                         <div className="text-sm">
                             <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                                 Forgot your password?
@@ -58,17 +58,18 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                         >
                             Sign in
                         </button>
                     </div>
                 </form>
+
                 <p className="mt-2 text-center text-sm text-gray-600">
-                    Don't have an account?{' '}
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    Don't have an account ?
+                    <Link to={"/register"} className="px-2 hover:underline font-medium cursor-pointer text-indigo-600 hover:text-indigo-500">
                         Sign up
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>
