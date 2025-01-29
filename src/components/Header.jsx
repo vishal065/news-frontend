@@ -22,7 +22,7 @@ function Header() {
 
 
     return (
-        <header className="bg-white">
+        <header className="bg-white fixed top-0 left-0 w-full shadow-lg z-50">
 
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
@@ -45,11 +45,11 @@ function Header() {
                     </button>
                 </div>
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-                    <Link to="/features" className="text-sm/6 font-semibold text-gray-900">
+                    <Link to="/features" className="font-bold text-gray-900">
                         Home
                     </Link>
                     <Popover className="relative">
-                        <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
+                        <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-gray-900">
                             Videos
                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                         </PopoverButton>
@@ -94,7 +94,7 @@ function Header() {
 
 
                     <Popover className="relative">
-                        <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
+                        <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-gray-900">
                             Entertainment
                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                         </PopoverButton>
@@ -136,23 +136,25 @@ function Header() {
                             </div>
                         </PopoverPanel>
                     </Popover>
-                    <Link to="/features" className="text-sm/6 font-semibold text-gray-900">
+                    <Link to="/features" className="font-bold text-gray-900">
                         Religious activities
                     </Link>
-
-                    <Link to="/features" className="text-sm/6 font-semibold text-gray-900">
+                    <Link to="/features" className="font-bold text-gray-900">
                         Astrology
                     </Link>
-                    <Link to="/marketplace" className="text-sm/6 font-semibold text-gray-900">
+                    <Link to="/features" className="font-bold text-gray-900">
+                        Lifestyle
+                    </Link>
+                    <Link to="/marketplace" className="font-bold text-gray-900">
                         Education
                     </Link>
-                    <Link to="/company" className="text-sm/6 font-semibold text-gray-900">
+                    <Link to="/company" className="font-bold text-gray-900">
                         Business
                     </Link>
                 </PopoverGroup>
 
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
+                    <Link to="/login" className="font-bold text-gray-900">
                         Log in <span aria-hidden="true">&rarr;</span>
                     </Link>
                 </div>
@@ -178,7 +180,7 @@ function Header() {
                             <XMarkIcon aria-hidden="true" className="size-6" />
                         </button>
                     </div>
-                    <div className="mt-6 flow-root">
+                    <div className="mt-20 flow-root">
                         <div className="-my-6 divide-y divide-gray-500/10">
                             <div className="space-y-2 py-6">
                                 <Disclosure as="div" className="-mx-3">
