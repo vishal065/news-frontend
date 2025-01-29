@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FiLock, FiMail } from 'react-icons/fi';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="flex min-h-screen items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 mt-16">
             <div className="w-full max-w-md space-y-8">
                 <div>
                     <img
@@ -17,47 +22,62 @@ const Register = () => {
                 </div>
                 <form className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-md">
                     <div className="rounded-md shadow-md">
-                        <div>
-                            <label htmlFor="email-address" className="sr-only">
-                                Email address
-                            </label>
+                        <div className='relative'>
+                            <label htmlFor="email-address" className="sr-only">Email address</label>
+                            <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+                                <FiMail size={20} />
+                            </span>
                             <input
                                 id="email-address"
                                 name="email"
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="relative block w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
+                                className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
                                 placeholder="Email address"
                             />
                         </div>
-                        <div>
-                            <label htmlFor="password" className="sr-only">
-                                Password
-                            </label>
+                        <div className='relative'>
+                            <label htmlFor="password" className="sr-only">Password</label>
+                            <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+                                <FiLock size={20} />
+                            </span>
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 autoComplete="current-password"
                                 required
-                                className="relative block w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
+                                className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
                                 placeholder="Password"
                             />
+                            <span
+                                className="absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                            </span>
                         </div>
-                        <div>
-                            <label htmlFor="password" className="sr-only">
-                                Confirm  Password
-                            </label>
+                        <div className='relative'>
+                            <label htmlFor="confirm-password" className="sr-only">Confirm Password</label>
+                            <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+                                <FiLock size={20} />
+                            </span>
                             <input
-                                id="password"
-                                name="password"
-                                type="password"
+                                id="confirm-password"
+                                name="confirmPassword"
+                                type={showConfirmPassword ? "text" : "password"}
                                 autoComplete="current-password"
                                 required
-                                className="relative block w-full rounded-md border border-gray-300 px-3 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
-                                placeholder="confirm Password"
+                                className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
+                                placeholder="Confirm Password"
                             />
+                            <span
+                                className="absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer"
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                                {showConfirmPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                            </span>
                         </div>
                     </div>
 

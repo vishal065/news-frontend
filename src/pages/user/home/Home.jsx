@@ -1,4 +1,5 @@
 import React from 'react';
+import StoriesSlider from './StoriesSlider';
 
 const Home = () => {
   return (
@@ -9,7 +10,7 @@ const Home = () => {
           <div className="overflow-hidden">
             <img
               className="w-full h-auto max-h-96 object-cover transition-transform duration-300 hover:scale-105"
-              src="https://www.shutterstock.com/image-photo/tv-live-news-program-professional-600nw-2160015507.jpg"
+              src="https://mimolive.com/wp-content/uploads/2022/08/thisisengineering-raeng-5KxOM7cKhmA-unsplash-1024x683.jpg"
               alt="News program"
             />
           </div>
@@ -33,7 +34,7 @@ const Home = () => {
             <div className="overflow-hidden">
               <img
                 className="w-full h-auto max-h-72 object-cover transition-transform duration-300 hover:scale-105"
-                src="https://www.shutterstock.com/image-photo/tv-live-news-program-professional-600nw-2160015507.jpg"
+                src="https://www.shutterstock.com/image-photo/tv-live-news-program-two-600nw-2150166725.jpg"
                 alt="News program"
               />
             </div>
@@ -51,6 +52,7 @@ const Home = () => {
           </div>
         ))}
       </div>
+      <StoriesSlider />
     </div>
   );
 };
