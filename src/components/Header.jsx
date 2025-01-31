@@ -1,19 +1,15 @@
 import { useState } from 'react';
-import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Popover, PopoverButton, PopoverGroup, PopoverPanel, } from '@headlessui/react';
-import { ArrowPathIcon, Bars3Icon, ChartPieIcon, CursorArrowRaysIcon, FingerPrintIcon, SquaresPlusIcon, XMarkIcon, } from '@heroicons/react/24/outline';
-import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid';
+import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Link } from 'react-router-dom';
 
 const products = [
-    { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '/analytics', icon: ChartPieIcon },
-    { name: 'Engagement', description: 'Speak directly to your customers', href: '/engagement', icon: CursorArrowRaysIcon },
-    { name: 'Security', description: 'Your customers data will be safe and secure', href: '/security', icon: FingerPrintIcon },
-    { name: 'Integrations', description: 'Connect with third-party tools', href: '/integrations', icon: SquaresPlusIcon },
-    { name: 'Automations', description: 'Build strategic funnels that will convert', href: '/automations', icon: ArrowPathIcon },
-];
-const callsToAction = [
-    { name: 'Watch demo', href: '/demo', icon: PlayCircleIcon },
-    { name: 'Contact sales', href: '/contact', icon: PhoneIcon },
+    { name: 'Analytics', href: '/analytics' },
+    { name: 'Engagement', href: '/engagement' },
+    { name: 'Security', href: '/security' },
+    { name: 'Integrations', href: '/integrations' },
+    { name: 'Automations', href: '/automations' }
 ];
 
 function Header() {
@@ -25,7 +21,7 @@ function Header() {
                 <div className="flex lg:flex-1">
                     <Link to="/" className="-m-1.5 p-1.5">
                         <img
-                            alt=""
+                            alt="Logo"
                             src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
                             className="h-14 w-auto"
                         />
@@ -37,92 +33,55 @@ function Header() {
                         onClick={() => setMobileMenuOpen(true)}
                         className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                     >
-                        <span className="sr-only">Open main menu</span>
                         <Bars3Icon aria-hidden="true" className="size-6" />
                     </button>
                 </div>
 
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-                    <Link to="/features" className="font-bold text-gray-900">
-                        Home
-                    </Link>
-                    <Link to="/features" className="font-bold text-gray-900">
-                        Crime Updates
-                    </Link>
-                    <Link to="/features" className="font-bold text-gray-900">
-                        Law & Justice
-                    </Link>
-                    <Link to="/marketplace" className="font-bold text-gray-900">
-                        Technology
-                    </Link>
-                    <Link to="/marketplace" className="font-bold text-gray-900">
-                        Sports
-                    </Link>
-                    <Link to="/marketplace" className="font-bold text-gray-900">
-                        Education
-                    </Link>
-                    <Link to="/company" className="font-bold text-gray-900">
-                        Business
-                    </Link>
+                    <Link to="/features" className="font-bold text-gray-900">Home</Link>
+                    <Link to="/features" className="font-bold text-gray-900">Crime Updates</Link>
+                    <Link to="/features" className="font-bold text-gray-900">Law & Justice</Link>
+                    <Link to="/marketplace" className="font-bold text-gray-900">Technology</Link>
+                    <Link to="/marketplace" className="font-bold text-gray-900">Sports</Link>
+
                     <Popover className="relative">
                         <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-gray-900">
                             Gallery
                             <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                         </PopoverButton>
-
                         <PopoverPanel
-                            transition
-                            className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+                            className="absolute top-full left-0 z-10 mt-2 w-auto bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg"
                         >
-                            <div className="p-4">
+                            <div className="p-2"> {/* Adjusted padding */}
                                 {products.map((item) => (
-                                    <div
-                                        key={item.name}
-                                        className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                                    >
-                                        <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                            <item.icon aria-hidden="true" className="size-6 text-gray-600 group-hover:text-indigo-600" />
-                                        </div>
-                                        <div className="flex-auto">
-                                            <Link to={item.href} className="block font-semibold text-gray-900">
-                                                {item.name}
-                                                <span className="absolute inset-0" />
-                                            </Link>
-                                            <p className="mt-1 text-gray-600">{item.description}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                                {callsToAction.map((item) => (
                                     <Link
                                         key={item.name}
                                         to={item.href}
-                                        className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
+                                        className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50"
                                     >
-                                        <item.icon aria-hidden="true" className="size-5 flex-none text-gray-400" />
                                         {item.name}
                                     </Link>
                                 ))}
                             </div>
                         </PopoverPanel>
                     </Popover>
+
+                    <Link to="/marketplace" className="font-bold text-gray-900">Education</Link>
+                    <Link to="/company" className="font-bold text-gray-900">Business</Link>
                 </PopoverGroup>
 
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link to="/login" className="font-bold text-gray-900">
-                        Log in <span aria-hidden="true">&rarr;</span>
-                    </Link>
+                    <Link to="/login" className="font-bold text-gray-900">Log in &rarr;</Link>
                 </div>
             </nav>
+
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
                 <div className="fixed inset-0 z-10" />
                 <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                     <div className="flex items-center justify-between">
                         <Link to="/" className="-m-1.5 p-1.5">
-                            <span className="sr-only">Your Company</span>
                             <img
-                                alt=""
+                                alt="Logo"
                                 src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
                                 className="h-8 w-auto"
                             />
@@ -130,67 +89,52 @@ function Header() {
                         <button
                             type="button"
                             onClick={() => setMobileMenuOpen(false)}
-                            className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                            className="-m-2.5 p-2.5 text-gray-700"
                         >
-                            <span className="sr-only">Close menu</span>
                             <XMarkIcon aria-hidden="true" className="size-6" />
                         </button>
                     </div>
                     <div className="mt-20 flow-root">
                         <div className="-my-6 divide-y divide-gray-500/10">
                             <div className="space-y-2 py-6">
-                                <Disclosure as="div" className="-mx-3">
-                                    <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
+                                <Disclosure>
+                                    <DisclosureButton className="flex w-full justify-between rounded-lg py-2 px-3 text-base font-semibold text-gray-900 hover:bg-gray-50">
                                         Product
-                                        <ChevronDownIcon aria-hidden="true" className="size-5 flex-none group-data-open:rotate-180" />
+                                        <ChevronDownIcon aria-hidden="true" className="size-5" />
                                     </DisclosureButton>
                                     <DisclosurePanel className="mt-2 space-y-2">
-                                        {[...products, ...callsToAction].map((item) => (
+                                        {products.map((item) => (
                                             <Link
                                                 key={item.name}
                                                 to={item.href}
-                                                className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50"
+                                                className="block rounded-lg py-2 px-6 text-sm font-semibold text-gray-900 hover:bg-gray-50"
                                             >
                                                 {item.name}
                                             </Link>
                                         ))}
                                     </DisclosurePanel>
                                 </Disclosure>
-                                <Link
-                                    to="/features"
-                                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                >
+                                <Link to="/features" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
                                     Features
                                 </Link>
-                                <Link
-                                    to="/marketplace"
-                                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                >
+                                <Link to="/marketplace" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
                                     Marketplace
                                 </Link>
-                                <Link
-                                    to="/company"
-                                    className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                >
+                                <Link to="/company" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
                                     Company
                                 </Link>
                             </div>
                             <div className="py-6">
-                                <button
-                                    onClick={() => setisOpenLogin(true)}
-                                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-                                >
+                                <Link to="/login" className="block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50">
                                     Log in
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
                 </DialogPanel>
             </Dialog>
-
-
         </header>
-
-    )
+    );
 }
+
 export default Header;
