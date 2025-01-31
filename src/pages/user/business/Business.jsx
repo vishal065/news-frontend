@@ -1,7 +1,7 @@
 import React from 'react';
 import StoriesSlider from './StoriesSlider';
 
-const CrimeUpdates = () => {
+const Business = () => {
     return (
         <div className="container mx-auto p-4 mt-28">
             <div className="grid grid-cols-1 gap-6 mb-8">
@@ -57,4 +57,4 @@ const CrimeUpdates = () => {
     );
 };
 
-export default CrimeUpdates;
+export default Business;
