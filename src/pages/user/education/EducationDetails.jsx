@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const CrimeUpdatesDetails = () => {
+const EducationDetails = () => {
     return (
         <div className="max-w-7xl mx-auto px-4 py-8 mt-20">
             {/* Main Container */}
@@ -122,4 +122,4 @@ const CrimeUpdatesDetails = () => {
     );
 };
 
-export default CrimeUpdatesDetails;
+export default EducationDetails;
