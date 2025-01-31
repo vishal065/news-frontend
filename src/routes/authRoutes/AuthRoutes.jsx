@@ -1,6 +1,7 @@
 import Login from "../../pages/auth/Login";
 import Register from "../../pages/auth/Register";
 import Home from "../../pages/user/home/Home";
+import HomeDetails from "../../pages/user/home/HomeDetails";
 
 
 export const AuthRoutes = [
@@ -15,5 +16,9 @@ export const AuthRoutes = [
     {
         path: "/register",
         element: <Register />
+    },
+    {
+        path: "/details",
+        element: <HomeDetails />
     }
 ]
