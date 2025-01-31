@@ -1,85 +1,107 @@
-// import { useState } from "react";
-// import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// const videoStories = [
-//     { id: 1, title: "Story 1", src: "https://www.w3schools.com/html/mov_bbb.mp4" },
-//     { id: 2, title: "Story 2", src: "https://www.w3schools.com/html/movie.mp4" },
-//     { id: 3, title: "Story 3", src: "https://www.w3schools.com/html/mov_bbb.mp4" },
-// ];
+function StorieSlider() {
+    const sliderRef = useRef(null);
+    const videoRefs = useRef([]);
 
-// export default function VideoStoriesSlider() {
-//     const [currentVideo, setCurrentVideo] = useState(videoStories[0].src);
+    const scrollLeft = () => {
+        if (sliderRef.current) {
+            sliderRef.current.scrollBy({ left: -300, behavior: "smooth" });
+        }
+    };
 
-//     return (
-//         <div className="flex flex-col items-center w-full max-w-lg mx-auto p-4">
-//             {/* Video Player */}
-//             <motion.div
-//                 key={currentVideo}
-//                 initial={{ opacity: 0, scale: 0.9 }}
-//                 animate={{ opacity: 1, scale: 1 }}
-//                 transition={{ duration: 0.5 }}
-//                 className="w-full h-64 bg-black rounded-xl overflow-hidden"
-//             >
-//                 <video
-//                     src={currentVideo}
-//                     controls
-//                     autoPlay
-//                     className="w-full h-full object-cover"
-//                 />
-//             </motion.div>
+    const scrollRight = () => {
+        if (sliderRef.current) {
+            sliderRef.current.scrollBy({ left: 300, behavior: "smooth" });
+        }
+    };
 
-//             {/* Thumbnails */}
-//             <div className="mt-4 flex space-x-4 overflow-x-auto w-full justify-center">
-//                 {videoStories.map((video) => (
-//                     <motion.button
-//                         key={video.id}
-//                         onClick={() => setCurrentVideo(video.src)}
-//                         whileHover={{ scale: 1.1 }}
-//                         className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-300 ${currentVideo === video.src ? "border-blue-500" : "border-gray-300"
-//                             }`}
-//                     >
-//                         <video
-//                             src={video.src}
-//                             className="w-full h-full object-cover"
-//                             muted
-//                             loop
-//                             autoPlay
-//                         />
-//                     </motion.button>
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// }
+    useEffect(() => {
+        // Load the YouTube IFrame API
+        const script = document.createElement("script");
+        script.src = "https://www.youtube.com/iframe_api";
+        script.async = true;
+        document.body.appendChild(script);
+    }, []);
 
+    const handleVideoPlay = (index) => {
+        videoRefs.current.forEach((player, i) => {
+            if (player && i !== index) {
+                player.pauseVideo();
+            }
+        });
+    };
 
+    const onPlayerReady = (event, index) => {
+        videoRefs.current[index] = event.target;
+    };
 
+    const videos = [
+        "https://www.youtube.com/embed/Em-VEHpc-tg?enablejsapi=1",
+        "https://www.youtube.com/embed/Em-VEHpc-tg?enablejsapi=1",
+        "https://www.youtube.com/embed/Em-VEHpc-tg?enablejsapi=1",
+        "https://www.youtube.com/embed/Em-VEHpc-tg?enablejsapi=1",
+        "https://www.youtube.com/embed/Em-VEHpc-tg?enablejsapi=1",
+        "https://www.youtube.com/embed/Em-VEHpc-tg?enablejsapi=1",
+        "https://www.youtube.com/embed/Em-VEHpc-tg?enablejsapi=1",
+    ];
 
-
-
-
-
-
-
-
-
-
-export default function HorizontalSlider() {
     return (
-        <div className="w-full p-5">
-            <h2 className="text-2xl font-bold mb-4">Horizontal Scroll Slider</h2>
-            <div className="overflow-x-auto whitespace-nowrap scrollbar-hide">
-                <div className="flex gap-4">
-                    {Array.from({ length: 10 }).map((_, index) => (
+        <div className="w-full p-5 relative">
+            <h2 className="text-2xl font-bold mb-4">Video Stories</h2>
+            <div className="relative">
+                <button
+                    className="absolute left-2 top-1/2 -translate-y-1/2 p-2 bg-black bg-opacity-50 text-white rounded-full shadow-lg z-10 cursor-pointer"
+                    onClick={scrollLeft}
+                >
+                    <ChevronLeft size={24} />
+                </button>
+
+                <div
+                    ref={sliderRef}
+                    className="flex gap-4 scroll-smooth whitespace-nowrap overflow-hidden"
+                    style={{ scrollBehavior: "smooth" }}
+                >
+                    {videos.map((videoSrc, index) => (
                         <div
                             key={index}
-                            className="min-w-[250px] h-40 bg-blue-500 text-white flex items-center justify-center rounded-lg shadow-lg"
+                            className="min-w-[250px] h-64 md:h-96 bg-gray-900 text-white flex items-center justify-center rounded-lg shadow-lg relative overflow-hidden"
                         >
-                            Item {index + 1}
+                            <iframe
+                                id={`player-${index}`}
+                                className="w-full h-full object-cover rounded-lg"
+                                src={`${videoSrc}&enablejsapi=1`}
+                                title={`video-${index}`}
+                                frameBorder="0"
+                                allow="autoplay; encrypted-media; picture-in-picture"
+                                allowFullScreen
+                                onLoad={() => {
+                                    new window.YT.Player(`player-${index}`, {
+                                        events: {
+                                            onStateChange: (event) => {
+                                                if (event.data === window.YT.PlayerState.PLAYING) {
+                                                    handleVideoPlay(index);
+                                                }
+                                            },
+                                            onReady: (event) => onPlayerReady(event, index),
+                                        },
+                                    });
+                                }}
+                            ></iframe>
                         </div>
                     ))}
                 </div>
+
+                <button
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-black bg-opacity-50 text-white rounded-full shadow-lg z-10 cursor-pointer"
+                    onClick={scrollRight}
+                >
+                    <ChevronRight size={24} />
+                </button>
             </div>
         </div>
     );
 }
+
+export default StorieSlider;
