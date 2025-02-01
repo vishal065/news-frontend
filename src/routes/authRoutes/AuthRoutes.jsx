@@ -1,3 +1,5 @@
+import Header from "../../pages/admin/header/Header";
+import Sidebar from "../../pages/admin/sidebar/Sidebar";
 import Login from "../../pages/auth/Login";
 import Register from "../../pages/auth/Register";
 import About from "../../pages/user/about/About";
@@ -30,5 +32,13 @@ export const AuthRoutes = [
     {
         path: "/about",
         element: <About />
-    }
+    },
+    {
+        path: "/admin",
+        element: <Header />
+    },
+    {
+        path: "/sidebar",
+        element: <Sidebar />
+    },
 ]
