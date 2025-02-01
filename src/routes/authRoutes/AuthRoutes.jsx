@@ -1,3 +1,4 @@
+import NotFound from "../../components/NotFound";
 import Header from "../../pages/admin/header/Header";
 import Sidebar from "../../pages/admin/sidebar/Sidebar";
 import Login from "../../pages/auth/Login";
@@ -40,5 +41,9 @@ export const AuthRoutes = [
     {
         path: "/sidebar",
         element: <Sidebar />
+    },
+    {
+        path: "/notFound",
+        element: <NotFound />
     },
 ]
