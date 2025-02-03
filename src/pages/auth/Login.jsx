@@ -80,6 +80,12 @@ const Login = () => {
                             Sign in
                         </button>
                     </div>
+
+                    <div className='flex justify-end'>
+                        <Link to="/" className="text-blue-700 hover:underline font-semibold" >
+                            Back to home
+                        </Link>
+                    </div>
                 </form>
 
                 <p className="mt-2 text-center text-sm text-gray-600">
