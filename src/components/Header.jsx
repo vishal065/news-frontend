@@ -16,7 +16,7 @@ function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     return (
-        <header className="bg-white fixed top-0 left-0 w-full shadow-lg z-50">
+        <header className="bg-orange-700 text-white fixed top-0 left-0 w-full shadow-lg z-50">
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
                     <Link to="/" className="-m-1.5 p-1.5">
@@ -38,16 +38,16 @@ function Header() {
                 </div>
 
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-                    <Link to="/features" className="font-bold text-gray-900">Home</Link>
-                    <Link to="/features" className="font-bold text-gray-900">Crime Updates</Link>
-                    <Link to="/features" className="font-bold text-gray-900">Law & Justice</Link>
-                    <Link to="/marketplace" className="font-bold text-gray-900">Technology</Link>
-                    <Link to="/marketplace" className="font-bold text-gray-900">Sports</Link>
+                    <Link to="/features" className="font-bold text-white">Home</Link>
+                    <Link to="/features" className="font-bold text-white">Crime Updates</Link>
+                    <Link to="/features" className="font-bold text-white">Law & Justice</Link>
+                    <Link to="/marketplace" className="font-bold text-white">Technology</Link>
+                    <Link to="/marketplace" className="font-bold text-white">Sports</Link>
 
                     <Popover className="relative">
-                        <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-gray-900">
+                        <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-white">
                             Gallery
-                            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
+                            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-white" />
                         </PopoverButton>
                         <PopoverPanel
                             className="absolute top-full left-0 z-10 mt-2 w-auto bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg"
@@ -66,12 +66,12 @@ function Header() {
                         </PopoverPanel>
                     </Popover>
 
-                    <Link to="/marketplace" className="font-bold text-gray-900">Education</Link>
-                    <Link to="/company" className="font-bold text-gray-900">Business</Link>
+                    <Link to="/marketplace" className="font-bold text-white">Education</Link>
+                    <Link to="/company" className="font-bold text-white">Business</Link>
                 </PopoverGroup>
 
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link to="/login" className="font-bold text-gray-900">Log in &rarr;</Link>
+                    <Link to="/login" className="font-bold text-white">Log in &rarr;</Link>
                 </div>
             </nav>
 
