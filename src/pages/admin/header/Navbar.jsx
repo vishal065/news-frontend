@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Bell, UserCircle } from "lucide-react";
+import { UserCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+const Navbar = () => {
     const [showLogout, setShowLogout] = useState(false);
     const profileRef = useRef(null);
 
@@ -18,19 +19,20 @@ const Header = () => {
     }, []);
 
     return (
-        <header className="bg-white shadow-md py-4 px-6 flex justify-between items-center mt-40 mb-40">
+        <header className="fixed top-0 left-0 w-full bg-white shadow-md py-4 px-6 flex justify-between items-center">
             {/* Logo */}
-            <div className="text-xl font-bold text-gray-700">Admin Panel</div>
+            <div className="flex lg:flex-1">
+                <Link to="/admin" className="-m-1.5 p-1.5">
+                    <img
+                        alt="Logo"
+                        src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
+                        className="h-14 w-auto"
+                    />
+                </Link>
+            </div>
 
-            {/* Actions */}
+            {/* User Profile */}
             <div className="flex items-center gap-4">
-                {/* Notification Icon */}
-                <button className="relative p-2 rounded-full hover:bg-gray-100">
-                    <Bell className="w-6 h-6 text-gray-600" />
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">3</span>
-                </button>
-
-                {/* User Profile */}
                 <div className="relative" ref={profileRef}>
                     <div
                         className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 p-2 rounded-lg"
@@ -50,4 +52,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default Navbar;

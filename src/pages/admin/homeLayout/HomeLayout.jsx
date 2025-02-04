@@ -1,12 +1,12 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar"; // Import Sidebar
+import Dashboard from "../sidebar/Dashboard";
 
 const Layout = () => {
     return (
         <div className="flex h-screen">
             {/* Fixed Sidebar */}
-            <Sidebar />
+            <Dashboard />
 
             {/* Main Content */}
             <div className="flex-1 p-6 overflow-auto">
