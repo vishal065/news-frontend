@@ -1,19 +1,10 @@
-import Header from "../../pages/admin/header/Header";
-import Sidebar from "../../pages/admin/sidebar/Sidebar";
-import Home from "../../pages/user/home/Home";
+import Dashboard from "../../pages/admin/sidebar/Dashboard";
 
 
 export const AdminRoutes = [
     {
-        path: "/",
-        element: <Home />
-    },
-    {
         path: "/admin",
-        element: <Header />
+        element: <Dashboard />
     },
-    {
-        path: "/sidebar",
-        element: <Sidebar />
-    },
+
 ]
