@@ -1,51 +1,54 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import { FiHome, FiUsers, FiSettings, FiMenu, FiX } from 'react-icons/fi';
 import Navbar from '../header/Navbar';
 import { BsFillAwardFill } from 'react-icons/bs';
+import Login from '../../auth/Login';
 
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true);
 
-    const SidebarItem = ({ icon, text, to, isOpen }) => {
-        return (
-            <li className="flex items-center p-3 hover:bg-gray-800 transition-all">
-                <Link to={to} className="flex items-center gap-3 text-lg">
-                    {icon}
-                    <span className={`${!isOpen && 'hidden'}`}>{text}</span>
-                </Link>
-            </li>
-        );
-    };
-
+    const SidebarItem = ({ icon, text, to }) => (
+        <li className="flex items-center p-3 hover:bg-gray-800 transition-all">
+            <Link to={to} className="flex items-center gap-3 text-lg">
+                {icon}
+                <span className={`${!isOpen && 'hidden'}`}>{text}</span>
+            </Link>
+        </li>
+    );
 
     return (
-        <div className='mt-20'>
-            <div className=''>
-                <Navbar />
-            </div>
-            <div className={`h-screen bg-gray-900 text-white transition-all duration-300 ${isOpen ? 'w-64' : 'w-20'}`}>
-                {/* Sidebar Header */}
-                <div className="flex items-center justify-start p-4 border-b border-gray-700">
-                    {/* <h2 className={`text-xl font-bold ${!isOpen && 'hidden'}`}>Admin Panel</h2> */}
-                    <button onClick={() => setIsOpen(!isOpen)} className="text-2xl cursor-pointer">
-                        {isOpen ? <FiX /> : <FiMenu />}
-                    </button>
+        <div className="flex flex-col min-h-screen">
+            <div className="mt-20 flex flex-grow">
+                {/* Sidebar */}
+                <div className={`h-screen bg-gray-900 text-white transition-all duration-300 ${isOpen ? 'w-54' : 'w-20'}`}>
+                    <div className="flex items-center justify-start p-4 border-b border-gray-700">
+                        <button onClick={() => setIsOpen(!isOpen)} className="text-2xl cursor-pointer">
+                            {isOpen ? <FiX /> : <FiMenu />}
+                        </button>
+                    </div>
+                    <nav className="mt-4">
+                        <ul>
+                            <SidebarItem icon={<FiHome />} text="Dashboard" to="/admin" />
+                            <SidebarItem icon={<FiUsers />} text="Login" to="/login" />
+                            <SidebarItem icon={<FiSettings />} text="Crime Updates" to="/crime-update" />
+                            <SidebarItem icon={<BsFillAwardFill />} text="Law Justice" to="/lawJustice" />
+                        </ul>
+                    </nav>
                 </div>
 
-                {/* Sidebar Menu */}
-                <nav className="mt-4">
-                    <ul>
-                        <SidebarItem icon={<FiHome />} text="Dashboard" to="/admin" isOpen={isOpen} />
-                        <SidebarItem icon={<FiUsers />} text="Users" to="/users" isOpen={isOpen} />
-                        <SidebarItem icon={<FiSettings />} text="Crime Updates" to="/login" isOpen={isOpen} />
-                        <SidebarItem icon={< BsFillAwardFill />} text="Law Justice" to="/lawJustice" isOpen={isOpen} />
-                        <SidebarItem icon={<FiSettings />} text="Settings" to="/settings" isOpen={isOpen} />
-                    </ul>
-                </nav>
+                {/* Main Content */}
+                <div className="flex-grow">
+                    <Navbar />
+                    <Routes>
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/crime-update" element={<div>Crime Updates Page</div>} />
+                        <Route path="/lawJustice" element={<div>Law Justice Page</div>} />
+                    </Routes>
+                </div>
             </div>
-            <div className="border-t border-gray-700 pt-4 pb-4 text-center text-sm">
-                <p>&copy; 2025 NewsToday. All rights reserved.</p>
+            <div className="border-t border-gray-700 pt-3 pb-3 text-center text-sm">
+                <p>&copy; 2025 NewsToday. All Rights Reserved.</p>
             </div>
         </div>
     );
