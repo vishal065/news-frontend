@@ -20,15 +20,15 @@ const Dashboard = () => {
 
 
     return (
-        <div>
+        <div className='mt-20'>
             <div className=''>
                 <Navbar />
             </div>
             <div className={`h-screen bg-gray-900 text-white transition-all duration-300 ${isOpen ? 'w-64' : 'w-20'}`}>
                 {/* Sidebar Header */}
-                <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                    <h2 className={`text-xl font-bold ${!isOpen && 'hidden'}`}>Admin Panel</h2>
-                    <button onClick={() => setIsOpen(!isOpen)} className="text-2xl">
+                <div className="flex items-center justify-start p-4 border-b border-gray-700">
+                    {/* <h2 className={`text-xl font-bold ${!isOpen && 'hidden'}`}>Admin Panel</h2> */}
+                    <button onClick={() => setIsOpen(!isOpen)} className="text-2xl cursor-pointer">
                         {isOpen ? <FiX /> : <FiMenu />}
                     </button>
                 </div>
@@ -36,7 +36,7 @@ const Dashboard = () => {
                 {/* Sidebar Menu */}
                 <nav className="mt-4">
                     <ul>
-                        <SidebarItem icon={<FiHome />} text="Dashboard" to="/dashboard" isOpen={isOpen} />
+                        <SidebarItem icon={<FiHome />} text="Dashboard" to="/admin" isOpen={isOpen} />
                         <SidebarItem icon={<FiUsers />} text="Users" to="/users" isOpen={isOpen} />
                         <SidebarItem icon={<FiSettings />} text="Crime Updates" to="/login" isOpen={isOpen} />
                         <SidebarItem icon={< BsFillAwardFill />} text="Law Justice" to="/lawJustice" isOpen={isOpen} />
