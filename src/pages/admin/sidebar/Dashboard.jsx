@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
-import { FiHome, FiUsers, FiSettings, FiMenu, FiX } from 'react-icons/fi';
+import { FiHome, FiUsers, FiMenu, FiX } from 'react-icons/fi';
 import Navbar from '../header/Navbar';
-import { BsFillAwardFill } from 'react-icons/bs';
 import Login from '../../auth/Login';
+import { GoLaw } from 'react-icons/go';
+import { LiaAwardSolid } from 'react-icons/lia';
 
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true);
@@ -31,8 +32,8 @@ const Dashboard = () => {
                         <ul>
                             <SidebarItem icon={<FiHome />} text="Dashboard" to="/admin" />
                             <SidebarItem icon={<FiUsers />} text="Login" to="/login" />
-                            <SidebarItem icon={<FiSettings />} text="Crime Updates" to="/crime-update" />
-                            <SidebarItem icon={<BsFillAwardFill />} text="Law Justice" to="/lawJustice" />
+                            <SidebarItem icon={<GoLaw />} text="Crime Updates" to="/crime-update" />
+                            <SidebarItem icon={<LiaAwardSolid />} text="Law Justice" to="/lawJustice" />
                         </ul>
                     </nav>
                 </div>
@@ -42,6 +43,7 @@ const Dashboard = () => {
                     <Navbar />
                     <Routes>
                         <Route path="/login" element={<Login />} />
+                        <Route path="/admin" element={<div className='p-4'>Dashboard Content</div>} />
                         <Route path="/crime-update" element={<div>Crime Updates Page</div>} />
                         <Route path="/lawJustice" element={<div>Law Justice Page</div>} />
                     </Routes>
