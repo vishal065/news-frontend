@@ -5,6 +5,7 @@ import Navbar from '../header/Navbar';
 import Login from '../../auth/Login';
 import { GoLaw } from 'react-icons/go';
 import { LiaAwardSolid } from 'react-icons/lia';
+import Register from './Register';
 
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true);
@@ -43,7 +44,7 @@ const Dashboard = () => {
                     <Navbar />
                     <Routes>
                         <Route path="/login" element={<Login />} />
-                        <Route path="/admin" element={<div className='p-4'>Dashboard Content</div>} />
+                        <Route path="/admin" element={<Register />} />
                         <Route path="/crime-update" element={<div>Crime Updates Page</div>} />
                         <Route path="/lawJustice" element={<div>Law Justice Page</div>} />
                     </Routes>
