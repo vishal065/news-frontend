@@ -32,7 +32,7 @@ const Dashboard = () => {
                     </div>
                     <nav className="mt-4">
                         <ul>
-                            <SidebarItem icon={<FiHome />} text="Dashboard" to="/admin" />
+                            <SidebarItem icon={<FiHome />} text="Register" to="/register" />
                             <SidebarItem icon={<FiUsers />} text="Login" to="/login" />
                             <SidebarItem icon={<GoLaw />} text="Table" to="/table" />
                             <SidebarItem icon={<LiaAwardSolid />} text="Law Justice" to="/lawJustice" />
@@ -45,7 +45,7 @@ const Dashboard = () => {
                     <Navbar />
                     <Routes>
                         <Route path="/login" element={<Login />} />
-                        <Route path="/admin" element={<Register />} />
+                        <Route path="/register" element={<Register />} />
                         <Route path="/table" element={<Table />} />
                         <Route path="/lawJustice" element={<div>Law Justice Page</div>} />
                     </Routes>
