@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { FiLock, FiMail } from 'react-icons/fi';
+import { FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { useAdminRegister } from "../../hooks/useAuth"
 
 const Register = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState({ password: false, confirmPassword: false });
+    const { mutate, isPending } = useAdminRegister();
+    
+
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 mt-16">
@@ -22,6 +25,21 @@ const Register = () => {
                 </div>
                 <form className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-md">
                     <div className="rounded-md shadow-md">
+                        <div className='relative'>
+                            <label htmlFor="fullName" className="sr-only">Full Name</label>
+                            <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">
+                                <FiUser size={20} />
+                            </span>
+                            <input
+                                id="fullName"
+                                name="fullName"
+                                type="text"
+                                autoComplete="fullName"
+                                required
+                                className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
+                                placeholder="Full name"
+                            />
+                        </div>
                         <div className='relative'>
                             <label htmlFor="email-address" className="sr-only">Email address</label>
                             <span className="absolute inset-y-0 left-3 flex items-center text-gray-500">
@@ -45,7 +63,7 @@ const Register = () => {
                             <input
                                 id="password"
                                 name="password"
-                                type={showPassword ? "text" : "password"}
+                                type={showPassword?.password ? "text" : "password"}
                                 autoComplete="current-password"
                                 required
                                 className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
@@ -53,9 +71,11 @@ const Register = () => {
                             />
                             <span
                                 className="absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer"
-                                onClick={() => setShowPassword(!showPassword)}
+                                onClick={() => setShowPassword((prev) =>
+                                    ({ ...prev, password: !prev.password })
+                                )}
                             >
-                                {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                                {showPassword?.password ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
                             </span>
                         </div>
                         <div className='relative'>
@@ -66,7 +86,7 @@ const Register = () => {
                             <input
                                 id="confirm-password"
                                 name="confirmPassword"
-                                type={showConfirmPassword ? "text" : "password"}
+                                type={showPassword?.confirmPassword ? "text" : "password"}
                                 autoComplete="current-password"
                                 required
                                 className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 my-6 sm:text-sm"
@@ -74,9 +94,9 @@ const Register = () => {
                             />
                             <span
                                 className="absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer"
-                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                onClick={() => setShowPassword((prev) => ({ ...prev, confirmPassword: !prev.confirmPassword }))}
                             >
-                                {showConfirmPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+                                {showPassword?.confirmPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
                             </span>
                         </div>
                     </div>
@@ -102,8 +122,8 @@ const Register = () => {
                         Login
                     </Link>
                 </p>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

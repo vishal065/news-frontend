@@ -6,8 +6,8 @@ import Register from "../../pages/auth/Register";
 
 export const AdminRoutes = [
     {
-        path: "/admin",
-        element: <Dashboard />
+        // path: "/admin",
+        // element: <Dashboard />
     },
     {
         path: "/login",
@@ -18,7 +18,7 @@ export const AdminRoutes = [
         element: <Table />
     },
     {
-        path: "/register",
+        path: "/admin/register",
         element: <Register />
     }
 
