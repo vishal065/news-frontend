@@ -23,6 +23,7 @@ const RootRouting = () => {
             }
 
 
+
             <Route path="*" element={<NotFound />} />
         </Routes>
     )
