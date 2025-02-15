@@ -15,7 +15,9 @@ const Login = () => {
         initialValues: loginState,
         validationSchema: loginSchema,
         onSubmit: (value) => {
-            mutate(value);
+            mutate(value, {
+                onSuccess: (data) => console.log(data)
+            });
         }
     });
 
