@@ -2,9 +2,22 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { useLogin } from '../../hooks/useAuth';
+import { useFormik } from 'formik';
+import { loginState } from '../../validation/authState';
+import { loginSchema } from '../../validation/authValidation';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { mutate, isPending } = useLogin();
+
+    const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
+        initialValues: loginState,
+        validationSchema: loginSchema,
+        onSubmit: (value) => {
+            mutate(value);
+        }
+    });
 
 
     return (
@@ -20,7 +33,7 @@ const Login = () => {
                         Sign in to your account
                     </h2>
                 </div>
-                <form className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-md">
+                <form onSubmit={handleSubmit} className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-md">
                     <div className="rounded-md shadow-md space-y-4">
                         <div className="relative">
                             <label htmlFor="email-address" className="sr-only">
@@ -33,11 +46,15 @@ const Login = () => {
                                 id="email-address"
                                 name="email"
                                 type="email"
+                                value={values.email}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
                                 autoComplete="email"
                                 required
                                 className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 placeholder="Email address"
                             />
+                            {errors.email && touched.email && <span className='text-sm text-red-700'>{errors.email}</span>}
                         </div>
                         <div className="relative">
                             <label htmlFor="password" className="sr-only">
@@ -49,12 +66,16 @@ const Login = () => {
                             <input
                                 id="password"
                                 name="password"
+                                value={values.password}
+                                onBlur={handleBlur}
+                                onChange={handleChange}
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="current-password"
                                 required
                                 className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 placeholder="Password"
                             />
+                            {errors.password && touched.password && <span className='text-sm text-red-700'>{errors.password}</span>}
                             <span
                                 className="absolute inset-y-0 right-3 flex items-center text-gray-500 cursor-pointer"
                                 onClick={() => setShowPassword(!showPassword)}
@@ -75,9 +96,10 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            className="group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            disabled={isPending}
+                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isPending ? "bg-red-600 hover:bg-red-700 focus:ring-indigo-500" : "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"}`}
                         >
-                            Sign in
+                            Login
                         </button>
                     </div>
 

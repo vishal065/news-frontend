@@ -1,5 +1,5 @@
 
-
+// Admin Register 
 export const adminRegisterState = {
     name: "",
     email: "",
@@ -8,6 +8,14 @@ export const adminRegisterState = {
     confirmPassword: ""
 }
 
+// Verify OTP 
 export const verifyOTPState = {
+    email: "",
     code: ""
+}
+
+// Login 
+export const loginState = {
+    email: "",
+    password: ""
 }

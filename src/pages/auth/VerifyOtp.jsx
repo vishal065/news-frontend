@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { data, Link, useLocation, useNavigate } from 'react-router-dom';
 import { useVerifyOTP } from "../../hooks/useAuth"
 import { useFormik } from 'formik';
 import { verifyOTPState } from '../../validation/authState';
@@ -8,17 +8,24 @@ import { IoMdBarcode } from 'react-icons/io';
 import { FiMail } from 'react-icons/fi';
 
 const VerifyOtp = () => {
+    const { state } = useLocation();
     const { mutate, isPending } = useVerifyOTP();
-    
+    const navigate = useNavigate();
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
-        initialValues: verifyOTPState,
+        initialValues: { ...verifyOTPState, email: state?.email },
         validationSchema: verifyOTPSchema,
+        enableReinitialize: true,
         onSubmit: (value) => {
-            mutate(value);
+            mutate(value, {
+                onSuccess: (data) => {
+                    if (data && data.status === 200) {
+                        navigate("/login");
+                    }
+                }
+            });
         }
     })
-
 
 
     return (
@@ -47,14 +54,11 @@ const VerifyOtp = () => {
                                 name="email"
                                 type="email"
                                 disabled
-                                value={values?.email}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                autoComplete="email"
+                                value={state?.email ?? ""}
                                 className="relative block w-full rounded-md border border-gray-300 px-10 py-3 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                                 placeholder="Email address"
                             />
-
+                            {errors?.email && <span className="text-sm text-red-700">{errors.email}</span>}
                         </div>
 
                         <div className="relative">

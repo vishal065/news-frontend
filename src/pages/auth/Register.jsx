@@ -2,25 +2,31 @@ import React, { useState } from 'react';
 import { FiLock, FiMail, FiUser } from 'react-icons/fi';
 import { IoMdBarcode } from "react-icons/io";
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAdminRegister } from "../../hooks/useAuth"
 import { useFormik } from 'formik';
 import { adminRegisterState } from '../../validation/authState';
 import { adminRegisterSchema } from '../../validation/authValidation';
+import Loader from '../../constant/Loader';
 
 const Register = () => {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState({ password: false, confirmPassword: false });
     const { mutate, isPending } = useAdminRegister();
-
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues: adminRegisterState,
         validationSchema: adminRegisterSchema,
         onSubmit: (value) => {
-            mutate(value);
+            mutate(value, {
+                onSuccess: (data) => {
+                    if (data && data.status === 200) {
+                        navigate("/verify-account", { state: { email: data?.data.data.email } });
+                    }
+                }
+            });
         }
     })
-
 
 
     return (
@@ -166,7 +172,7 @@ const Register = () => {
                         <button
                             type="submit"
                             disabled={isPending}
-                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isPending ? "bg-red-600 hover:bg-red-700 focus:ring-indigo-500" : "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"}`}
+                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isPending ? <Loader /> : "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"}`}
                         >
                             Sign up
                         </button>
