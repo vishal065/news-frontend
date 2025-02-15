@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 export const useMutationData = (mutationKey, mutationFn, queryKey, onSuccess) => {
     const client = useQueryClient();
-    const { mutate, isPending, data } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationKey,
         mutationFn,
         onSuccess: (data) => {
@@ -17,5 +17,5 @@ export const useMutationData = (mutationKey, mutationFn, queryKey, onSuccess) =>
         }
     })
 
-    return { mutate, isPending, data }
+    return { mutate, isPending}
 } 

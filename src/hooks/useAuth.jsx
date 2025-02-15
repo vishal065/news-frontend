@@ -1,27 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import { registerAdmin, verifyOtp } from '../actions/AuthAction';
+import { login, registerAdmin, verifyOtp } from '../actions/AuthAction';
 import { useMutationData } from './useMutation';
 
-const navigate = useNavigate();
-
+// Register Hook
 function useAdminRegister() {
-
-    const { mutate, isPending, data } = useMutationData(["admin-register"], (data) => registerAdmin(data, data.code)
+    const { mutate, isPending } = useMutationData(["admin-register"], (data) => registerAdmin(data, data.code)
     )
-    if (data && data.status === 200) {
-        navigate("/verify-account");
-    }
-
     return { mutate, isPending }
 }
 
-// VerifyOTP 
-
+// VerifyOTP Hook
 function useVerifyOTP() {
-    const { mutate, isPending } = useMutationData(["verify-otp"], (data) =>
-        verifyOtp(data));
-
+    const { mutate, isPending } = useMutationData(["verify-otp"], (data) => verifyOtp(data));
     return { mutate, isPending };
 }
 
-export { useAdminRegister, useVerifyOTP };
+// Login Hook
+function useLogin() {
+    const { mutate, isPending } = useMutationData(["login"], (data) => login(data));
+    return { mutate, isPending };
+}
+
+
+export { useAdminRegister, useVerifyOTP, useLogin };
