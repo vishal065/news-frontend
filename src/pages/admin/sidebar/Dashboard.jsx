@@ -5,8 +5,8 @@ import Navbar from '../header/Navbar';
 import Login from '../../auth/Login';
 import { GoLaw } from 'react-icons/go';
 import { LiaAwardSolid } from 'react-icons/lia';
-import Register from './Register';
 import Table from './Table';
+import Register from '../../auth/Register';
 
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true);
@@ -32,7 +32,7 @@ const Dashboard = () => {
                     </div>
                     <nav className="mt-4">
                         <ul>
-                            <SidebarItem icon={<FiHome />} text="Dashboard" to="/admin" />
+                            <SidebarItem icon={<FiHome />} text="Register" to="/admin/register" />
                             <SidebarItem icon={<FiUsers />} text="Login" to="/login" />
                             <SidebarItem icon={<GoLaw />} text="Table" to="/table" />
                             <SidebarItem icon={<LiaAwardSolid />} text="Law Justice" to="/lawJustice" />
@@ -45,7 +45,7 @@ const Dashboard = () => {
                     <Navbar />
                     <Routes>
                         <Route path="/login" element={<Login />} />
-                        <Route path="/admin" element={<Register />} />
+                        <Route path="/admin/register" element={<Register />} />
                         <Route path="/table" element={<Table />} />
                         <Route path="/lawJustice" element={<div>Law Justice Page</div>} />
                     </Routes>
