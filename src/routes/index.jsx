@@ -8,11 +8,11 @@ import UserLayout from "./userRoutes/UserLayoute";
 
 const RootRouting = () => {
     const adminRole = false;
-    const token = true;
+
 
     return (
         <Routes>
-            {!adminRole  && <Route element={<Dashboard />}>
+            {!adminRole && <Route element={<Dashboard />}>
                 {AdminRoutes.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}
             </Route>
             }
@@ -21,6 +21,7 @@ const RootRouting = () => {
                 {UserPublicRoutes?.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}
             </Route>
             }
+
 
 
             <Route path="*" element={<NotFound />} />
