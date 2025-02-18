@@ -6,10 +6,13 @@ import { useLogin } from '../../hooks/useAuth';
 import { useFormik } from 'formik';
 import { loginState } from '../../validation/authState';
 import { loginSchema } from '../../validation/authValidation';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { mutate, isPending } = useLogin();
+    const dispatch = useDispatch();
+    const authState = useSelector((state) => state.auth);
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues: loginState,
