@@ -10,12 +10,12 @@ export const useMutationData = (mutationKey, mutationFn, queryKey, onSuccess) =>
         onSuccess: (data) => {
             if (onSuccess) onSuccess()
             toast.dismiss()
-            data?.status === 200 ? toast.success(data.data.message) : toast.error(data?.response.data.message ?? "Something went wrong")
+            data?.status === 200 ? toast.success(data.data.message) : toast.error(data?.response.data.message ?? "Something is wrong")
         },
         onSettled: async () => {
             return await client.invalidateQueries({ queryKey: [queryKey] })
         }
     })
 
-    return { mutate, isPending}
+    return { mutate, isPending }
 } 
