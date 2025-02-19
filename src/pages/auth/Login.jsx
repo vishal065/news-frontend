@@ -8,21 +8,20 @@ import { loginState } from '../../validation/authState';
 import { loginSchema } from '../../validation/authValidation';
 import { useDispatch, useSelector } from 'react-redux';
 import { authLogin } from '../../redux/features/authSlice';
+import Cookies from "js-cookie";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { mutate, isPending } = useLogin();
     const dispatch = useDispatch();
-    const authState = useSelector((state) => state.auth);
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit } = useFormik({
         initialValues: loginState,
         validationSchema: loginSchema,
         onSubmit: (value) => {
             mutate(value, {
-                onSuccess: (data) => {
-                    console.log(data);
-                    return dispatch(authLogin({ role: data?.data.data.role, email: data?.data.data.email, token: "" }))
+                onSuccess: ({ data }) => {
+                    return dispatch(authLogin({ role: data?.data.role, email: data?.data.email, accessToken: Cookies.get("accessToken") ?? data?.data.accessToken, refreshToken: Cookies.get("refreshToken") ?? data?.data.refreshToken }))
                 }
             });
         }
