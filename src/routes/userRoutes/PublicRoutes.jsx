@@ -25,10 +25,6 @@ export const UserPublicRoutes = [
         path: "/verify-account",
         element: <VerifyOtp />
     },
-    // {
-    //     path: "/register",
-    //     element: <Register />
-    // },
     {
         path: "/contact",
         element: <Contact />
