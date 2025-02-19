@@ -5,7 +5,7 @@ import Table from "../../pages/admin/sidebar/Table";
 
 export const AdminRoutes = [
     {
-        path: "/admin",
+        path: "/",
         element: <Dashboard />
     },
     {

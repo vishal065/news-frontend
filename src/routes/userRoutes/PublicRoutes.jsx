@@ -14,18 +14,6 @@ export const UserPublicRoutes = [
         element: <Home />
     },
     {
-        path: "/login",
-        element: <Login />
-    },
-    {
-        path: "/admin/register",
-        element: <Register />
-    },
-    {
-        path: "/verify-account",
-        element: <VerifyOtp />
-    },
-    {
         path: "/contact",
         element: <Contact />
     },

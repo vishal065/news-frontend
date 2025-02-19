@@ -38,7 +38,7 @@ function Header() {
                 </div>
 
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-                    <Link to="/features" className="font-bold text-white">Home</Link>
+                    <Link to="/" className="font-bold text-white">Home</Link>
                     <Link to="/features" className="font-bold text-white">Crime Updates</Link>
                     <Link to="/features" className="font-bold text-white">Law & Justice</Link>
                     <Link to="/marketplace" className="font-bold text-white">Technology</Link>
