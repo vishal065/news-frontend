@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import { loginState } from '../../validation/authState';
 import { loginSchema } from '../../validation/authValidation';
 import { useDispatch, useSelector } from 'react-redux';
+import { authLogin } from '../../redux/features/authSlice';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +20,10 @@ const Login = () => {
         validationSchema: loginSchema,
         onSubmit: (value) => {
             mutate(value, {
-                onSuccess: (data) => console.log(data)
+                onSuccess: (data) => {
+                    console.log(data);
+                    return dispatch(authLogin({ role: data?.data.data.role, email: data?.data.data.email, token: "" }))
+                }
             });
         }
     });
