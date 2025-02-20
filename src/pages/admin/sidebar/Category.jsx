@@ -1,24 +1,30 @@
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import { useCreateCategory } from '../../../hooks/admin/useCategory';
+import { createCategoryState } from '../../../validation/adminState';
+import { createCategorySchema } from '../../../validation/adminValidation';
+import { useQueryCategory } from '../../../hooks/useAdminQuery';
+
 
 const Category = () => {
-    const [categories, setCategories] = useState([
-        { id: 1, name: 'Crime' },
-        { id: 2, name: 'Law' },
-        { id: 3, name: 'Justice' },
-    ]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [newCategory, setNewCategory] = useState('');
+    const { mutate, isPending } = useCreateCategory();
+    const { data } = useQueryCategory();
+    console.log(data)
+
+    const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
+        initialValues: createCategoryState,
+        validationSchema: createCategorySchema,
+        onSubmit: (value) => {
+            mutate(value)
+            resetForm();
+            toggleModal();
+        },
+    });
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
-    };
-
-    const handleAddCategory = () => {
-        if (newCategory.trim()) {
-            setCategories([...categories, { id: categories.length + 1, name: newCategory }]);
-            setNewCategory('');
-            toggleModal();
-        }
+        resetForm();
     };
 
     return (
@@ -42,10 +48,10 @@ const Category = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {categories.map((category) => (
-                            <tr key={category.id} className="border-b border-gray-300 hover:bg-gray-50">
-                                <td className="py-2 px-4">{category.id}</td>
-                                <td className="py-2 px-4">{category.name}</td>
+                        {data?.map((item, index) => (
+                            <tr key={index} className="border-b border-gray-300 hover:bg-gray-50">
+                                <td className="py-2 px-4">{index + 1}</td>
+                                <td className="py-2 px-4">{item?.name}</td>
                                 <td className="py-2 px-4 text-center">
                                     <button className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">Edit</button>
                                     <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
@@ -60,27 +66,36 @@ const Category = () => {
                 <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-5 rounded shadow-lg w-96">
                         <h3 className="text-lg font-bold mb-3">Add New Category</h3>
-                        <input
-                            type="text"
-                            value={newCategory}
-                            onChange={(e) => setNewCategory(e.target.value)}
-                            className="w-full border p-2 mb-3"
-                            placeholder="Enter category name"
-                        />
-                        <div className="flex justify-end">
-                            <button
-                                className="bg-gray-400 text-white px-4 py-2 rounded mr-2 hover:bg-gray-500"
-                                onClick={toggleModal}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                                onClick={handleAddCategory}
-                            >
-                                Add
-                            </button>
-                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="text"
+                                name="name"
+                                value={values.name}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="w-full border p-2 mb-2"
+                                placeholder="Enter category name"
+                            />
+                            {errors.name && touched.name && (
+                                <p className="text-red-500 text-sm mb-2">{errors.name}</p>
+                            )}
+                            <div className="flex justify-end">
+                                <button
+                                    type="submit"
+                                    className="bg-gray-400 text-white px-4 py-2 rounded mr-2 hover:bg-gray-500"
+                                    onClick={toggleModal}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                    disabled={isPending}
+                                >
+                                    {isPending ? 'Adding...' : 'Add'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

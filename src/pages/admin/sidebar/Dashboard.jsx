@@ -3,7 +3,6 @@ import { Link, Route, Routes } from 'react-router-dom';
 import { FiMenu, FiX } from 'react-icons/fi';
 import Navbar from '../header/Navbar';
 import { GoLaw } from 'react-icons/go';
-import { LiaAwardSolid } from 'react-icons/lia';
 import Category from './Category';
 import SubCategory from './SubCategory';
 import Anchor from './Anchor';
