@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import { FiMenu, FiX } from 'react-icons/fi';
-import Navbar from '../header/Navbar';
 import { GoLaw } from 'react-icons/go';
 import Category from './Category';
 import SubCategory from './SubCategory';
@@ -9,6 +8,7 @@ import Anchor from './Anchor';
 import Publisher from './Publisher';
 import News from './News';
 import AddNews from './AddNews';
+import Navbar from './Navbar';
 
 
 const Dashboard = () => {

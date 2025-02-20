@@ -7,7 +7,6 @@ import { useAdminRegister } from "../../hooks/useAuth"
 import { useFormik } from 'formik';
 import { adminRegisterState } from '../../validation/authState';
 import { adminRegisterSchema } from '../../validation/authValidation';
-import Loader from '../../constant/Loader';
 
 const Register = () => {
     const navigate = useNavigate();
