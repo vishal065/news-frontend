@@ -6,9 +6,9 @@ import Category from './Category';
 import SubCategory from './SubCategory';
 import Anchor from './Anchor';
 import Publisher from './Publisher';
-import News from './News';
 import AddNews from './AddNews';
 import Navbar from './Navbar';
+import NewsTable from './NewsTable';
 
 
 const Dashboard = () => {
@@ -39,7 +39,7 @@ const Dashboard = () => {
                             <SidebarItem icon={<GoLaw />} text="SubCategory" to="/subCategory" />
                             <SidebarItem icon={<GoLaw />} text="Anchor" to="/anchor" />
                             <SidebarItem icon={<GoLaw />} text="Publisher" to="/publisher" />
-                            <SidebarItem icon={<GoLaw />} text="News Table" to="/news" />
+                            <SidebarItem icon={<GoLaw />} text="News Table" to="/newsTable" />
                             <SidebarItem icon={<GoLaw />} text="Add News" to="/addNews" />
                         </ul>
                     </nav>
@@ -53,7 +53,7 @@ const Dashboard = () => {
                         <Route path="/subCategory" element={<SubCategory />} />
                         <Route path="/anchor" element={<Anchor />} />
                         <Route path="/publisher" element={<Publisher />} />
-                        <Route path="/news" element={<News />} />
+                        <Route path="/newsTable" element={<NewsTable />} />
                         <Route path="/addNews" element={<AddNews />} />
                     </Routes>
                 </div>

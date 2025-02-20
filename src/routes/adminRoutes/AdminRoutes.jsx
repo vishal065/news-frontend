@@ -2,7 +2,7 @@ import AddNews from "../../pages/admin/sidebar/AddNews";
 import Anchor from "../../pages/admin/sidebar/Anchor";
 import Category from "../../pages/admin/sidebar/Category";
 import Dashboard from "../../pages/admin/sidebar/Dashboard";
-import News from "../../pages/admin/sidebar/News";
+import NewsTable from "../../pages/admin/sidebar/NewsTable";
 import Publisher from "../../pages/admin/sidebar/Publisher";
 import SubCategory from "../../pages/admin/sidebar/SubCategory";
 
@@ -29,8 +29,8 @@ export const AdminRoutes = [
         element: <Publisher />
     },
     {
-        path: "/news",
-        element: <News />
+        path: "/newsTable",
+        element: <NewsTable />
     },
     {
         path: "/addNews",
