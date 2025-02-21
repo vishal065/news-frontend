@@ -1,11 +1,23 @@
-import { createCategory } from "../../actions/admin/CategoryAction";
+import { createCategory, deleteCategory, updateCategory } from "../../actions/admin/CategoryAction";
 import { useMutationData } from "../useMutation";
 
 
 // Create Category 
-function useCreateCategory() {
-    const { mutate, isPending } = useMutationData(["create-category"], (data) => createCategory(data), ["create-category-queryKey"]);
+function useCreateAndUpdateCategory() {
+    const { mutate, isPending } = useMutationData(["category-mutation"], (data) => {
+
+        if (data.path === "create") {
+            return createCategory(data)
+        }
+        else if (data.path === "update") {
+            return updateCategory(data?.id, { name: data?.name })
+        }
+         else {
+            return deleteCategory(data?.id);
+        }
+
+    }, ["category-query"]);
     return { mutate, isPending };
 }
 
-export { useCreateCategory };
+export { useCreateAndUpdateCategory };

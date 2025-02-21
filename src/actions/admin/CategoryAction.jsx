@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import AxiosHandler from "../AxiosHandler";
 
 const axiosInstance = AxiosHandler();
@@ -25,4 +26,27 @@ const getAdminCategory = async () => {
     }
 }
 
-export { createCategory, getAdminCategory };
+// Update Category 
+const updateCategory = async (id, data) => {
+    try {
+        const res = await axiosInstance.put(`/category/update/${id}`, data);
+        return res;
+
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
+// Delete Category 
+const deleteCategory = async (id) => {
+    try {
+        return await axiosInstance.delete(`/category/delete/${id}`);
+
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
+export { createCategory, getAdminCategory, updateCategory, deleteCategory };
