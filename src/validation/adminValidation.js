@@ -10,4 +10,10 @@ export const createCategorySchema = yup.object({
 // Create Anchor 
 export const createAnchorSchema = yup.object({
     name: yup.string().trim().required("name is required")
-})
+});
+
+
+// create Publisher
+export const createPublisherSchema = yup.object({
+    name: yup.string().trim().required("name is required")
+});

@@ -11,7 +11,6 @@ const Anchor = () => {
     const { data } = useQueryAnchor();
     console.log(data);
 
-
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
         initialValues: { name: toggleModal?.path === "create" ? "" : prevData?.name },
         validationSchema: createAnchorSchema,
@@ -95,8 +94,7 @@ const Anchor = () => {
                         </form>
                     </div>
                 </div>
-            )
-            }
+            )}
         </div >
     );
 };
