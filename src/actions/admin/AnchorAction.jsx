@@ -44,7 +44,6 @@ const deleteAnchor = async (id) => {
     try {
         return await axiosInstance.delete(`anchor/delete/${id}`);
 
-
     } catch (error) {
         console.log(error);
         return error;

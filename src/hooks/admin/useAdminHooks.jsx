@@ -1,5 +1,6 @@
 import { createAnchor, deleteAnchor, updateAnchor } from "../../actions/admin/AnchorAction";
 import { createCategory, deleteCategory, updateCategory } from "../../actions/admin/CategoryAction";
+import { createPublisher, deletePublisher, updatePublisher } from "../../actions/admin/PublisherAction";
 import { useMutationData } from "../useMutation";
 
 
@@ -36,4 +37,19 @@ function useCreateAndUpdateAnchor() {
 }
 
 
-export { useCreateAndUpdateCategory, useCreateAndUpdateAnchor };
+// Create Publisher Custom hook 
+function useCreateAndUpdatePublisher() {
+    const { mutate, isPending } = useMutationData(["publisher-mutation"], (data) => {
+
+        if (data.path === "create") return createPublisher(data);
+
+        else if (data.path === "update") return updatePublisher(data?.id, { name: data?.name });
+
+        else return deletePublisher(data?.id);
+
+    }, ["publisher-query"]);
+    return { mutate, isPending };
+}
+
+
+export { useCreateAndUpdateCategory, useCreateAndUpdateAnchor, useCreateAndUpdatePublisher };
