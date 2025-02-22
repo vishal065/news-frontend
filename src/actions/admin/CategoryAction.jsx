@@ -1,5 +1,5 @@
-import { data } from "react-router-dom";
 import AxiosHandler from "../AxiosHandler";
+
 
 const axiosInstance = AxiosHandler();
 

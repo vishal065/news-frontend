@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import { useCreateAndUpdateCategory } from '../../../hooks/admin/useCategory';
+import { useCreateAndUpdateCategory } from '../../../hooks/admin/useAdminHooks';
 import { createCategorySchema } from '../../../validation/adminValidation';
 import { useQueryCategory } from '../../../hooks/useAdminQuery';
 
@@ -12,13 +12,11 @@ const Category = () => {
     const { data } = useQueryCategory();
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
-        initialValues: {
-            name: toggleModal?.path === "create" ? "" : oldData?.name,
-        },
+        initialValues: { name: toggleModal?.path === "create" ? "" : oldData?.name },
         validationSchema: createCategorySchema,
         enableReinitialize: true,
         onSubmit: (value) => {
-            mutate({ path: toggleModal.path, id: oldData?._id, ...value })
+            mutate({ path: toggleModal.path, id: oldData?._id, ...value });
             resetForm();
             setToggleModal({ path: null, state: false })
         },
@@ -66,7 +64,7 @@ const Category = () => {
             {toggleModal?.state && (
                 <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-5 rounded shadow-lg w-96">
-                        <h3 className="text-lg font-bold mb-3">{!toggleModal?.id ? "Add New" : "Update "} Category</h3>
+                        <h3 className="text-lg font-bold mb-3">{!toggleModal?.id ? "Update" : "Add"} Category</h3>
 
                         <form onSubmit={handleSubmit}>
                             <input
