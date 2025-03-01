@@ -1,6 +1,7 @@
 import { createAnchor, deleteAnchor, updateAnchor } from "../../actions/admin/AnchorAction";
 import { createCategory, deleteCategory, updateCategory } from "../../actions/admin/CategoryAction";
 import { createPublisher, deletePublisher, updatePublisher } from "../../actions/admin/PublisherAction";
+import { createSubCategory, deleteSubCategory, updateSubCategory } from "../../actions/admin/subCategoryAction";
 import { useMutationData } from "../useMutation";
 
 
@@ -51,5 +52,21 @@ function useCreateAndUpdatePublisher() {
     return { mutate, isPending };
 }
 
+//Create Sub Category 
+function useCreateAndUpdateSubCategory() {
+    const { mutate, isPending } = useMutationData(["sub-category-mutation"], (data) => {
 
-export { useCreateAndUpdateCategory, useCreateAndUpdateAnchor, useCreateAndUpdatePublisher };
+        // console.log(data)
+        if (data.path === "create") return createSubCategory(data);
+
+        else if (data.path === "update") return updateSubCategory({ id: data?._id }, { name: data?.name, categoryId: data?.categoryId });
+
+        else return deleteSubCategory(data?.id);
+    }, ["sub-category-query"]);
+
+    return { mutate, isPending };
+
+}
+
+
+export { useCreateAndUpdateCategory, useCreateAndUpdateAnchor, useCreateAndUpdatePublisher, useCreateAndUpdateSubCategory };

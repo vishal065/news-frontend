@@ -18,7 +18,7 @@ const createSubCategory = async (data) => {
 // Fetched Sub Category 
 const getSubCategory = async () => {
     try {
-        const res = await axiosInstance.get("/subCategory/get");
+        const res = await axiosInstance.get("/subCategory/get-list");
         return res;
 
     } catch (error) {
@@ -28,7 +28,7 @@ const getSubCategory = async () => {
 }
 
 // Update Sub Category 
-const updateSubCategory = async (data, id) => {
+const updateSubCategory = async (id, data) => {
     try {
         const res = await axiosInstance.put(`subCategory/update/${id}`, data);
         return res;
@@ -40,7 +40,7 @@ const updateSubCategory = async (data, id) => {
 }
 
 // Delete Sub Category 
-const deleteCategory = async (id) => {
+const deleteSubCategory = async (id) => {
     try {
         return await axiosInstance.delete(`subCategory/delete/${id}`);
 
@@ -50,4 +50,4 @@ const deleteCategory = async (id) => {
     }
 }
 
-export { createSubCategory, getSubCategory, updateSubCategory, deleteCategory };
+export { createSubCategory, getSubCategory, updateSubCategory, deleteSubCategory };

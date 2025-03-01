@@ -4,10 +4,17 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { createNewsTableSchema } from "../../../validation/adminValidation";
 import { createNewsState } from "../../../validation/adminState";
+import { useQueryAnchor, useQueryCategory, useQueryPublisher } from "../../../hooks/useAdminQuery";
 
 const AddNews = () => {
     const [previewImage, setPreviewImage] = useState(null);
     const [videoPreview, setVideoPreview] = useState("");
+    const { data: category } = useQueryCategory();
+    const { data: anchor } = useQueryAnchor();
+    const { data: publisher } = useQueryPublisher();
+    console.log("Category data :", category);
+    console.log("Anchor Data :", anchor);
+    console.log("Publisher Data :", publisher);
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldError } = useFormik({
         initialValues: createNewsState,
@@ -15,8 +22,8 @@ const AddNews = () => {
         validateOnChange: false, // Ensures validation errors appear immediately on submit
         validateOnBlur: true,
         enableReinitialize: true,
-        onSubmit: (values) => {
-            console.log("Form Submitted", values);
+        onSubmit: (value) => {
+            console.log("Form Submitted", value);
         },
     });
 
@@ -73,7 +80,18 @@ const AddNews = () => {
                                 value={values[field]}
                                 className="mt-1 p-2 w-full border rounded-md"
                             >
-                                <option value="">Select {field}</option>
+                                {
+                                    field === "categoryId" && category?.map((item, i) => (<option key={i} value="">{item?.name}</option>))
+                                }
+                                {
+                                    field === "subCategoryId" && category?.map((item, i) => (<option key={i} value="">{item?.name}</option>))
+                                }
+                                {
+                                    field === "publisherId" && publisher?.data?.map((item, i) => (<option key={i} value="">{item?.name}</option>))
+                                }
+                                {
+                                    field === "anchorId" && anchor?.data?.map((item, i) => (<option key={i} value="">{item?.name}</option>))
+                                }
                             </select>
                         ) : field === "image" ? (
                             <>
