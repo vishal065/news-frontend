@@ -15,9 +15,10 @@ export const createNewsState = {
     alt: "",
     type: "",
     status: "",
+    image: null,
     videoURL: "",
     categoryId: "",
     subCategoryId: "",
     publisherId: "",
     anchorId: ""
-}
+} 

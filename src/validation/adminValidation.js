@@ -27,16 +27,25 @@ export const createPublisherSchema = yup.object({
 
 //  News
 export const createNewsTableSchema = yup.object({
-    title: yup.string().trim().required("title is required"),
-    slug: yup.string().trim().required("slug is required"),
-    description: yup.string().trim().required("description is required"),
-    metaDesciption: yup.string().trim().required("meta desciption is required"),
-    alt: yup.string().trim().required("alt is required"),
-    type: yup.string().trim().required("type is required"),
-    status: yup.boolean().required("status is required"),
-    videoURL: yup.string().trim().required("videoURL is required"),
-    categoryId: yup.string().trim().required("categoryId is required"),
-    subCategoryId: yup.string().trim().required("subCategoryId is required"),
-    publisherId: yup.string().trim().required("publisherId is required"),
-    anchorId: yup.string().trim().required("anchorId is required")
-});
+    title: yup.string().required("Title is required"),
+    slug: yup.string().required("Slug is required"),
+    description: yup.string().required("Description is required"),
+    metaDescription: yup.string().required("Meta description is required"),
+    alt: yup.string().required("Alt text is required"),
+    type: yup.string().required("Type is required"),
+    status: yup.string().required("Status is required"),
+    videoURL: yup.string().url("Enter a valid URL"),
+    categoryId: yup.string().required("Category is required"),
+    subCategoryId: yup.string().required("Subcategory is required"),
+    publisherId: yup.string().required("Publisher is required"),
+    anchorId: yup.string().required("Anchor is required"),
+}).test(
+    "image-or-video-required",
+    "Either an image or a video is required",
+    function (value) {
+        if (!value.image && !value.videosURL) {
+            return this.createError({ path: "videosURL", message: "Either an image or a video is required" });
+        }
+        return true;
+    }
+);
