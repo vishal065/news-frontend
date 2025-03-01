@@ -1,56 +1,67 @@
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { createSubCategorySchema } from '../../../validation/adminValidation';
+import { useCreateAndUpdateSubCategory } from '../../../hooks/admin/useAdminHooks';
+import { useQueryCategory, useQuerySubCategory } from '../../../hooks/useAdminQuery';
 
 const SubCategory = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [subCategories, setSubCategories] = useState([
-        { id: 1, name: 'Laptops', parent: 'Electronics' },
-        { id: 2, name: 'Smartphones', parent: 'Electronics' },
-        { id: 3, name: 'T-Shirts', parent: 'Clothing' },
-        { id: 4, name: 'Sneakers', parent: 'Footwear' },
-    ]);
-    const [newSubCategory, setNewSubCategory] = useState({ name: '', parent: '' });
-    const parentCategories = ['Electronics', 'Clothing', 'Footwear'];
+    const [toggleModal, setToggleModal] = useState({ path: null, state: false });
+    const [oldData, setOldData] = useState(null);
+    const { mutate, isPending } = useCreateAndUpdateSubCategory();
+    const [storeCategoryId, setStoreCategoryId] = useState(null);
+    const { data: category } = useQueryCategory();
+    const { data: subCategory } = useQuerySubCategory();
+    console.log("category data :", category);
+    console.log("sub category data: ", subCategory?.data?.data);
 
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
 
-    const handleChange = (e) => {
-        setNewSubCategory({ ...newSubCategory, [e.target.name]: e.target.value });
-    };
+    const { values, touched, errors, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
+        initialValues: {
+            categoryId: storeCategoryId ?? null,
+            name: toggleModal?.path === "create" ? "" : oldData?.name
+        },
+        validationSchema: createSubCategorySchema,
+        enableReinitialize: true,
+        onSubmit: (value) => {
+            mutate({ path: toggleModal.path, id: oldData?._id, ...value })
+            resetForm();
+            setStoreCategoryId(null)
+            setOldData(null)
+            setToggleModal({ path: null, state: false })
+        },
+    });
 
-    const handleSubmit = () => {
-        if (newSubCategory.name && newSubCategory.parent) {
-            setSubCategories([...subCategories, { id: subCategories.length + 1, ...newSubCategory }]);
-            setNewSubCategory({ name: '', parent: '' });
-            closeModal();
-        }
-    };
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
             <h2 className="text-xl font-semibold mb-4">SubCategory Table</h2>
             <div className='flex justify-end'>
-                <button onClick={openModal} className="mb-4 bg-red-600 hover:bg-red-700 cursor-pointer duration-300 text-white px-4 py-2 rounded">+ Add SubCategory</button>
+                <button onClick={() => setToggleModal((prev) => ({ ...prev, path: "create", state: !prev.state }))} className="mb-4 bg-red-600 hover:bg-red-700 cursor-pointer duration-300 text-white px-4 py-2 rounded">+ Add SubCategory</button>
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
                     <thead className="bg-gray-200">
                         <tr>
-                            <th className="py-2 px-4 text-left">#</th>
-                            <th className="py-2 px-4 text-left">SubCategory Name</th>
-                            <th className="py-2 px-4 text-left">Parent Category</th>
+                            <th className="py-2 px-4 text-left">S.NO.</th>
+                            <th className="py-2 px-4 text-left">Sub Category Name</th>
+                            <th className="py-2 px-4 text-left">Parent Name</th>
                             <th className="py-2 px-4 text-left">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {subCategories.map((subCategory, index) => (
-                            <tr key={subCategory.id} className="border-b">
+                        {subCategory?.data?.data?.map((item, index) => (
+
+                            <tr key={index} className="border-b">
                                 <td className="py-2 px-4">{index + 1}</td>
-                                <td className="py-2 px-4">{subCategory.name}</td>
-                                <td className="py-2 px-4">{subCategory.parent}</td>
+                                <td className="py-2 px-4">{item.name}</td>
+                                <td className="py-2 px-4">{item?.category.name}</td>
                                 <td className="py-2 px-4">
-                                    <button className="bg-blue-500 text-white px-2 py-1 rounded mr-2">Edit</button>
-                                    <button className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+                                    <button onClick={() => {
+                                        setToggleModal((prev) => ({ ...prev, path: "update", state: !prev.state }))
+                                        setOldData(item)
+                                    }} className="bg-blue-500 text-white px-2 py-1 rounded mr-2">Edit</button>
+                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -59,36 +70,47 @@ const SubCategory = () => {
             </div>
 
             {/* Modal */}
-            {isModalOpen && (
+            {toggleModal?.state && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                     <div className="bg-white p-6 rounded shadow-lg w-96">
-                        <h3 className="text-lg font-semibold mb-4">Add SubCategory</h3>
-                        <div>
+                        <h3 className="text-lg font-semibold mb-4">{oldData?._id ? 'Update' : 'Add'} SubCategory</h3>
+                        <form onSubmit={handleSubmit}>
                             <select
-                                name="parent"
-                                value={newSubCategory.parent}
-                                onChange={handleChange}
-                                className="w-full p-2 border rounded mb-4"
+                                name="categoryId"
+                                value={oldData.categoryId ?? values.categoryId}
+                                onChange={(e) => (setStoreCategoryId(e.target.value), handleChange(e))
+                                }
+                                onBlur={handleBlur}
+                                className="w-full p-2 border rounded mb-2"
                             >
-                                <option value="">Select Parent Category</option>
-                                {parentCategories.map((category, index) => (
-                                    <option key={index} value={category}>{category}</option>
+                                <option value="">Select  Category</option>
+                                {category?.map((item, index) => (
+                                    <option key={index} value={oldData.categoryId ?? item?._id}>{oldData?.category?.categoryId
+                                        ?? item?.name}</option>
                                 ))}
                             </select>
+                            {touched.categoryId && errors.categoryId ? (
+                                <div className="text-red-500 text-sm mb-2">{errors.categoryId}</div>
+                            ) : null}
+
                             <input
                                 type="text"
                                 name="name"
-                                value={newSubCategory.name}
+                                value={values.name}
                                 onChange={handleChange}
+                                onBlur={handleBlur}
                                 placeholder="SubCategory Name"
                                 className="w-full p-2 border rounded mb-2"
                             />
-                        </div>
+                            {touched.name && errors.name ? (
+                                <div className="text-red-500 text-sm mb-2">{errors.name}</div>
+                            ) : null}
 
-                        <div className="flex justify-end">
-                            <button onClick={closeModal} className="mr-2 bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-                            <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded">Add</button>
-                        </div>
+                            <div className="flex justify-end">
+                                <button type="button" onClick={() => (setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state })), setStoreCategoryId(null), setOldData(null))} className="mr-2 bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                                <button type="submit" disabled={isPending} className="bg-blue-500 text-white px-4 py-2 rounded">{oldData?._id ? isPending ? 'updating...' : 'Update' : isPending ? "Adding" : "Add"}</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}
