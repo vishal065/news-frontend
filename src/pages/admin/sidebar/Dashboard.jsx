@@ -58,7 +58,7 @@ const Dashboard = () => {
                     </Routes>
                 </div>
             </div>
-            <div className="border-t border-gray-700 pt-3 pb-3 text-center text-sm">
+            <div className="border-t border-gray-700 pt-2 pb-2 bg-gray-900 text-white text-center text-sm">
                 <p>&copy; 2025 NewsToday. All Rights Reserved.</p>
             </div>
         </div>

@@ -12,26 +12,25 @@ const validationSchema = yup.object({
     alt: yup.string().required("Alt text is required"),
     type: yup.string().required("Type is required"),
     status: yup.string().required("Status is required"),
-    images: yup.mixed(),
     videosURL: yup.string().url("Enter a valid URL"),
     categoryId: yup.string().required("Category is required"),
     subCategoryId: yup.string().required("Subcategory is required"),
     publisherId: yup.string().required("Publisher is required"),
     anchorId: yup.string().required("Anchor is required"),
-}).test("images-or-videos", "Either an image or a video URL is required, but not both", function (values) {
-    if (!values.images && !values.videosURL) {
-        return this.createError({ path: "videosURL", message: "Either an image or a video URL is required" });
+}).test(
+    "image-or-video-required",
+    "Either an image or a video is required",
+    function (values) {
+        if (!values.images && !values.videosURL) {
+            return this.createError({ path: "videosURL", message: "Either an image or a video is required" });
+        }
+        return true;
     }
-    if (values.images && values.videosURL) {
-        return this.createError({ path: "videosURL", message: "Only one of image or video URL should be provided" });
-    }
-    return true;
-});
+);
 
 const AddNews = () => {
     const [previewImage, setPreviewImage] = useState(null);
     const [videoPreview, setVideoPreview] = useState("");
-    const [imageError, setImageError] = useState("");
 
     const formik = useFormik({
         initialValues: {
@@ -50,6 +49,8 @@ const AddNews = () => {
             anchorId: "",
         },
         validationSchema,
+        validateOnChange: false, // Ensures validation errors show immediately on submit
+        validateOnBlur: true,
         onSubmit: (values) => {
             console.log("Form Submitted", values);
         },
@@ -59,11 +60,10 @@ const AddNews = () => {
         const file = event.currentTarget.files[0];
         if (file) {
             if (file.size > 500 * 1024) {
-                setImageError("Image size should not be more than 500KB");
+                formik.setFieldError("images", "Image size should not be more than 500KB");
                 formik.setFieldValue("images", null);
                 setPreviewImage(null);
             } else {
-                setImageError("");
                 formik.setFieldValue("images", file);
                 setPreviewImage(URL.createObjectURL(file));
             }
@@ -71,19 +71,28 @@ const AddNews = () => {
     };
 
     const handleVideoChange = (event) => {
-        formik.handleChange(event);
-        setVideoPreview(event.target.value);
+        const url = event.target.value;
+        formik.setFieldValue("videosURL", url);
+        setVideoPreview(url);
+    };
+
+    const handleDeleteImage = () => {
+        setPreviewImage(null);
+        formik.setFieldValue("images", null);
+    };
+
+    const handleDeleteVideo = () => {
+        setVideoPreview("");
+        formik.setFieldValue("videosURL", "");
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md rounded-lg overflow-y-auto" style={{ maxHeight: "100vh" }}>
-            <h2 className="text-xl font-semibold mb-4">Create Content</h2>
+        <div className="w-full mx-auto p-8 bg-white shadow-md rounded-lg overflow-y-auto" style={{ maxHeight: "100vh" }}>
+            <h1 className="text-xl font-semibold mb-6">Create Content</h1>
             <form onSubmit={formik.handleSubmit} className="space-y-4">
                 {Object.keys(formik.initialValues).map((field) => (
                     <div key={field}>
-                        <label className="block text-sm font-medium text-gray-700 capitalize">
-                            {field}
-                        </label>
+                        <label className="block text-sm font-medium text-gray-700 capitalize">{field}</label>
                         {field === "description" ? (
                             <div className="mt-1 w-full border rounded-md" style={{ height: "400px", overflowY: "auto" }}>
                                 <ReactQuill
@@ -109,11 +118,21 @@ const AddNews = () => {
                                     name={field}
                                     accept="image/*"
                                     onChange={handleImageChange}
-                                    onBlur={formik.handleBlur}
                                     className="mt-1 p-2 w-full border rounded-md"
                                 />
-                                {imageError && <p className="text-red-500 text-xs mt-1">{imageError}</p>}
-                                {previewImage && <img src={previewImage} alt="Preview" className="mt-2 w-full h-40 object-cover rounded-md" />}
+                                {formik.errors.images && <p className="text-red-500 text-xs mt-1">{formik.errors.images}</p>}
+                                {previewImage && (
+                                    <div className="mt-2">
+                                        <img src={previewImage} alt="Preview" className="w-full h-40 object-cover rounded-md" />
+                                        <button
+                                            type="button"
+                                            onClick={handleDeleteImage}
+                                            className="mt-2 p-2 bg-red-500 text-white rounded-md"
+                                        >
+                                            Delete Image
+                                        </button>
+                                    </div>
+                                )}
                             </>
                         ) : field === "videosURL" ? (
                             <>
@@ -125,13 +144,25 @@ const AddNews = () => {
                                     value={formik.values[field]}
                                     className="mt-1 p-2 w-full border rounded-md"
                                 />
+                                {formik.touched.videosURL && formik.errors.videosURL && (
+                                    <p className="text-red-500 text-xs mt-1">{formik.errors.videosURL}</p>
+                                )}
                                 {videoPreview && (
-                                    <iframe
-                                        src={videoPreview}
-                                        title="Video Preview"
-                                        className="mt-2 w-full h-40"
-                                        allowFullScreen
-                                    ></iframe>
+                                    <div className="mt-2">
+                                        <iframe
+                                            src={videoPreview}
+                                            title="Video Preview"
+                                            className="w-full h-40"
+                                            allowFullScreen
+                                        ></iframe>
+                                        <button
+                                            type="button"
+                                            onClick={handleDeleteVideo}
+                                            className="mt-2 p-2 bg-red-500 text-white rounded-md"
+                                        >
+                                            Delete Video
+                                        </button>
+                                    </div>
                                 )}
                             </>
                         ) : (
@@ -149,10 +180,7 @@ const AddNews = () => {
                         )}
                     </div>
                 ))}
-                <button
-                    type="submit"
-                    className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-                >
+                <button type="submit" className="w-full bg-blue-500 text-white cursor-pointer duration-300 p-2 rounded-md hover:bg-blue-600">
                     Submit
                 </button>
             </form>
