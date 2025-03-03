@@ -1,5 +1,6 @@
 import { createAnchor, deleteAnchor, updateAnchor } from "../../actions/admin/AnchorAction";
 import { createCategory, deleteCategory, updateCategory } from "../../actions/admin/CategoryAction";
+import { createNews, deleteNews } from "../../actions/admin/NewsAction";
 import { createPublisher, deletePublisher, updatePublisher } from "../../actions/admin/PublisherAction";
 import { createSubCategory, deleteSubCategory, updateSubCategory } from "../../actions/admin/subCategoryAction";
 import { useMutationData } from "../useMutation";
@@ -56,15 +57,13 @@ function useCreateAndUpdatePublisher() {
 function useCreateAndUpdateSubCategory() {
     const { mutate, isPending } = useMutationData(["sub-category-mutation"], (data) => {
 
-        // console.log(data)
         if (data.path === "create") {
-            console.log("1");
 
             return createSubCategory(data);
         }
 
         else if (data.path === "update") {
-            
+
 
             return updateSubCategory(data?.id, { name: data?.name, categoryId: data?.categoryId });
         }
@@ -77,4 +76,17 @@ function useCreateAndUpdateSubCategory() {
 }
 
 
-export { useCreateAndUpdateCategory, useCreateAndUpdateAnchor, useCreateAndUpdatePublisher, useCreateAndUpdateSubCategory };
+// Create News 
+function useCreateAndUpdateNews() {
+    const { mutate, isPending } = useMutationData(["news-mutation"], (data) => {
+
+        if (data.path === "/news/add") return createNews(data.formData);
+        else if (data.path === "update") return updateNews(data?.id, data);
+        else deleteNews(data?.id);
+    }, ["news-query"]);
+
+    return { mutate, isPending };
+}
+
+
+export { useCreateAndUpdateCategory, useCreateAndUpdateAnchor, useCreateAndUpdatePublisher, useCreateAndUpdateSubCategory, useCreateAndUpdateNews };

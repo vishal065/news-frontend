@@ -19,7 +19,7 @@ const createSubCategory = async (data) => {
 const getSubCategory = async () => {
     try {
         const res = await axiosInstance.get("/subCategory/get-list");
-        return res;
+        return res?.data;
 
     } catch (error) {
         console.log(error);

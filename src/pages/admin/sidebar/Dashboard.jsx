@@ -40,7 +40,7 @@ const Dashboard = () => {
                             <SidebarItem icon={<GoLaw />} text="Anchor" to="/anchor" />
                             <SidebarItem icon={<GoLaw />} text="Publisher" to="/publisher" />
                             <SidebarItem icon={<GoLaw />} text="News Table" to="/newsTable" />
-                            <SidebarItem icon={<GoLaw />} text="Add News" to="/addNews" />
+                            <SidebarItem icon={<GoLaw />} text="Add News" to="/news/add" />
                         </ul>
                     </nav>
                 </div>
@@ -54,7 +54,7 @@ const Dashboard = () => {
                         <Route path="/anchor" element={<Anchor />} />
                         <Route path="/publisher" element={<Publisher />} />
                         <Route path="/newsTable" element={<NewsTable />} />
-                        <Route path="/addNews" element={<AddNews />} />
+                        <Route path="/news/add" element={<AddNews />} />
                     </Routes>
                 </div>
             </div>

@@ -33,9 +33,14 @@ export const AdminRoutes = [
         element: <NewsTable />
     },
     {
-        path: "/addNews",
+        path: "/news/add",
         element: <AddNews />
     },
+    {
+        path: "/news/update/:id",
+        element: <AddNews />
+    },
+
 
 
 ]
