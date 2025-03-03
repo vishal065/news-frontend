@@ -30,9 +30,8 @@ const getSubCategory = async () => {
 // Update Sub Category 
 const updateSubCategory = async (id, data) => {
     try {
-        const res = await axiosInstance.put(`subCategory/update/${id}`, data);
+        const res = await axiosInstance.put(`/subCategory/update/${id}`, data);
         return res;
-
     } catch (error) {
         console.log(error);
         return error;

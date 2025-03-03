@@ -57,9 +57,17 @@ function useCreateAndUpdateSubCategory() {
     const { mutate, isPending } = useMutationData(["sub-category-mutation"], (data) => {
 
         // console.log(data)
-        if (data.path === "create") return createSubCategory(data);
+        if (data.path === "create") {
+            console.log("1");
 
-        else if (data.path === "update") return updateSubCategory({ id: data?._id }, { name: data?.name, categoryId: data?.categoryId });
+            return createSubCategory(data);
+        }
+
+        else if (data.path === "update") {
+            
+
+            return updateSubCategory(data?.id, { name: data?.name, categoryId: data?.categoryId });
+        }
 
         else return deleteSubCategory(data?.id);
     }, ["sub-category-query"]);
