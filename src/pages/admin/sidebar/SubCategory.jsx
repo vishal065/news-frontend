@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { createSubCategorySchema } from '../../../validation/adminValidation';
 import { useCreateAndUpdateSubCategory } from '../../../hooks/admin/useAdminHooks';
 import { useQueryCategory, useQuerySubCategory } from '../../../hooks/useAdminQuery';
@@ -12,13 +11,12 @@ const SubCategory = () => {
     const [storeCategoryId, setStoreCategoryId] = useState(null);
     const { data: category } = useQueryCategory();
     const { data: subCategory } = useQuerySubCategory();
-    console.log("category data :", category);
-    console.log("sub category data: ", subCategory?.data?.data);
+
 
 
     const { values, touched, errors, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
         initialValues: {
-            categoryId: storeCategoryId ?? null,
+            categoryId: storeCategoryId ?? oldData?.categoryId ?? null,
             name: toggleModal?.path === "create" ? "" : oldData?.name
         },
         validationSchema: createSubCategorySchema,
@@ -60,6 +58,7 @@ const SubCategory = () => {
                                     <button onClick={() => {
                                         setToggleModal((prev) => ({ ...prev, path: "update", state: !prev.state }))
                                         setOldData(item)
+
                                     }} className="bg-blue-500 text-white px-2 py-1 rounded mr-2">Edit</button>
                                     <button onClick={() => mutate({ id: item?._id })} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
                                 </td>
@@ -77,16 +76,27 @@ const SubCategory = () => {
                         <form onSubmit={handleSubmit}>
                             <select
                                 name="categoryId"
-                                value={oldData.categoryId ?? values.categoryId}
-                                onChange={(e) => (setStoreCategoryId(e.target.value), handleChange(e))
-                                }
+                                value={oldData?.categoryId ?? values?.categoryId ?? ""}
+                                onChange={(e) => {
+                                    const selectedCategoryId = e.target.value;
+                                    setStoreCategoryId(selectedCategoryId);
+                                    handleChange(e);
+
+                                    const selectedCategory = category?.find(item => item._id === selectedCategoryId);
+                                    if (selectedCategory) {
+                                        setOldData(prev => ({
+                                            ...prev,
+                                            categoryId: selectedCategoryId,
+                                            category: { name: selectedCategory.name }
+                                        }));
+                                    }
+                                }}
                                 onBlur={handleBlur}
                                 className="w-full p-2 border rounded mb-2"
                             >
-                                <option value="">Select  Category</option>
+                                {oldData?.categoryId && <option value={oldData?.categoryId ?? ""}>{oldData?.category?.name ?? "Select  Category"}</option>}
                                 {category?.map((item, index) => (
-                                    <option key={index} value={oldData.categoryId ?? item?._id}>{oldData?.category?.categoryId
-                                        ?? item?.name}</option>
+                                    <option key={index} value={item?._id}>{item?.name}</option>
                                 ))}
                             </select>
                             {touched.categoryId && errors.categoryId ? (
@@ -113,8 +123,9 @@ const SubCategory = () => {
                         </form>
                     </div>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 };
 
