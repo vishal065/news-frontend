@@ -25,6 +25,29 @@ export const createPublisherSchema = yup.object({
 });
 
 
+
+
+const FILE_SIZE = 500 * 1024;
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
+
+const imageValidationSchema = yup.object().shape({
+    image: yup.mixed()
+        .required("image is required")
+        .test(
+            "fileSize",
+            "Image size should not exceed 500KB",
+            value => value && value.size <= FILE_SIZE
+        )
+        .test(
+            "fileFormat",
+            "Unsupported file format",
+            value => value && SUPPORTED_FORMATS.includes(value.type)
+        ),
+});
+
+
+
+
 //  News
 export const createNewsTableSchema = yup.object({
     title: yup.string().required("Title is required"),
@@ -32,7 +55,10 @@ export const createNewsTableSchema = yup.object({
     description: yup.string().required("Description is required"),
     metaDescription: yup.string().required("Meta description is required"),
     alt: yup.string().required("Alt text is required"),
-    type: yup.string().required("Type is required"),
+    tags: yup.array()
+        .of(yup.string())
+        .min(1, "At least 1 Tag is required"),
+    image: yup.mixed().required("Image is required"),
     status: yup.string().required("Status is required"),
     videoURL: yup.string().url("Enter a valid URL"),
     categoryId: yup.string().required("Category is required"),
@@ -43,7 +69,7 @@ export const createNewsTableSchema = yup.object({
     "image-or-video-required",
     "Either an image or a video is required",
     function (value) {
-        if (!value.image && !value.videosURL) {
+        if (!value.image && !value.videoURL) {
             return this.createError({ path: "videosURL", message: "Either an image or a video is required" });
         }
         return true;

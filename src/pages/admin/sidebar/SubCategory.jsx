@@ -11,8 +11,7 @@ const SubCategory = () => {
     const [storeCategoryId, setStoreCategoryId] = useState(null);
     const { data: category } = useQueryCategory();
     const { data: subCategory } = useQuerySubCategory();
-
-
+    console.log(subCategory)
 
     const { values, touched, errors, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
         initialValues: {
@@ -48,7 +47,7 @@ const SubCategory = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {subCategory?.data?.data?.map((item, index) => (
+                        {subCategory?.data?.map((item, index) => (
 
                             <tr key={index} className="border-b">
                                 <td className="py-2 px-4">{index + 1}</td>
@@ -123,8 +122,7 @@ const SubCategory = () => {
                         </form>
                     </div>
                 </div>
-            )
-            }
+            )}
         </div >
     );
 };

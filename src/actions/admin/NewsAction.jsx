@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import AxiosHandler from "../AxiosHandler";
 
 
@@ -7,7 +8,13 @@ const axiosInstance = AxiosHandler();
 
 const createNews = async (data) => {
     try {
-        const res = await axiosInstance.post("/news/create", data)
+        console.log(data);
+
+        const res = await axiosInstance.post("/news/create", data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        })
         return res;
 
     } catch (error) {
@@ -20,7 +27,7 @@ const createNews = async (data) => {
 const getNews = async () => {
     try {
         const res = await axiosInstance.get("/news/get")
-        return res;
+        return res?.data?.data;
 
     } catch (error) {
         console.log(error);
@@ -29,9 +36,10 @@ const getNews = async () => {
 }
 
 // Update News 
-const updateNews = async (data, id) => {
+const updateNews = async (id, data) => {
     try {
         const res = await axiosInstance.put(`news/update/${id}`, data);
+
         return res;
 
     } catch (error) {
@@ -44,6 +52,7 @@ const updateNews = async (data, id) => {
 const deleteNews = async (id) => {
     try {
         const res = await axiosInstance.delete(`/news/delete/${id}`)
+        toast.success("hello6")
         return res;
 
     } catch (error) {
