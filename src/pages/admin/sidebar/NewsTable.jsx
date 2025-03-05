@@ -2,16 +2,16 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryNews } from "../../../hooks/useAdminQuery";
 import { useCreateAndUpdateNews } from "../../../hooks/admin/useAdminHooks";
-import toast from "react-hot-toast";
 
 const NewsTable = () => {
     const navigate = useNavigate();
     const { mutate, isPending } = useCreateAndUpdateNews();
+    
     const { data: news } = useQueryNews();
-    console.log(news)
 
     const handleEdit = (id) => {
-        navigate(`/edit/${id}`);
+
+        navigate(`/news/update/${id}`);
     };
 
 
@@ -50,21 +50,13 @@ const NewsTable = () => {
                             <td className="px-4 py-2">
                                 <button
                                     className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
-                                    onClick={() => handleEdit(item.id)}
+                                    onClick={() => handleEdit(item._id)}
                                 >
                                     Edit
                                 </button>
                                 <button
                                     className="bg-red-500 text-white px-2 py-1 rounded"
-                                    onClick={() => mutate({ id: item?._id }, {
-                                        onSuccess: ((data) => (
-                                            console.log(data),
-
-                                            data.statusCode === 200 ? toast.success("News deleted successfully") : toast.error("News Deleted failed")
-
-                                        ))
-                                    }
-
+                                    onClick={() => mutate({ id: item?._id }
                                     )}
                                 >
                                     Delete

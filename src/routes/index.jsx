@@ -14,10 +14,14 @@ const RootRouting = () => {
 
     return (
         <Routes>
-            {authState?.role === "admin" && authState?.accessToken && <Route element={<Dashboard />}>
-                {AdminRoutes.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}
-            </Route>
-            }
+            {authState?.role === "admin" && authState?.accessToken && (
+                <Route path="/" element={<Dashboard />}>
+                    {AdminRoutes.map((item, index) => (
+                        <Route key={index} path={item.path} element={item.element} />
+                    ))}
+                </Route>
+            )}
+
 
             {authState?.accessToken && <Route element={<UserLayout />} >
                 {UserPublicRoutes?.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}

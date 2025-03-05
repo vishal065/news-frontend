@@ -1,6 +1,6 @@
 import { createAnchor, deleteAnchor, updateAnchor } from "../../actions/admin/AnchorAction";
 import { createCategory, deleteCategory, updateCategory } from "../../actions/admin/CategoryAction";
-import { createNews, deleteNews } from "../../actions/admin/NewsAction";
+import { createNews, deleteNews } from "../../actions/admin/NewsAction.jsx";
 import { createPublisher, deletePublisher, updatePublisher } from "../../actions/admin/PublisherAction";
 import { createSubCategory, deleteSubCategory, updateSubCategory } from "../../actions/admin/subCategoryAction";
 import { useMutationData } from "../useMutation";

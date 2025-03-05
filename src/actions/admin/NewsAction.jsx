@@ -2,7 +2,6 @@ import toast from "react-hot-toast";
 import AxiosHandler from "../AxiosHandler";
 
 
-const axiosInstance = AxiosHandler();
 
 // create news 
 
@@ -10,7 +9,7 @@ const createNews = async (data) => {
     try {
         console.log(data);
 
-        const res = await axiosInstance.post("/news/create", data, {
+        const res = await AxiosHandler.post("/news/create", data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
@@ -26,7 +25,20 @@ const createNews = async (data) => {
 // Fetched News 
 const getNews = async () => {
     try {
-        const res = await axiosInstance.get("/news/get")
+        const res = await AxiosHandler.get("/news/get")
+        return res?.data?.data;
+
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
+
+// Fetched News by ID
+const getNewsByID = async (id) => {
+    try {
+        const res = await AxiosHandler.get(`/news/get/${id}`)
         return res?.data?.data;
 
     } catch (error) {
@@ -38,7 +50,7 @@ const getNews = async () => {
 // Update News 
 const updateNews = async (id, data) => {
     try {
-        const res = await axiosInstance.put(`news/update/${id}`, data);
+        const res = await AxiosHandler.put(`news/update/${id}`, data);
 
         return res;
 
@@ -51,7 +63,7 @@ const updateNews = async (id, data) => {
 // Delete News 
 const deleteNews = async (id) => {
     try {
-        const res = await axiosInstance.delete(`/news/delete/${id}`)
+        const res = await AxiosHandler.delete(`/news/delete/${id}`)
         toast.success("hello6")
         return res;
 
@@ -62,4 +74,4 @@ const deleteNews = async (id) => {
 }
 
 
-export { createNews, getNews, updateNews, deleteNews };
+export { createNews, getNews, updateNews, deleteNews, getNewsByID };
