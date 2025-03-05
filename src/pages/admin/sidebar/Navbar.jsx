@@ -1,10 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
 import { UserCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../../actions/AuthAction";
+import { useLogout } from "../../../hooks/useAuth";
+import persistStore from "redux-persist/es/persistStore";
+import { authLogout } from "../../../redux/features/authSlice";
 
 const Navbar = () => {
     const [showLogout, setShowLogout] = useState(false);
+    const { mutate, isPending } = useLogout()
     const profileRef = useRef(null);
+    const dispatch = useDispatch()
+
+    const logoutAdmin = () => {
+        mutate(null, {
+            onSuccess: (data) => {
+                if (data.status === 200) {
+                    const data = dispatch(authLogout())
+                    persistStore.purge();
+                }
+            }
+        })
+    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -43,7 +61,7 @@ const Navbar = () => {
                     </div>
                     {showLogout && (
                         <div className="absolute border border-red-100 right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2">
-                            <button className="block w-full text-center px-4 py-2 text-gray-700 hover:bg-red-50">Logout</button>
+                            <button onClick={logoutAdmin} className="block w-full text-center px-4 py-2 text-gray-700 hover:bg-red-50">Logout</button>
                         </div>
                     )}
                 </div>

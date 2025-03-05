@@ -10,11 +10,11 @@ const Publisher = () => {
     const [prevData, setPrevData] = useState(null);
     const { mutate, isPending } = useCreateAndUpdatePublisher();
     const { data } = useQueryPublisher();
-    console.log(data)
+
 
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
-        initialValues: { name: toggleModal?.path === "create" ? "" : prevData?.name },
+        initialValues: { name: toggleModal?.path === "create" ? "" : prevData?.name ?? "" },
         validationSchema: createPublisherSchema,
         enableReinitialize: true,
         onSubmit: (value) => {

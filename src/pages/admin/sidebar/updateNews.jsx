@@ -4,16 +4,17 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { createNewsState } from "../../../validation/adminState";
 import { createNewsTableSchema } from "../../../validation/adminValidation"
-import { useQueryAnchor, useQueryCategory, useQueryNewsByID, useQueryPublisher, useQuerySubCategory } from "../../../hooks/useAdminQuery";
+import { useQueryAnchor, useQueryCategory, useQueryPublisher, useQuerySubCategory } from "../../../hooks/useAdminQuery";
 import { Switch } from "@headlessui/react";
 import { X } from "lucide-react";
 import { useCreateAndUpdateNews } from "../../../hooks/admin/useAdminHooks";
 import { useLocation } from "react-router-dom";
+import { useRef } from "react";
 
 
 const UpdateNews = () => {
-    const { pathname } = useLocation()
-    const { data, isLoading } = useQueryNewsByID(pathname?.split("/")?.[3])
+    const quillRef = useRef(null);
+    const { pathname, state } = useLocation()
     const { data: category } = useQueryCategory();
     const { data: anchor } = useQueryAnchor();
     const { data: publisher } = useQueryPublisher();
@@ -25,29 +26,29 @@ const UpdateNews = () => {
     const [tagsInput, setTagsInput] = useState("");
     const { mutate, isPending } = useCreateAndUpdateNews();
 
-    console.log(data);
+
+
 
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldError, resetForm } = useFormik({
-        initialValues: data ?? createNewsState,
+        initialValues: state ?? createNewsState,
         validationSchema: createNewsTableSchema,
-        validateOnChange: true, // Ensures validation errors appear immediately on submit
+        validateOnChange: true,
         // validateOnBlur: true,
         enableReinitialize: true,
         onSubmit: (value) => {
-            if (pathname === "/news/add") {
+
+            if (pathname.includes("/news/update")) {
+
 
                 const formData = new FormData()
                 Object.keys(createNewsState).map((item) => formData.append(item, value[item])
                 )
-                mutate({ path: pathname, formData });
 
 
-            } else if (pathname === "/news/update") {
-                const formData = new FormData()
-                Object.keys(createNewsState).map((item) => formData.append(item, value[item])
-                )
-                mutate({ path: pathname, formData });
+
+                mutate({ path: pathname, formData, id: state?._id });
+
 
             }
             resetForm();
@@ -61,7 +62,6 @@ const UpdateNews = () => {
 
     const MyHandleSubmit = (e) => {
         e.preventDefault();
-
         if (values.slug.trim() === "") {
             setFieldError("slug", "slug is required")
         }
@@ -91,6 +91,9 @@ const UpdateNews = () => {
 
     //Handle Image
     const handleImageChange = useCallback((event) => {
+        setPreviewImage(null)
+        setFieldValue("image", null);
+        setFieldError("image", null);
         const file = event.currentTarget.files[0];
         if (file) {
             if (file.size > 500 * 1024) {
@@ -125,13 +128,18 @@ const UpdateNews = () => {
 
     useEffect(() => {
 
-        data?.tags[0]?.split(",").forEach((item) => setTagsValues(prev => [...prev, item]));
-        setSlug(data?.slug)
-        setPreviewImage(data?.Image?.ImageURL)
+        state?.tags?.[0]?.split(",").forEach((item) => setTagsValues(prev => [...prev, item]));
+        setSlug(state?.slug)
+        setPreviewImage(state?.Image?.ImageURL)
 
-    }, [data])
+    }, [state])
 
-    if (isLoading) {
+
+
+
+
+
+    if (!state) {
         return <div>loading...</div>
     }
 
@@ -189,6 +197,7 @@ const UpdateNews = () => {
                     <label className="block text-sm font-medium text-gray-700">Description</label>
                     <div className="mt-1 w-full border rounded-md" style={{ height: "400px", overflowY: "auto" }}>
                         <ReactQuill
+                            ref={quillRef}
                             value={values.description}
                             onChange={(value) => setFieldValue("description", value)}
                             style={{ height: "350px" }}
@@ -239,11 +248,11 @@ const UpdateNews = () => {
                         name="categoryId"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.categoryId}
+                        value={values?.categoryId}
                         className="mt-1 p-2 w-full border rounded-md"
                     >
                         <option value=""> Select category</option>
-                        {category?.map((item, i) => (
+                        {category && category?.map((item, i) => (
                             <option key={i} value={item?._id}>{item?.name}</option>
                         ))}
                     </select>
@@ -263,7 +272,7 @@ const UpdateNews = () => {
                         className="mt-1 p-2 w-full border rounded-md"
                     >
                         <option value=""> Select subCategory</option>
-                        {subCategory?.data?.map((item, i) => (
+                        {values.categoryId && subCategory?.data?.filter((item) => item?.categoryId === values.categoryId)?.map((item, i) => (
                             <option key={i} value={item?._id}>{item?.name}</option>
                         ))}
                     </select>

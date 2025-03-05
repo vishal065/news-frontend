@@ -9,10 +9,10 @@ const Anchor = () => {
     const [prevData, setPrevData] = useState(null);
     const { mutate, isPending } = useCreateAndUpdateAnchor();
     const { data } = useQueryAnchor();
-    console.log(data);
+
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
-        initialValues: { name: toggleModal?.path === "create" ? "" : prevData?.name },
+        initialValues: { name: toggleModal?.path === "create" ? "" : prevData?.name ??""},
         validationSchema: createAnchorSchema,
         enableReinitialize: true,
         onSubmit: (value) => {

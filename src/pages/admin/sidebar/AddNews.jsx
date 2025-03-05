@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -24,31 +24,26 @@ const AddNews = () => {
     const [tagsValues, setTagsValues] = useState([]);
     const [tagsInput, setTagsInput] = useState("");
     const { mutate, isPending } = useCreateAndUpdateNews();
-    const { pathname, state } = useLocation()
+    const { pathname } = useLocation()
 
 
 
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldError, resetForm } = useFormik({
-        initialValues: state ?? createNewsState,
+        initialValues: createNewsState,
         validationSchema: createNewsTableSchema,
-        validateOnChange: true, // Ensures validation errors appear immediately on submit
-        // validateOnBlur: true,
+        validateOnChange: true,
         enableReinitialize: true,
         onSubmit: (value) => {
             if (pathname === "/news/add") {
 
+
+
                 const formData = new FormData()
                 Object.keys(createNewsState).map((item) => formData.append(item, value[item])
                 )
                 mutate({ path: pathname, formData });
 
-
-            } else if (pathname === "/news/update") {
-                const formData = new FormData()
-                Object.keys(createNewsState).map((item) => formData.append(item, value[item])
-                )
-                mutate({ path: pathname, formData });
 
             }
             resetForm();
@@ -124,14 +119,6 @@ const AddNews = () => {
         setFieldValue("videoURL", "");
     }, [setFieldValue]);
 
-
-    useEffect(() => {
-
-        setSlug(state.slug)
-        console.log(values);
-
-
-    }, [state])
 
 
 
@@ -259,8 +246,8 @@ const AddNews = () => {
                         value={values.subCategoryId}
                         className="mt-1 p-2 w-full border rounded-md"
                     >
-                        <option value=""> Select subCategory</option>
-                        {subCategory?.data?.map((item, i) => (
+                        <option value=""> Select Category first</option>
+                        {values?.categoryId && subCategory?.data?.filter((item) => item?.categoryId === values.categoryId)?.map((item, i) => (
                             <option key={i} value={item?._id}>{item?.name}</option>
                         ))}
                     </select>

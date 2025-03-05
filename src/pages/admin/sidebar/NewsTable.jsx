@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useQueryNews } from "../../../hooks/useAdminQuery";
+import { useQueryNews, useQueryNewsByID } from "../../../hooks/useAdminQuery";
 import { useCreateAndUpdateNews } from "../../../hooks/admin/useAdminHooks";
 
 const NewsTable = () => {
-    const navigate = useNavigate();
-    const { mutate, isPending } = useCreateAndUpdateNews();
-    
     const { data: news } = useQueryNews();
+    const [ID, setID] = useState(null)
+    const { data: SingleNews } = useQueryNewsByID(ID)
+    const { mutate, isPending } = useCreateAndUpdateNews();
+    const navigate = useNavigate();
 
     const handleEdit = (id) => {
-
-        navigate(`/news/update/${id}`);
+        setID(id)
     };
+
+    useEffect(() => {
+
+        if (SingleNews) {
+            navigate(`/news/update/${ID}`, { state: SingleNews });
+        }
+
+    }, [SingleNews, ID])
+
 
 
     return (
@@ -34,7 +43,7 @@ const NewsTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {news?.length > 0 && news?.map((item, index) => (
+                    {news?.map((item, index) => (
                         <tr key={item._id} className="border-b hover:bg-gray-50">
                             <td className="px-4 py-2 text-left">{index + 1}</td>
                             <td className="px-4 py-2 text-left">
@@ -56,7 +65,7 @@ const NewsTable = () => {
                                 </button>
                                 <button
                                     className="bg-red-500 text-white px-2 py-1 rounded"
-                                    onClick={() => mutate({ id: item?._id }
+                                    onClick={() => mutate({ id: item?._id, path:"/news/delete" }
                                     )}
                                 >
                                     Delete
