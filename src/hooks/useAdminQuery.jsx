@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getAdminCategory } from "../actions/admin/CategoryAction"
 import { getAnchor } from "../actions/admin/AnchorAction";
 import { getPublisher } from "../actions/admin/PublisherAction";
-import { getNews } from "../actions/admin/NewsAction";
+import { getNews, getNewsByID } from "../actions/admin/NewsAction.jsx";
 import { getSubCategory } from "../actions/admin/subCategoryAction";
 
 
@@ -30,6 +30,12 @@ const useQueryNews = () => {
     return useQuery({ queryKey: ["news-query"], queryFn: () => getNews(), _optimisticResults: "optimistic", gcTime: 20000, staleTime: 20000 });
 };
 
+const useQueryNewsByID = (id) => {
 
 
-export { useQueryCategory, useQueryAnchor, useQueryPublisher, useQueryNews, useQuerySubCategory };
+    return useQuery({ queryKey: ["news-query"], queryFn: () => getNewsByID(id), _optimisticResults: "optimistic", gcTime: 20000, staleTime: 20000 });
+};
+
+
+
+export { useQueryCategory, useQueryAnchor, useQueryPublisher, useQueryNews, useQuerySubCategory, useQueryNewsByID };

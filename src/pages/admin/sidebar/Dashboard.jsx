@@ -9,6 +9,7 @@ import Publisher from './Publisher';
 import AddNews from './AddNews';
 import Navbar from './Navbar';
 import NewsTable from './NewsTable';
+import UpdateNews from './updateNews';
 
 
 const Dashboard = () => {
@@ -55,6 +56,7 @@ const Dashboard = () => {
                         <Route path="/publisher" element={<Publisher />} />
                         <Route path="/newsTable" element={<NewsTable />} />
                         <Route path="/news/add" element={<AddNews />} />
+                        <Route path="/news/update/:id" element={<UpdateNews />} />
                     </Routes>
                 </div>
             </div>

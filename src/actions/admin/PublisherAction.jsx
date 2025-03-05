@@ -1,13 +1,10 @@
 import AxiosHandler from "../AxiosHandler";
 
 
-const axiosInstance = AxiosHandler();
-
-
 // Create Publisher 
 const createPublisher = async (data) => {
     try {
-        const res = await axiosInstance.post("/publisher/create", data);
+        const res = await AxiosHandler.post("/publisher/create", data);
         return res;
 
     } catch (error) {
@@ -19,7 +16,7 @@ const createPublisher = async (data) => {
 // fetched Publisher
 const getPublisher = async () => {
     try {
-        const res = await axiosInstance.get("/publisher/get");
+        const res = await AxiosHandler.get("/publisher/get");
         return res?.data;
 
     } catch (error) {
@@ -31,7 +28,7 @@ const getPublisher = async () => {
 // update Publisher
 const updatePublisher = async (id, data) => {
     try {
-        const res = await axiosInstance.put(`/publisher/update/${id}`, data);
+        const res = await AxiosHandler.put(`/publisher/update/${id}`, data);
         return res;
 
     } catch (error) {
@@ -43,7 +40,7 @@ const updatePublisher = async (id, data) => {
 // delete Publisher 
 const deletePublisher = async (id) => {
     try {
-        return await axiosInstance.delete(`publisher/delete/${id}`);
+        return await AxiosHandler.delete(`publisher/delete/${id}`);
 
     } catch (error) {
         console.log(error);

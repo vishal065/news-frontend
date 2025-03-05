@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { createNewsState } from "../../../validation/adminState";
 import { createNewsTableSchema } from "../../../validation/adminValidation"
-import { useQueryAnchor, useQueryCategory, useQueryPublisher, useQuerySubCategory } from "../../../hooks/useAdminQuery";
+import { useQueryAnchor, useQueryCategory, useQueryNewsByID, useQueryPublisher, useQuerySubCategory } from "../../../hooks/useAdminQuery";
 import { Switch } from "@headlessui/react";
 import { X } from "lucide-react";
 import { useCreateAndUpdateNews } from "../../../hooks/admin/useAdminHooks";
 import { useLocation } from "react-router-dom";
 
 
-
-
-const AddNews = () => {
+const UpdateNews = () => {
+    const { pathname } = useLocation()
+    const { data, isLoading } = useQueryNewsByID(pathname?.split("/")?.[3])
     const { data: category } = useQueryCategory();
     const { data: anchor } = useQueryAnchor();
     const { data: publisher } = useQueryPublisher();
@@ -24,13 +24,12 @@ const AddNews = () => {
     const [tagsValues, setTagsValues] = useState([]);
     const [tagsInput, setTagsInput] = useState("");
     const { mutate, isPending } = useCreateAndUpdateNews();
-    const { pathname, state } = useLocation()
 
-
+    console.log(data);
 
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldError, resetForm } = useFormik({
-        initialValues: state ?? createNewsState,
+        initialValues: data ?? createNewsState,
         validationSchema: createNewsTableSchema,
         validateOnChange: true, // Ensures validation errors appear immediately on submit
         // validateOnBlur: true,
@@ -124,20 +123,24 @@ const AddNews = () => {
         setFieldValue("videoURL", "");
     }, [setFieldValue]);
 
-
     useEffect(() => {
 
-        setSlug(state.slug)
-        console.log(values);
+        data?.tags[0]?.split(",").forEach((item) => setTagsValues(prev => [...prev, item]));
+        setSlug(data?.slug)
+        setPreviewImage(data?.Image?.ImageURL)
 
+    }, [data])
 
-    }, [state])
+    if (isLoading) {
+        return <div>loading...</div>
+    }
+
 
 
 
     return (
         <div className="w-full mx-auto p-8 bg-white shadow-md rounded-lg overflow-y-auto" style={{ maxHeight: "100vh" }}>
-            <h1 className="text-xl font-semibold mb-6">Create Content</h1>
+            <h1 className="text-xl font-semibold mb-6">Update News</h1>
             <form onSubmit={MyHandleSubmit} className="space-y-4">
                 {/* Title Field */}
                 <div>
@@ -403,4 +406,4 @@ const AddNews = () => {
     );
 };
 
-export default AddNews;
+export default UpdateNews;

@@ -1,12 +1,11 @@
 import AxiosHandler from "../AxiosHandler";
 
 
-const axiosInstance = AxiosHandler();
 
 // Create Sub Category 
 const createSubCategory = async (data) => {
     try {
-        const res = await axiosInstance.post("/subCategory/create", data);
+        const res = await AxiosHandler.post("/subCategory/create", data);
         return res;
 
     } catch (error) {
@@ -18,7 +17,7 @@ const createSubCategory = async (data) => {
 // Fetched Sub Category 
 const getSubCategory = async () => {
     try {
-        const res = await axiosInstance.get("/subCategory/get-list");
+        const res = await AxiosHandler.get("/subCategory/get-list");
         return res?.data;
 
     } catch (error) {
@@ -30,7 +29,7 @@ const getSubCategory = async () => {
 // Update Sub Category 
 const updateSubCategory = async (id, data) => {
     try {
-        const res = await axiosInstance.put(`/subCategory/update/${id}`, data);
+        const res = await AxiosHandler.put(`/subCategory/update/${id}`, data);
         return res;
     } catch (error) {
         console.log(error);
@@ -41,7 +40,7 @@ const updateSubCategory = async (id, data) => {
 // Delete Sub Category 
 const deleteSubCategory = async (id) => {
     try {
-        return await axiosInstance.delete(`subCategory/delete/${id}`);
+        return await AxiosHandler.delete(`subCategory/delete/${id}`);
 
     } catch (error) {
         console.log(error);

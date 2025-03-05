@@ -1,12 +1,12 @@
 import AxiosHandler from "../AxiosHandler";
 
 
-const axiosInstance = AxiosHandler();
+
 
 // Create Admin Anchor 
 const createAnchor = async (data) => {
     try {
-        const res = await axiosInstance.post("/anchor/create", data);
+        const res = await AxiosHandler.post("/anchor/create", data);
         console.log(res);
         return res;
     } catch (error) {
@@ -18,7 +18,7 @@ const createAnchor = async (data) => {
 // fetch Anchors
 const getAnchor = async () => {
     try {
-        const res = await axiosInstance.get("/anchor/get");
+        const res = await AxiosHandler.get("/anchor/get");
         return res?.data;
 
     } catch (error) {
@@ -30,7 +30,7 @@ const getAnchor = async () => {
 //update Anchors
 const updateAnchor = async (id, data) => {
     try {
-        const res = await axiosInstance.put(`/anchor/update/${id}`, data);
+        const res = await AxiosHandler.put(`/anchor/update/${id}`, data);
         return res;
 
     } catch (error) {
@@ -42,7 +42,7 @@ const updateAnchor = async (id, data) => {
 // delete Anchors 
 const deleteAnchor = async (id) => {
     try {
-        return await axiosInstance.delete(`anchor/delete/${id}`);
+        return await AxiosHandler.delete(`anchor/delete/${id}`);
 
     } catch (error) {
         console.log(error);

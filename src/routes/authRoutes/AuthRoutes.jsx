@@ -22,7 +22,7 @@ export const AuthRoutes = [
         element: <Register />
     },
     {
-        path: "/",
+    path: "/",
         element: <Home />
     },
 
