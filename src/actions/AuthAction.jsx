@@ -36,6 +36,17 @@ const login = async (data) => {
         console.log(error);
     }
 }
+const logout = async (data) => {
+    try {
+        const res = await AxiosHandler.post(`/auth/logout`)
+
+        return res
+
+    } catch (error) {
+        console.log(error);
+
+    }
+}
 
 
-export { registerAdmin, verifyOtp, login };
+export { registerAdmin, verifyOtp, login, logout };

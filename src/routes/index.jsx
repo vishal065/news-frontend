@@ -15,7 +15,7 @@ const RootRouting = () => {
     return (
         <Routes>
             {authState?.role === "admin" && authState?.accessToken && (
-                <Route path="/" element={<Dashboard />}>
+                <Route path="/*" element={<Dashboard />}>
                     {AdminRoutes.map((item, index) => (
                         <Route key={index} path={item.path} element={item.element} />
                     ))}

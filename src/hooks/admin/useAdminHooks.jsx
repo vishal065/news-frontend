@@ -1,6 +1,6 @@
 import { createAnchor, deleteAnchor, updateAnchor } from "../../actions/admin/AnchorAction";
 import { createCategory, deleteCategory, updateCategory } from "../../actions/admin/CategoryAction";
-import { createNews, deleteNews } from "../../actions/admin/NewsAction.jsx";
+import { createNews, deleteNews, updateNews } from "../../actions/admin/NewsAction.jsx";
 import { createPublisher, deletePublisher, updatePublisher } from "../../actions/admin/PublisherAction";
 import { createSubCategory, deleteSubCategory, updateSubCategory } from "../../actions/admin/subCategoryAction";
 import { useMutationData } from "../useMutation";
@@ -16,7 +16,7 @@ function useCreateAndUpdateCategory() {
 
         else return deleteCategory(data?.id);
 
-    }, ["category-query"]);
+    }, ["category-query", "sub-category-query"]);
 
     return { mutate, isPending };
 }
@@ -78,11 +78,17 @@ function useCreateAndUpdateSubCategory() {
 
 // Create News 
 function useCreateAndUpdateNews() {
-    const { mutate, isPending } = useMutationData(["news-mutation"], (data) => {
+    const { mutate, isPending } = useMutationData(["news-mutation"], ({ id, formData, path }) => {
 
-        if (data.path === "/news/add") return createNews(data.formData);
-        else if (data.path === "update") return updateNews(data?.id, data);
-        else deleteNews(data?.id);
+
+        if (path === "/news/add") return createNews(formData);
+
+        else if (path.includes("/news/update/")) {
+
+            return updateNews(id, formData);
+        }
+        else if (path === "/news/delete") return deleteNews(id)
+
     }, ["news-query"]);
 
     return { mutate, isPending };

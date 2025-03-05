@@ -8,7 +8,7 @@ import { getSubCategory } from "../actions/admin/subCategoryAction";
 
 // Query for Fetched Category 
 const useQueryCategory = () => {
-    return useQuery({ queryKey: ["category-query"], queryFn: () => getAdminCategory(), _optimisticResults: "optimistic", gcTime: 10000, staleTime: 10000 });
+    return useQuery({ queryKey: ["category-query"], queryFn: () => getAdminCategory(), _optimisticResults: "optimistic", gcTime: 10000,  staleTime: 10000 });
 };
 
 // Query for Sub Category 
@@ -27,13 +27,19 @@ const useQueryPublisher = () => {
 
 // Query for fetched News
 const useQueryNews = () => {
-    return useQuery({ queryKey: ["news-query"], queryFn: () => getNews(), _optimisticResults: "optimistic", gcTime: 20000, staleTime: 20000 });
+    return useQuery({ queryKey: ["news-query"], queryFn: () => getNews(), gcTime: 20000, staleTime: 20000 });
 };
 
 const useQueryNewsByID = (id) => {
 
+    return useQuery({
+        queryKey: ["newsByID-query", id],
+        queryFn: () => getNewsByID(id),
+        enabled: !!id,
+        gcTime: 20000,
+        staleTime: 20000
+    });
 
-    return useQuery({ queryKey: ["news-query"], queryFn: () => getNewsByID(id), _optimisticResults: "optimistic", gcTime: 20000, staleTime: 20000 });
 };
 
 

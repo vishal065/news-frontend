@@ -12,11 +12,15 @@ const Category = () => {
     const { data } = useQueryCategory();
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
-        initialValues: { name: toggleModal?.path === "create" ? "" : oldData?.name },
+        initialValues: { name: toggleModal?.path === "create" ? "" : oldData?.name ?? "" },
         validationSchema: createCategorySchema,
         enableReinitialize: true,
         onSubmit: (value) => {
-            mutate({ path: toggleModal.path, id: oldData?._id, ...value });
+            mutate({ path: toggleModal.path, id: oldData?._id, ...value }, {
+                onSuccess: () => {
+
+                }
+            });
             resetForm();
             setToggleModal({ path: null, state: false })
         },

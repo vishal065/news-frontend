@@ -11,16 +11,17 @@ const SubCategory = () => {
     const [storeCategoryId, setStoreCategoryId] = useState(null);
     const { data: category } = useQueryCategory();
     const { data: subCategory } = useQuerySubCategory();
-    console.log(subCategory)
 
     const { values, touched, errors, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
         initialValues: {
-            categoryId: storeCategoryId ?? oldData?.categoryId ?? null,
-            name: toggleModal?.path === "create" ? "" : oldData?.name
+            categoryId: storeCategoryId ?? oldData?.categoryId ?? "",
+            name: toggleModal?.path === "create" ? "" : oldData?.name ?? ""
         },
         validationSchema: createSubCategorySchema,
         enableReinitialize: true,
         onSubmit: (value) => {
+
+
             mutate({ path: toggleModal.path, id: oldData?._id, ...value })
             resetForm();
             setStoreCategoryId(null)
@@ -75,9 +76,11 @@ const SubCategory = () => {
                         <form onSubmit={handleSubmit}>
                             <select
                                 name="categoryId"
-                                value={oldData?.categoryId ?? values?.categoryId ?? ""}
+                                value={oldData?.categoryId ?? values?.categoryId}
                                 onChange={(e) => {
                                     const selectedCategoryId = e.target.value;
+                                    console.log("selectedCategoryId", selectedCategoryId);
+
                                     setStoreCategoryId(selectedCategoryId);
                                     handleChange(e);
 
@@ -93,7 +96,7 @@ const SubCategory = () => {
                                 onBlur={handleBlur}
                                 className="w-full p-2 border rounded mb-2"
                             >
-                                {oldData?.categoryId && <option value={oldData?.categoryId ?? ""}>{oldData?.category?.name ?? "Select  Category"}</option>}
+                                {<option value={oldData?.categoryId ?? ""}>{oldData?.category?.name ?? "Select  Category"}</option>}
                                 {category?.map((item, index) => (
                                     <option key={index} value={item?._id}>{item?.name}</option>
                                 ))}

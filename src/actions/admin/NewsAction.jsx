@@ -3,6 +3,7 @@ import AxiosHandler from "../AxiosHandler";
 
 
 
+
 // create news 
 
 const createNews = async (data) => {
@@ -27,7 +28,6 @@ const getNews = async () => {
     try {
         const res = await AxiosHandler.get("/news/get")
         return res?.data?.data;
-
     } catch (error) {
         console.log(error);
         return error;
@@ -40,7 +40,6 @@ const getNewsByID = async (id) => {
     try {
         const res = await AxiosHandler.get(`/news/get/${id}`)
         return res?.data?.data;
-
     } catch (error) {
         console.log(error);
         return error;
@@ -50,9 +49,18 @@ const getNewsByID = async (id) => {
 // Update News 
 const updateNews = async (id, data) => {
     try {
-        const res = await AxiosHandler.put(`news/update/${id}`, data);
 
-        return res;
+
+        const res = await AxiosHandler.put(`news/update/${id}`, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+
+        console.log(res);
+
+        return { data: res };
 
     } catch (error) {
         console.log(error);
@@ -64,7 +72,8 @@ const updateNews = async (id, data) => {
 const deleteNews = async (id) => {
     try {
         const res = await AxiosHandler.delete(`/news/delete/${id}`)
-        toast.success("hello6")
+        console.log("deleted news", res);
+
         return res;
 
     } catch (error) {
