@@ -20,6 +20,7 @@ function useLogin() {
     return { mutate, isPending };
 }
 
+// Logout Hook
 function useLogout() {
     const { mutate, isPending } = useMutationData(["logout"], (data) => logout());
     return { mutate, isPending };

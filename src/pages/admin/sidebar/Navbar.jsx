@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { UserCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../../actions/AuthAction";
 import { useLogout } from "../../../hooks/useAuth";
 import persistStore from "redux-persist/es/persistStore";
 import { authLogout } from "../../../redux/features/authSlice";
@@ -11,14 +10,16 @@ const Navbar = () => {
     const [showLogout, setShowLogout] = useState(false);
     const { mutate, isPending } = useLogout()
     const profileRef = useRef(null);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const logoutAdmin = () => {
         mutate(null, {
             onSuccess: (data) => {
                 if (data.status === 200) {
-                    const data = dispatch(authLogout())
+                    dispatch(authLogout())
                     persistStore.purge();
+                    navigate("/");
                 }
             }
         })

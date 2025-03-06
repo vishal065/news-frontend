@@ -3,6 +3,7 @@ import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Pop
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Link } from 'react-router-dom';
+import { usePublicQueryCategory } from '../hooks/usePublicQuery';
 
 const products = [
     { name: 'Analytics', href: '/analytics' },
@@ -14,6 +15,8 @@ const products = [
 
 function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { data } = usePublicQueryCategory();
+    // console.log("Header data", data);
 
     return (
         <header className="bg-orange-700 text-white fixed top-0 left-0 w-full shadow-lg z-50">
@@ -37,38 +40,33 @@ function Header() {
                     </button>
                 </div>
 
-                <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-                    <Link to="/" className="font-bold text-white">Home</Link>
-                    <Link to="/features" className="font-bold text-white">Crime Updates</Link>
-                    <Link to="/features" className="font-bold text-white">Law & Justice</Link>
-                    <Link to="/marketplace" className="font-bold text-white">Technology</Link>
-                    <Link to="/marketplace" className="font-bold text-white">Sports</Link>
+                {data?.length > 0 && data?.map((item, index) => (
+                    <PopoverGroup key={index} className="hidden lg:flex pl-6">
+                        <Link to={`/${item?.name}`} className="font-bold text-white uppercase">{item?.name}</Link>
+                        <Popover className="relative">
+                            <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-white ">
+                                {item?.subcategory?.name}
+                                <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-white" />
+                            </PopoverButton>
+                            <PopoverPanel
+                                className="absolute top-full left-[-20] -ml-12 z-10 mt-2 w-auto bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg"
+                            >
+                                <div className="p-2">
+                                    {item?.subcategory?.map((subItem) => (
+                                        <Link
+                                            key={subItem.name}
+                                            to={item.href}
+                                            className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50"
+                                        >
+                                            {subItem?.name}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </PopoverPanel>
+                        </Popover>
+                    </PopoverGroup>
+                ))}
 
-                    <Popover className="relative">
-                        <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-white">
-                            Gallery
-                            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-white" />
-                        </PopoverButton>
-                        <PopoverPanel
-                            className="absolute top-full left-0 z-10 mt-2 w-auto bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg"
-                        >
-                            <div className="p-2"> {/* Adjusted padding */}
-                                {products.map((item) => (
-                                    <Link
-                                        key={item.name}
-                                        to={item.href}
-                                        className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50"
-                                    >
-                                        {item.name}
-                                    </Link>
-                                ))}
-                            </div>
-                        </PopoverPanel>
-                    </Popover>
-
-                    <Link to="/marketplace" className="font-bold text-white">Education</Link>
-                    <Link to="/company" className="font-bold text-white">Business</Link>
-                </PopoverGroup>
 
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <Link to="/login" className="font-bold text-white">Log in &rarr;</Link>
