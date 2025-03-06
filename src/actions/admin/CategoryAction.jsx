@@ -1,8 +1,6 @@
 import AxiosHandler from "../AxiosHandler";
 
 
-
-
 // create Admin Category 
 const createCategory = async (data) => {
     try {
