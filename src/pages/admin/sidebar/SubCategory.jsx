@@ -79,7 +79,6 @@ const SubCategory = () => {
                                 value={oldData?.categoryId ?? values?.categoryId}
                                 onChange={(e) => {
                                     const selectedCategoryId = e.target.value;
-                                    console.log("selectedCategoryId", selectedCategoryId);
 
                                     setStoreCategoryId(selectedCategoryId);
                                     handleChange(e);

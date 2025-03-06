@@ -40,7 +40,8 @@ const updatePublisher = async (id, data) => {
 // delete Publisher 
 const deletePublisher = async (id) => {
     try {
-        return await AxiosHandler.delete(`publisher/delete/${id}`);
+        const res = await AxiosHandler.delete(`publisher/delete/${id}`);
+        return res;
 
     } catch (error) {
         console.log(error);

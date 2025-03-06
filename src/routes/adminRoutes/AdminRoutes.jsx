@@ -9,14 +9,39 @@ import SubCategory from "../../pages/admin/sidebar/SubCategory";
 import UpdateNews from "../../pages/admin/sidebar/updateNews";
 
 export const AdminRoutes = [
-    { path: "", element: <Dashboard /> },
-    { path: "category", element: <Category /> },
-    { path: "subCategory", element: <SubCategory /> },
-    { path: "anchor", element: <Anchor /> },
-    { path: "publisher", element: <Publisher /> },
-    { path: "newsTable", element: <NewsTable /> },
-    { path: "news/add", element: <AddNews /> },
-    { path: "news/update/:id", element: <UpdateNews /> }
+    {
+        path: "",
+        element: <Dashboard />
+    },
+    {
+        path: "category",
+        element: <Category />
+    },
+    {
+        path: "subCategory",
+        element: <SubCategory />
+
+    },
+    {
+        path: "anchor",
+        element: <Anchor />
+    },
+    {
+        path: "publisher",
+        element: <Publisher />
+    },
+    {
+        path: "newsTable",
+        element: <NewsTable />
+    },
+    {
+        path: "news/add",
+        element: <AddNews />
+    },
+    {
+        path: "news/update/:id",
+        element: <UpdateNews />
+    }
 
 
 ];

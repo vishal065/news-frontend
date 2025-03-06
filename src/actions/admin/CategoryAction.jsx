@@ -41,7 +41,8 @@ const updateCategory = async (id, data) => {
 // Delete Category 
 const deleteCategory = async (id) => {
     try {
-        return await AxiosHandler.delete(`/category/delete/${id}`);
+        const res = await AxiosHandler.delete(`/category/delete/${id}`);
+        return res;
 
     } catch (error) {
         console.log(error);

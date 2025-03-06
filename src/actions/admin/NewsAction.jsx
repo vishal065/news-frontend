@@ -60,7 +60,7 @@ const updateNews = async (id, data) => {
 
         console.log(res);
 
-        return { data: res };
+        return res;
 
     } catch (error) {
         console.log(error);
@@ -72,8 +72,6 @@ const updateNews = async (id, data) => {
 const deleteNews = async (id) => {
     try {
         const res = await AxiosHandler.delete(`/news/delete/${id}`)
-        console.log("deleted news", res);
-
         return res;
 
     } catch (error) {
