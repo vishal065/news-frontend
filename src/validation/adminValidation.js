@@ -50,11 +50,11 @@ const imageValidationSchema = yup.object().shape({
 
 //  News
 export const createNewsTableSchema = yup.object({
-    title: yup.string().required("Title is required"),
-    slug: yup.string().required("Slug is required"),
-    description: yup.string().required("Description is required"),
-    metaDescription: yup.string().required("Meta description is required"),
-    alt: yup.string().required("Alt text is required"),
+    title: yup.string().min(10).max(50).required("Title is required"),
+    slug: yup.string().min(5).required("Slug is required"),
+    description: yup.string().min(100).required("Description is required"),
+    metaDescription: yup.string().min(10).max(100).required("Meta description is required"),
+    alt: yup.string().min(3).max(50).required("Alt text is required"),
     tags: yup.array()
         .of(yup.string())
         .min(0, "At least 1 Tag is required"),

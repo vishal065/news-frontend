@@ -40,7 +40,8 @@ const updateSubCategory = async (id, data) => {
 // Delete Sub Category 
 const deleteSubCategory = async (id) => {
     try {
-        return await AxiosHandler.delete(`subCategory/delete/${id}`);
+        const res = await AxiosHandler.delete(`subCategory/delete/${id}`);
+        return res;
 
     } catch (error) {
         console.log(error);

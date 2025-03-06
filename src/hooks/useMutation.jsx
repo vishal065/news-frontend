@@ -15,7 +15,7 @@ export const useMutationData = (mutationKey, mutationFn, queryKey, onSuccess) =>
 
         },
         onSettled: async () => {
-            return await client.invalidateQueries({ queryKey })
+            return await client.invalidateQueries(queryKey)
         }
     })
 

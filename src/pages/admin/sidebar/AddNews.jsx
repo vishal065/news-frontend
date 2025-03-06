@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useFormik } from "formik";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 
 
 const AddNews = () => {
+    const quillRef = useRef(null);
     const { data: category } = useQueryCategory();
     const { data: anchor } = useQueryAnchor();
     const { data: publisher } = useQueryPublisher();
@@ -173,6 +174,7 @@ const AddNews = () => {
                     <label className="block text-sm font-medium text-gray-700">Description</label>
                     <div className="mt-1 w-full border rounded-md" style={{ height: "400px", overflowY: "auto" }}>
                         <ReactQuill
+                            ref={quillRef}
                             value={values.description}
                             onChange={(value) => setFieldValue("description", value)}
                             style={{ height: "350px" }}

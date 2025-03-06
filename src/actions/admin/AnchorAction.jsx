@@ -42,7 +42,8 @@ const updateAnchor = async (id, data) => {
 // delete Anchors 
 const deleteAnchor = async (id) => {
     try {
-        return await AxiosHandler.delete(`anchor/delete/${id}`);
+        const res = await AxiosHandler.delete(`anchor/delete/${id}`);
+        return res;
 
     } catch (error) {
         console.log(error);
