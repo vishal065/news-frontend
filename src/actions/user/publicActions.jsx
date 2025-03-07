@@ -8,7 +8,7 @@ const getPublicCategory = async () => {
         return res?.data?.data;
 
     } catch (error) {
-
+        console.log(error);
         return error;
     }
 }
@@ -26,6 +26,20 @@ const getLatestNews = async ({ pageParam = 1 }) => {
 }
 
 
+// Get news by slug
+const getNewsBySlug = async (slug) => {
+
+    try {
+        const res = await AxiosHandler.get(`/u/news/${slug}`);
+        return res?.data?.data[0];
+
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
 
 
-export { getPublicCategory, getLatestNews };
+
+
+export { getPublicCategory, getLatestNews, getNewsBySlug };

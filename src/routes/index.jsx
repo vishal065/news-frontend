@@ -13,6 +13,7 @@ const RootRouting = () => {
 
     return (
         <Routes>
+            {/* for Admin Login  */}
             {authState?.role === "admin" && authState?.accessToken && (
                 <Route path="/" element={<Dashboard />}>
                     {AdminRoutes.map((item, index) => (
@@ -21,12 +22,13 @@ const RootRouting = () => {
                 </Route>
             )}
 
-
-            {authState?.accessToken && <Route element={<UserLayout />} >
+            {/* for user Login  */}
+            {!authState?.accessToken && <Route element={<UserLayout />} >
                 {UserPublicRoutes?.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}
             </Route>
             }
 
+            {/* For Public Accesss  */}
             {!authState?.accessToken ? <Route element={<UserLayout />} >
                 {AuthRoutes?.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}
             </Route> : AuthRoutes.map((item, index) => <Route key={index} path={item.path} element={<Navigate to="/" />} />)
