@@ -1,7 +1,4 @@
-import toast from "react-hot-toast";
 import AxiosHandler from "../AxiosHandler";
-
-
 
 
 // create news 
@@ -24,10 +21,10 @@ const createNews = async (data) => {
 }
 
 // Fetched News 
-const getNews = async () => {
+const getNews = async (page) => {
     try {
-        const res = await AxiosHandler.get("/news/get")
-        return res?.data?.data;
+        const res = await AxiosHandler.get(`/news/get?page=${page}&limit=${6}`)
+        return res?.data?.data
     } catch (error) {
         console.log(error);
         return error;

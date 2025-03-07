@@ -19,9 +19,6 @@ const useLatestQueryNews = () => {
         queryKey: ["latest-news"],
         queryFn: getLatestNews,
         getNextPageParam: (currPage, allPages) => {
-
-            // console.log("currpage", currPage)
-            // console.log("allpage", allPages)
             return currPage.length === 2 ? allPages.length + 1 : undefined
         }
     });

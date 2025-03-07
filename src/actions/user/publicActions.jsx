@@ -25,4 +25,7 @@ const getLatestNews = async ({ pageParam = 1 }) => {
     }
 }
 
+
+
+
 export { getPublicCategory, getLatestNews };

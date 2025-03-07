@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { getAdminCategory } from "../actions/admin/CategoryAction"
 import { getAnchor } from "../actions/admin/AnchorAction";
 import { getPublisher } from "../actions/admin/PublisherAction";
@@ -12,9 +12,17 @@ const useQueryCategory = () => {
 };
 
 // Query for Sub Category 
-const useQuerySubCategory = () => {
-    return useQuery({ queryKey: ["sub-category-query"], queryFn: () => getSubCategory(), _optimisticResults: "optimistic", gcTime: 20000, staleTime: 20000 });
+const useQuerySubCategory = (page) => {
+    return useQuery({
+        queryKey: ["sub-category-query", page],
+        queryFn: () => getSubCategory(page),
+        placeholderData: keepPreviousData,
+        _optimisticResults: "optimistic",
+        gcTime: 20000,
+        staleTime: 20000
+    });
 };
+
 // Query for fetched for Anchor
 const useQueryAnchor = () => {
     return useQuery({ queryKey: ["anchor-query"], queryFn: () => getAnchor(), _optimisticResults: "optimistic", gcTime: 20000, staleTime: 20000 });
@@ -26,8 +34,13 @@ const useQueryPublisher = () => {
 };
 
 // Query for fetched News
-const useQueryNews = () => {
-    return useQuery({ queryKey: ["news-query"], queryFn: () => getNews(), gcTime: 20000, staleTime: 20000 });
+const useQueryNews = (page) => {
+    return useQuery({
+        queryKey: ["news-query", page],
+        queryFn: () => getNews(page),
+        gcTime: 20000,
+        staleTime: 20000
+    });
 };
 
 const useQueryNewsByID = (id) => {

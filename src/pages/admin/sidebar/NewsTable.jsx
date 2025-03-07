@@ -4,24 +4,23 @@ import { useQueryNews, useQueryNewsByID } from "../../../hooks/useAdminQuery";
 import { useCreateAndUpdateNews } from "../../../hooks/admin/useAdminHooks";
 
 const NewsTable = () => {
-    const { data: news } = useQueryNews();
-    const [ID, setID] = useState(null)
+    const [ID, setID] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+    const { data: news } = useQueryNews(pageNumber);
     const { data: SingleNews } = useQueryNewsByID(ID)
     const { mutate, isPending } = useCreateAndUpdateNews();
     const navigate = useNavigate();
+    console.log(news)
 
     const handleEdit = (id) => {
         setID(id)
     };
 
     useEffect(() => {
-
         if (SingleNews) {
             navigate(`/news/update/${ID}`, { state: SingleNews });
         }
-
     }, [SingleNews, ID])
-
 
 
     return (
@@ -43,7 +42,7 @@ const NewsTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {news?.map((item, index) => (
+                    {news?.data?.map((item, index) => (
                         <tr key={item._id} className="border-b hover:bg-gray-50">
                             <td className="px-4 py-2 text-left">{index + 1}</td>
                             <td className="px-4 py-2 text-left">
@@ -65,7 +64,7 @@ const NewsTable = () => {
                                 </button>
                                 <button
                                     className="bg-red-500 text-white px-2 py-1 rounded"
-                                    onClick={() => mutate({ id: item?._id, path:"/news/delete" }
+                                    onClick={() => mutate({ id: item?._id, path: "/news/delete" }
                                     )}
                                 >
                                     Delete
@@ -75,6 +74,20 @@ const NewsTable = () => {
                     ))}
                 </tbody>
             </table>
+            <div className='flex justify-center items-center pt-4'>
+                <button
+                    disabled={pageNumber === 1 ? true : false}
+                    onClick={() => setPageNumber((prev) => prev - 1)}
+                    className='p-3 bg-red-700 hover:bg-red-600 duration-300 text-white rounded-md font-bold cursor-pointer'>Prev
+                </button>
+
+                <h3 className='m-4 font-bold'>{pageNumber}</h3>
+                <button
+                    disabled={pageNumber * 6 < news?.count ? false : true}
+                    onClick={() => setPageNumber((prev) => prev + 1)}
+                    className='p-3 bg-red-700 hover:bg-red-600 duration-300 text-white rounded-md font-bold cursor-pointer'>Next
+                </button>
+            </div>
         </div >
     );
 };
