@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { useLatestQueryNews } from '../../../hooks/usePublicQuery';
+import { useNavigate } from 'react-router-dom';
 
 
 const Home = () => {
   const { data, hasNextPage, fetchNextPage, status, isFetchingNextPage } = useLatestQueryNews();
   console.log("data", data);
+  const navigate = useNavigate();
 
 
   const handleScroll = () => {
-    const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 5;
+    const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 3;
     if (bottom && hasNextPage) {
       fetchNextPage();
     }
@@ -54,7 +56,7 @@ const Home = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-8 mb-8">
           {data?.pages?.length > 0 &&
             data?.pages?.map((item) => (
-              item?.map((subItem, index) => < div key={index} className="w-full bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 cursor-pointer" >
+              item?.map((subItem, index) => <div onClick={() => navigate(`/news/${subItem?.slug}`, { state: subItem })} key={index} className="w-full bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 cursor-pointer" >
                 <div className="overflow-hidden" >
                   <img
                     className="w-full h-auto max-h-72 object-cover transition-transform duration-300 hover:scale-105"
@@ -64,9 +66,13 @@ const Home = () => {
                 </div>
                 <div className="p-6">
                   <div className="font-bold text-xl mb-2">{subItem?.title}</div>
-                  {/* Sanitize HTML before rendering */}
                   <p className="text-gray-700 text-base"
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(subItem?.description) }}
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        subItem?.description?.split(" ").slice(0, 50).join(" ") +
+                        (subItem?.description?.split(" ").length > 50 ? "..." : "")
+                      )
+                    }}
                   />
                 </div>
                 <div className="px-6 pt-4 pb-2 flex flex-wrap gap-2">

@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getLatestNews, getPublicCategory } from "../actions/user/publicActions";
+import { getLatestNews, getNewsBySlug, getPublicCategory } from "../actions/user/publicActions";
 
 
 // Category fetched 
@@ -24,4 +24,16 @@ const useLatestQueryNews = () => {
     });
 }
 
-export { usePublicQueryCategory, useLatestQueryNews };
+// news by slug
+const useNewsBySlug = (slug) => {
+    return useQuery({
+        queryKey: ["news-by-slug", slug],
+        queryFn: () => getNewsBySlug(slug),
+        _optimisticResults: "optimistic",
+        enabled: !!slug,
+        gcTime: 20000,
+        staleTime: 20000
+    })
+}
+
+export { usePublicQueryCategory, useLatestQueryNews, useNewsBySlug };

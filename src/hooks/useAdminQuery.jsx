@@ -44,6 +44,7 @@ const useQueryNews = (page) => {
 };
 
 const useQueryNewsByID = (id) => {
+    
 
     return useQuery({
         queryKey: ["newsByID-query", id],
