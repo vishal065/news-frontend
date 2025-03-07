@@ -15,10 +15,12 @@ const createSubCategory = async (data) => {
 }
 
 // Fetched Sub Category 
-const getSubCategory = async () => {
+const getSubCategory = async (page) => {
     try {
-        const res = await AxiosHandler.get("/subCategory/get-list");
-        return res?.data;
+        console.log(page);
+
+        const res = await AxiosHandler.get(`/subCategory/get-list?page=${page}&limit=${10}`);
+        return res?.data?.data;
 
     } catch (error) {
         console.log(error);

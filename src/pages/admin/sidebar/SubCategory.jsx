@@ -7,10 +7,12 @@ import { useQueryCategory, useQuerySubCategory } from '../../../hooks/useAdminQu
 const SubCategory = () => {
     const [toggleModal, setToggleModal] = useState({ path: null, state: false });
     const [oldData, setOldData] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
     const { mutate, isPending } = useCreateAndUpdateSubCategory();
     const [storeCategoryId, setStoreCategoryId] = useState(null);
     const { data: category } = useQueryCategory();
-    const { data: subCategory } = useQuerySubCategory();
+    const { data: subCategory } = useQuerySubCategory(pageNumber);
+    console.log(subCategory)
 
     const { values, touched, errors, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
         initialValues: {
@@ -125,6 +127,21 @@ const SubCategory = () => {
                     </div>
                 </div>
             )}
+            <div className='flex justify-center items-center pt-4'>
+                <button
+                    disabled={pageNumber === 1 ? true : false}
+                    onClick={() => setPageNumber((prev) => prev - 1)}
+                    className='p-3 bg-red-700 hover:bg-red-600 duration-300 text-white rounded-md font-bold cursor-pointer'>Prev
+                </button>
+
+                <h3 className='m-4 font-bold'>{pageNumber}</h3>
+
+                <button
+                    disabled={pageNumber * 10 < subCategory?.count ? false : true}
+                    onClick={() => setPageNumber((prev) => prev + 1)}
+                    className='p-3 bg-red-700 hover:bg-red-600 duration-300 text-white rounded-md font-bold cursor-pointer'>Next
+                </button>
+            </div>
         </div >
     );
 };
