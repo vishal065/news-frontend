@@ -14,9 +14,9 @@ const getPublicCategory = async () => {
 }
 
 // Latest News
-const getLatestNews = async ({ pageParam = 1 }) => {
+const getLatestNews = async ({ category, subcategory, publisher, anchor }, pageParam = 1) => {
     try {
-        const res = await AxiosHandler.get(`/u/get?page=${pageParam}&limit=${2}`);
+        const res = await AxiosHandler.get(`/u/get?category=${category}&subcategory=${subcategory}&publisher=${publisher}&anchor=${anchor}&page=${pageParam}&limit=5`);
         return res?.data?.data;
 
     } catch (error) {
@@ -24,7 +24,6 @@ const getLatestNews = async ({ pageParam = 1 }) => {
         return error;
     }
 }
-
 
 // Get news by slug
 const getNewsBySlug = async (slug) => {
@@ -38,7 +37,6 @@ const getNewsBySlug = async (slug) => {
         return error;
     }
 }
-
 
 
 

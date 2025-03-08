@@ -6,7 +6,7 @@ import { useLogin } from '../../hooks/useAuth';
 import { useFormik } from 'formik';
 import { loginState } from '../../validation/authState';
 import { loginSchema } from '../../validation/authValidation';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { authLogin } from '../../redux/features/authSlice';
 import Cookies from "js-cookie";
 

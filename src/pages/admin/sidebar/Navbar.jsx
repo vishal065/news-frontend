@@ -41,7 +41,7 @@ const Navbar = () => {
         <header className="fixed top-0 left-0 w-full bg-white shadow-md py-4 px-6 flex justify-between items-center">
             {/* Logo */}
             <div className="flex lg:flex-1">
-                <Link to="/admin" className="-m-1.5 p-1.5">
+                <Link to="/" className="-m-1.5 p-1.5">
                     <img
                         src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
                         alt="Logo"

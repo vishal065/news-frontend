@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { useLatestQueryNews } from '../../../hooks/usePublicQuery';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const Home = () => {
-  const { data, hasNextPage, fetchNextPage, status, isFetchingNextPage } = useLatestQueryNews();
-  console.log("data", data);
-  const navigate = useNavigate();
 
+  const state = useSelector((state) => state.home)
+  const { data, hasNextPage, fetchNextPage, status, isFetchingNextPage } = useLatestQueryNews(state);
+  const navigate = useNavigate();
+  console.log(data?.pages[0])
 
   const handleScroll = () => {
     const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 3;
@@ -16,6 +18,7 @@ const Home = () => {
       fetchNextPage();
     }
   }
+
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -56,31 +59,49 @@ const Home = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-8 mb-8">
           {data?.pages?.length > 0 &&
             data?.pages?.map((item) => (
-              item?.map((subItem, index) => <div onClick={() => navigate(`/news/${subItem?.slug}`, { state: subItem })} key={index} className="w-full bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 cursor-pointer" >
-                <div className="overflow-hidden" >
-                  <img
-                    className="w-full h-auto max-h-72 object-cover transition-transform duration-300 hover:scale-105"
-                    src={subItem?.Image?.ImageURL}
-                    alt="News program"
-                  />
+              item?.map((subItem, index) =>
+                <div onClick={() => navigate(`/news/${subItem?.slug}`, { state: subItem })} key={index} className="w-full bg-white rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 cursor-pointer" >
+                  <div className="overflow-hidden" >
+                    <img
+                      className="w-full h-auto max-h-72 object-cover transition-transform duration-300 hover:scale-105"
+                      src={subItem?.Image?.ImageURL}
+                      alt="News program"
+                    />
+                  </div>
+                  <div className="p-6">
+
+                    <div className="pt-4 pb-4 flex flex-wrap gap-2">
+                      {subItem?.tags[0]?.split(",")?.map((tag, index) => (
+                        <span key={index} className="bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">{(tag).slice(0, 10)}</span>
+                      ))}
+                    </div>
+
+                    <div className="font-bold text-xl mb-2">{subItem?.title}</div>
+                    <p className="text-gray-700 text-base"
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(
+                          subItem?.description?.split(" ").slice(0, 50).join(" ") +
+                          (subItem?.description?.split(" ").length > 50 ? "..." : "")
+                        )
+                      }}
+                    />
+
+                    <div className='flex justify-between items-center pt-6'>
+                      <span className='text-gray-400 text-xs'>{subItem?.publisher?.name}</span>
+                      <span className="text-gray-400 text-xs">
+                        {subItem?.updatedAt
+                          ? new Date(subItem.updatedAt).toLocaleDateString("en-US", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })
+                          : "N/A"}
+                      </span>
+                    </div>
+
+                  </div>
+
                 </div>
-                <div className="p-6">
-                  <div className="font-bold text-xl mb-2">{subItem?.title}</div>
-                  <p className="text-gray-700 text-base"
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(
-                        subItem?.description?.split(" ").slice(0, 50).join(" ") +
-                        (subItem?.description?.split(" ").length > 50 ? "..." : "")
-                      )
-                    }}
-                  />
-                </div>
-                <div className="px-6 pt-4 pb-2 flex flex-wrap gap-2">
-                  <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#photography</span>
-                  <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#travel</span>
-                  <span className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
-                </div>
-              </div>
               )
 
 

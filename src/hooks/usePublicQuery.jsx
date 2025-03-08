@@ -14,15 +14,22 @@ const usePublicQueryCategory = () => {
 }
 
 // Latest News
-const useLatestQueryNews = () => {
+const useLatestQueryNews = (state) => {
     return useInfiniteQuery({
-        queryKey: ["latest-news"],
-        queryFn: getLatestNews,
+        queryKey: ["latest-news", state],
+        queryFn: ({ queryKey, pageParam = 1 }) => {
+            const [, category, subcategory, publisher, anchor] = queryKey;
+
+
+            return getLatestNews(category, subcategory, publisher, anchor, pageParam);
+        },
         getNextPageParam: (currPage, allPages) => {
-            return currPage.length === 2 ? allPages.length + 1 : undefined
-        }
+            return currPage.length === 2 ? allPages.length + 1 : undefined;
+        },
     });
-}
+};
+
+
 
 // news by slug
 const useNewsBySlug = (slug) => {
@@ -33,7 +40,8 @@ const useNewsBySlug = (slug) => {
         enabled: !!slug,
         gcTime: 20000,
         staleTime: 20000
-    })
+    });
 }
+
 
 export { usePublicQueryCategory, useLatestQueryNews, useNewsBySlug };

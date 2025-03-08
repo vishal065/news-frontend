@@ -75,12 +75,29 @@ const AddNews = () => {
 
     const handleAddType = useCallback(() => {
         const trimmed = tagsInput.trim();
-        if (trimmed && !tagsValues.includes(trimmed)) {
-            setTagsValues(prev => [...prev, trimmed]);
-            setTagsInput("");
+        const isValid = /^[a-zA-Z0-9-]+$/.test(trimmed); 
+
+        if (!trimmed) {
+            setFieldError("tags", "This field cannot be empty.");
+            return;
         }
-        setFieldValue("tags", tagsValues);
-    }, [tagsInput, tagsValues]);
+
+        if (!isValid) {
+            setFieldError("tags", "Only letters, numbers, and hyphens are allowed.");
+            return;
+        }
+
+        if (tagsValues.includes(trimmed)) {
+            setFieldError("tags", "This tag is already added.");
+            return;
+        }
+
+        setTagsValues(prev => [...prev, trimmed]);
+        setTagsInput("");
+        setFieldValue("tags", [...tagsValues, trimmed]);
+        setFieldError("tags", "");
+    }, [tagsInput, tagsValues, setFieldValue, setFieldError]);
+
 
     const handleRemoveType = useCallback((index) => {
         setTagsValues(prev => prev.filter((_, i) => i !== index));
@@ -191,6 +208,12 @@ const AddNews = () => {
                         <input
                             type="text"
                             value={tagsInput}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    handleAddType()
+                                }
+                            }
+                            }
                             onChange={(e) => setTagsInput(e.target.value)}
                             className="mt-1 p-2 w-full border rounded-md"
                         />

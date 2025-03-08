@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/authSlice";
+import homeReducer from "./features/homeSlice";
+
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import AxiosHandler from "../actions/AxiosHandler";
@@ -15,6 +17,7 @@ const persistedReducer = persistReducer(persistConfig, authReducer)
 const store = configureStore({
     reducer: {
         auth: persistedReducer,
+        home: homeReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

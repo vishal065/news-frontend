@@ -57,7 +57,7 @@ export const createNewsTableSchema = yup.object({
     alt: yup.string().min(3).max(50).required("Alt text is required"),
     tags: yup.array()
         .of(yup.string())
-        .min(0, "At least 1 Tag is required"),
+        .min(0, "At least 1 Tag is required").max(2, "max 3 tags allowed"),
     image: yup.mixed().required("Image is required").optional(),
     status: yup.string().required("Status is required"),
     videoURL: yup.string().url("Enter a valid URL"),
