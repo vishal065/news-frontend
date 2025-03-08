@@ -1,4 +1,4 @@
-import { login, registerAdmin, verifyOtp } from '../actions/AuthAction';
+import { login, logout, registerAdmin, verifyOtp } from '../actions/AuthAction';
 import { useMutationData } from './useMutation';
 
 // Register Hook
@@ -20,5 +20,11 @@ function useLogin() {
     return { mutate, isPending };
 }
 
+// Logout Hook
+function useLogout() {
+    const { mutate, isPending } = useMutationData(["logout"], (data) => logout());
+    return { mutate, isPending };
+}
 
-export { useAdminRegister, useVerifyOTP, useLogin };
+
+export { useAdminRegister, useVerifyOTP, useLogin, useLogout };

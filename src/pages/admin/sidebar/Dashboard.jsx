@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
-import { FiHome, FiUsers, FiMenu, FiX } from 'react-icons/fi';
-import Navbar from '../header/Navbar';
-import Login from '../../auth/Login';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { GoLaw } from 'react-icons/go';
-import { LiaAwardSolid } from 'react-icons/lia';
-import Table from './Table';
-import Register from '../../auth/Register';
+import Category from './Category';
+import SubCategory from './SubCategory';
+import Anchor from './Anchor';
+import Publisher from './Publisher';
+import AddNews from './AddNews';
+import Navbar from './Navbar';
+import NewsTable from './NewsTable';
+import UpdateNews from './updateNews';
+
 
 const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(true);
@@ -32,10 +36,12 @@ const Dashboard = () => {
                     </div>
                     <nav className="mt-4">
                         <ul>
-                            <SidebarItem icon={<FiHome />} text="Register" to="/admin/register" />
-                            <SidebarItem icon={<FiUsers />} text="Login" to="/login" />
-                            <SidebarItem icon={<GoLaw />} text="Table" to="/table" />
-                            <SidebarItem icon={<LiaAwardSolid />} text="Law Justice" to="/lawJustice" />
+                            <SidebarItem icon={<GoLaw />} text="Category" to="/category" />
+                            <SidebarItem icon={<GoLaw />} text="SubCategory" to="/subCategory" />
+                            <SidebarItem icon={<GoLaw />} text="Anchor" to="/anchor" />
+                            <SidebarItem icon={<GoLaw />} text="Publisher" to="/publisher" />
+                            <SidebarItem icon={<GoLaw />} text="News Table" to="/newsTable" />
+                            <SidebarItem icon={<GoLaw />} text="Add News" to="/news/add" />
                         </ul>
                     </nav>
                 </div>
@@ -44,14 +50,17 @@ const Dashboard = () => {
                 <div className="flex-grow">
                     <Navbar />
                     <Routes>
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/admin/register" element={<Register />} />
-                        <Route path="/table" element={<Table />} />
-                        <Route path="/lawJustice" element={<div>Law Justice Page</div>} />
+                        <Route path="/category" element={<Category />} />
+                        <Route path="/subCategory" element={<SubCategory />} />
+                        <Route path="/anchor" element={<Anchor />} />
+                        <Route path="/publisher" element={<Publisher />} />
+                        <Route path="/newsTable" element={<NewsTable />} />
+                        <Route path="/news/add" element={<AddNews />} />
+                        <Route path="/news/update/:id" element={<UpdateNews />} />
                     </Routes>
                 </div>
             </div>
-            <div className="border-t border-gray-700 pt-3 pb-3 text-center text-sm">
+            <div className="border-t border-gray-700 pt-2 pb-2 bg-gray-900 text-white text-center text-sm">
                 <p>&copy; 2025 NewsToday. All Rights Reserved.</p>
             </div>
         </div>
