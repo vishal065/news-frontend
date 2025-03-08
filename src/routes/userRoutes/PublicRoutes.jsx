@@ -7,10 +7,7 @@ import HomeDetails from "../../pages/user/home/HomeDetails";
 export const UserPublicRoutes = [
 
 
-    {
-        path: "/",
-        element: <Home />
-    },
+
     {
         path: "/news/:slug",
         element: <HomeDetails />
@@ -22,6 +19,10 @@ export const UserPublicRoutes = [
     {
         path: "/about",
         element: <About />
+    },
+    {
+        path: "/*",
+        element: <Home />
     },
 
 ]

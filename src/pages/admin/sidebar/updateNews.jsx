@@ -8,12 +8,13 @@ import { useQueryAnchor, useQueryCategory, useQueryPublisher, useQuerySubCategor
 import { Switch } from "@headlessui/react";
 import { X } from "lucide-react";
 import { useCreateAndUpdateNews } from "../../../hooks/admin/useAdminHooks";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useRef } from "react";
 
 
 const UpdateNews = () => {
     const quillRef = useRef(null);
+    const navigate = useNavigate()
     const { pathname, state } = useLocation()
     const { data: category } = useQueryCategory();
     const { data: anchor } = useQueryAnchor();
@@ -56,6 +57,7 @@ const UpdateNews = () => {
             setTagsValues([]);
             handleDeleteImage();
             handleDeleteVideo();
+            navigate("/newsTable")
         },
     });
 

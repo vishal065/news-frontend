@@ -14,7 +14,7 @@ export const createNewsState = {
     metaDescription: "",
     alt: "",
     tags: [],
-    status: false,
+    status: true,
     image: null,
     videoURL: "",
     categoryId: "",

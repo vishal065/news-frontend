@@ -10,7 +10,7 @@ const NewsTable = () => {
     const { data: SingleNews } = useQueryNewsByID(ID)
     const { mutate, isPending } = useCreateAndUpdateNews();
     const navigate = useNavigate();
-    console.log(news)
+    console.log(news?.data)
 
     const handleEdit = (id) => {
         setID(id)
@@ -38,6 +38,8 @@ const NewsTable = () => {
                         <th className="px-4 py-2 text-left">anchor</th>
                         <th className="px-4 py-2 text-left">Publisher</th>
                         <th className="px-4 py-2 text-left">Total Views</th>
+                        <th className="px-4 py-2 text-left">Active</th>
+
                         <th className="px-4 py-2 text-left">Actions</th>
                     </tr>
                 </thead>
@@ -48,13 +50,15 @@ const NewsTable = () => {
                             <td className="px-4 py-2 text-left">
                                 <img src={item?.Image?.ImageURL} alt="image" className="w-16 h-16 object-cover rounded text-left" />
                             </td>
-                            <td className="px-4 py-2 text-left">{item?.title}</td>
-                            <td className="px-4 py-2 text-left">{item?.slug}</td>
-                            <td className="px-4 py-2 text-left">{item?.category}</td>
-                            <td className="px-4 py-2 text-left">{item?.subcategory}</td>
-                            <td className="px-4 py-2 text-left">{item?.anchor}</td>
-                            <td className="px-4 py-2 text-left">{item?.publisher}</td>
+                            <td className="px-4 py-2 text-left">{item?.title?.slice(0, 10)}</td>
+                            <td className="px-4 py-2 text-left">{item?.slug?.slice(0, 10)}</td>
+                            <td className="px-4 py-2 text-left">{item?.category?.slice(0, 10)}</td>
+                            <td className="px-4 py-2 text-left">{item?.subcategory?.slice(0, 10)}</td>
+                            <td className="px-4 py-2 text-left">{item?.anchor?.slice(0, 10)}</td>
+                            <td className="px-4 py-2 text-left">{item?.publisher?.slice(0, 10)}</td>
                             <td className="px-4 py-2 text-center">{item?.views}</td>
+                            <td className="px-4 py-2 text-center"><p className={`w-[15px] h-[15px] rounded-2xl  ${item?.status ? "bg-green-400" : "bg-red-500"}`}></p></td>
+
                             <td className="px-4 py-2">
                                 <button
                                     className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
