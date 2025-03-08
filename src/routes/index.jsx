@@ -1,31 +1,42 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import NotFound from "../components/NotFound";
 import Dashboard from "../pages/admin/sidebar/Dashboard";
 import { AdminRoutes } from "./adminRoutes/AdminRoutes";
 import { UserPublicRoutes } from "./userRoutes/PublicRoutes";
 import UserLayout from "./userRoutes/UserLayoute";
+import { useSelector } from "react-redux";
+import { AuthRoutes } from "./authRoutes/AuthRoutes";
 
 
 const RootRouting = () => {
-    const adminRole = false;
-
+    const authState = useSelector((state) => state.auth);
 
     return (
         <Routes>
-            {!adminRole && <Route element={<Dashboard />}>
-                {AdminRoutes.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}
-            </Route>
-            }
+            {/* for Admin Login  */}
+            {authState?.role === "admin" && authState?.accessToken && (
+                <Route path="/" element={<Dashboard />}>
+                    {AdminRoutes.map((item, index) => (
+                        <Route key={index} path={item.path} element={item.element} />
+                    ))}
+                </Route>
+            )}
 
-            {!adminRole && <Route element={<UserLayout />} >
+            {/* for user Login  */}
+            {!authState?.accessToken && <Route element={<UserLayout />} >
                 {UserPublicRoutes?.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}
             </Route>
             }
 
-
+            {/* For Public Accesss  */}
+            {!authState?.accessToken ? <Route element={<UserLayout />} >
+                {AuthRoutes?.map((item, index) => <Route key={index} path={item.path} element={item.element} />)}
+            </Route> : AuthRoutes.map((item, index) => <Route key={index} path={item.path} element={<Navigate to="/" />} />)
+            }
 
             <Route path="*" element={<NotFound />} />
         </Routes>
+
     )
 }
 export default RootRouting;

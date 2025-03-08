@@ -2,24 +2,27 @@ import { useState } from 'react';
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { usePublicQueryCategory } from '../hooks/usePublicQuery';
+import { useDispatch } from 'react-redux';
+import { homeData } from '../redux/features/homeSlice';
 
 const products = [
-    { name: 'Analytics', href: '/analytics' },
-    { name: 'Engagement', href: '/engagement' },
-    { name: 'Security', href: '/security' },
-    { name: 'Integrations', href: '/integrations' },
-    { name: 'Automations', href: '/automations' }
+
 ];
 
 function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const { data } = usePublicQueryCategory();
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     return (
         <header className="bg-orange-700 text-white fixed top-0 left-0 w-full shadow-lg z-50">
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-                <div className="flex lg:flex-1">
-                    <Link to="/" className="-m-1.5 p-1.5">
+
+                <div className="flex lg:flex-1 ">
+                    <Link to="/" onClick={() => dispatch(homeData(null))} className="-m-1.5 p-1.5">
                         <img
                             alt="Logo"
                             src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
@@ -37,38 +40,33 @@ function Header() {
                     </button>
                 </div>
 
-                <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-                    <Link to="/features" className="font-bold text-white">Home</Link>
-                    <Link to="/features" className="font-bold text-white">Crime Updates</Link>
-                    <Link to="/features" className="font-bold text-white">Law & Justice</Link>
-                    <Link to="/marketplace" className="font-bold text-white">Technology</Link>
-                    <Link to="/marketplace" className="font-bold text-white">Sports</Link>
+                {data?.length > 0 && data?.map((item, index) => (
+                    <PopoverGroup key={index} className="hidden lg:flex pl-6">
+                        <p onClick={() => { dispatch(homeData({ category: item.name, subcategory: null })); navigate(`/${item.name}`) }} className="font-bold text-white uppercase">{item?.name}</p>
+                        <Popover className="relative">
+                            <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-white ">
+                                {item?.subcategory?.name}
+                                <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-white" />
+                            </PopoverButton>
+                            <PopoverPanel
+                                className="absolute top-full left-[-20] -ml-12 z-10 mt-2 w-auto bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg"
+                            >
+                                <div className="p-2">
+                                    {item?.subcategory?.map((subItem) => (
+                                        <p
+                                            key={subItem.name}
+                                            onClick={() => dispatch(homeData({ category: item.name, subcategory: subItem.name }))}
+                                            className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50"
+                                        >
+                                            {subItem?.name}
+                                        </p>
+                                    ))}
+                                </div>
+                            </PopoverPanel>
+                        </Popover>
+                    </PopoverGroup>
+                ))}
 
-                    <Popover className="relative">
-                        <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-white">
-                            Gallery
-                            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-white" />
-                        </PopoverButton>
-                        <PopoverPanel
-                            className="absolute top-full left-0 z-10 mt-2 w-auto bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg"
-                        >
-                            <div className="p-2"> {/* Adjusted padding */}
-                                {products.map((item) => (
-                                    <Link
-                                        key={item.name}
-                                        to={item.href}
-                                        className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50"
-                                    >
-                                        {item.name}
-                                    </Link>
-                                ))}
-                            </div>
-                        </PopoverPanel>
-                    </Popover>
-
-                    <Link to="/marketplace" className="font-bold text-white">Education</Link>
-                    <Link to="/company" className="font-bold text-white">Business</Link>
-                </PopoverGroup>
 
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                     <Link to="/login" className="font-bold text-white">Log in &rarr;</Link>
@@ -94,46 +92,54 @@ function Header() {
                             <XMarkIcon aria-hidden="true" className="size-6" />
                         </button>
                     </div>
-                    <div className="mt-20 flow-root">
-                        <div className="-my-6 divide-y divide-gray-500/10">
-                            <div className="space-y-2 py-6">
-                                <Disclosure>
-                                    <DisclosureButton className="flex w-full justify-between rounded-lg py-2 px-3 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                        Product
-                                        <ChevronDownIcon aria-hidden="true" className="size-5" />
-                                    </DisclosureButton>
-                                    <DisclosurePanel className="mt-2 space-y-2">
-                                        {products.map((item) => (
-                                            <Link
-                                                key={item.name}
-                                                to={item.href}
-                                                className="block rounded-lg py-2 px-6 text-sm font-semibold text-gray-900 hover:bg-gray-50"
-                                            >
-                                                {item.name}
-                                            </Link>
-                                        ))}
-                                    </DisclosurePanel>
-                                </Disclosure>
-                                <Link to="/features" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                    Features
-                                </Link>
-                                <Link to="/marketplace" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                    Marketplace
-                                </Link>
-                                <Link to="/company" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                    Company
-                                </Link>
-                            </div>
-                            <div className="py-6">
-                                <Link to="/login" className="block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                    Log in
-                                </Link>
+
+                    {data?.length > 0 && data?.map((item, index) => (
+
+                        <div key={index} className="mt-20 flow-root" >
+                            <div className="-my-6 divide-y divide-gray-500/10">
+                                <div className="space-y-2 py-6">
+
+                                    <p onClick={() => { dispatch(homeData({ category: item.name, subcategory: null })); navigate(`/${item.name}`) }} className="font-bold text-white uppercase">{item?.name}</p>
+
+                                    <Disclosure>
+                                        <DisclosureButton className="flex w-full justify-between rounded-lg py-2 px-3 text-base font-semibold text-gray-900 hover:bg-gray-50">
+                                            Product
+                                            <ChevronDownIcon aria-hidden="true" className="size-5" />
+                                        </DisclosureButton>
+                                        <DisclosurePanel className="mt-2 space-y-2">
+                                            {products.map((item) => (
+                                                <Link
+                                                    key={item.name}
+                                                    to={item.href}
+                                                    className="block rounded-lg py-2 px-6 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+                                                >
+                                                    {item.name}
+                                                </Link>
+                                            ))}
+                                        </DisclosurePanel>
+                                    </Disclosure>
+                                    <Link to="/features" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
+                                        Features
+                                    </Link>
+                                    <Link to="/marketplace" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
+                                        Marketplace
+                                    </Link>
+                                    <Link to="/company" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
+                                        Company
+                                    </Link>
+                                </div>
+                                <div className="py-6">
+                                    <Link to="/login" className="block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50">
+                                        Log in
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
+
                 </DialogPanel>
             </Dialog>
-        </header>
+        </header >
     );
 }
 
