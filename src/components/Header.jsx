@@ -1,27 +1,29 @@
-import { useState } from 'react';
-import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { Fragment, useState } from 'react';
+import {
+    Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Popover, PopoverButton, PopoverPanel, Transition, TransitionChild
+} from '@headlessui/react';
+import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
 import { usePublicQueryCategory } from '../hooks/usePublicQuery';
 import { useDispatch } from 'react-redux';
 import { homeData } from '../redux/features/homeSlice';
 
-const products = [
-
-];
-
 function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const { data } = usePublicQueryCategory();
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleCategoryClick = (category, subcategory = null) => {
+        dispatch(homeData({ category, subcategory }));
+        navigate(`/${category}${subcategory ? `/${subcategory}` : ''}`);
+        setMobileMenuOpen(false);
+    };
 
     return (
         <header className="bg-orange-700 text-white fixed top-0 left-0 w-full shadow-lg z-50">
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-
-                <div className="flex lg:flex-1 ">
+                <div className="flex lg:flex-1">
                     <Link to="/" onClick={() => dispatch(homeData(null))} className="-m-1.5 p-1.5">
                         <img
                             alt="Logo"
@@ -33,113 +35,129 @@ function Header() {
                 <div className="flex lg:hidden">
                     <button
                         type="button"
-                        onClick={() => setMobileMenuOpen(true)}
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
                     >
-                        <Bars3Icon aria-hidden="true" className="size-6" />
+                        {mobileMenuOpen ? <XMarkIcon className="size-6" aria-hidden="true" /> : <Bars3Icon className="size-6" aria-hidden="true" />}
                     </button>
                 </div>
 
-                {data?.length > 0 && data?.map((item, index) => (
-                    <PopoverGroup key={index} className="hidden lg:flex pl-6">
-                        <p onClick={() => { dispatch(homeData({ category: item.name, subcategory: null })); navigate(`/${item.name}`) }} className="font-bold text-white uppercase">{item?.name}</p>
-                        <Popover className="relative">
-                            <PopoverButton className="flex items-center gap-x-1 cursor-pointer font-bold text-white ">
-                                {item?.subcategory?.name}
-                                <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-white" />
-                            </PopoverButton>
-                            <PopoverPanel
-                                className="absolute top-full left-[-20] -ml-12 z-10 mt-2 w-auto bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg"
+                <div className="hidden lg:flex space-x-6">
+                    {data?.map((item, index) => (
+                        <Popover key={index} className="relative">
+                            <PopoverButton
+                                className="flex items-center gap-x-1 font-bold text-white cursor-pointer"
+                                onClick={() => handleCategoryClick(item.name)}
                             >
-                                <div className="p-2">
-                                    {item?.subcategory?.map((subItem) => (
-                                        <p
-                                            key={subItem.name}
-                                            onClick={() => dispatch(homeData({ category: item.name, subcategory: subItem.name }))}
-                                            className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50"
-                                        >
-                                            {subItem?.name}
-                                        </p>
-                                    ))}
-                                </div>
-                            </PopoverPanel>
+                                {item.name}
+                                {item.subcategory?.length > 0 && <ChevronDownIcon className="size-5" aria-hidden="true" />}
+                            </PopoverButton>
+                            {item.subcategory?.length > 0 && (
+                                <PopoverPanel className="absolute top-full left-0 z-10 mt-2 bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg">
+                                    <div className="p-2">
+                                        {item.subcategory.map((subItem, subIndex) => (
+                                            <p
+                                                key={subIndex}
+                                                className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50 cursor-pointer"
+                                                onClick={() => handleCategoryClick(item.name, subItem.name)}
+                                            >
+                                                {subItem.name}
+                                            </p>
+                                        ))}
+                                    </div>
+                                </PopoverPanel>
+                            )}
                         </Popover>
-                    </PopoverGroup>
-                ))}
-
+                    ))}
+                </div>
 
                 <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link to="/login" className="font-bold text-white">Log in &rarr;</Link>
+                    <Link to="/login" className="font-bold text-white">
+                        Log in &rarr;
+                    </Link>
                 </div>
             </nav>
 
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
-                <div className="fixed inset-0 z-10" />
-                <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                    <div className="flex items-center justify-between">
-                        <Link to="/" className="-m-1.5 p-1.5">
-                            <img
-                                alt="Logo"
-                                src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
-                                className="h-8 w-auto"
-                            />
-                        </Link>
-                        <button
-                            type="button"
+                <Transition appear show={mobileMenuOpen} as={Fragment}>
+                    {/* Backdrop without Blur */}
+                    <TransitionChild
+                        as={Fragment}
+                        enter="transition-opacity duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="transition-opacity duration-300"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div
+                            className="fixed inset-0 z-10 bg-transparent"
                             onClick={() => setMobileMenuOpen(false)}
-                            className="-m-2.5 p-2.5 text-gray-700"
-                        >
-                            <XMarkIcon aria-hidden="true" className="size-6" />
-                        </button>
-                    </div>
+                        />
+                    </TransitionChild>
 
-                    {data?.length > 0 && data?.map((item, index) => (
-
-                        <div key={index} className="mt-20 flow-root" >
-                            <div className="-my-6 divide-y divide-gray-500/10">
-                                <div className="space-y-2 py-6">
-
-                                    <p onClick={() => { dispatch(homeData({ category: item.name, subcategory: null })); navigate(`/${item.name}`) }} className="font-bold text-white uppercase">{item?.name}</p>
-
-                                    <Disclosure>
-                                        <DisclosureButton className="flex w-full justify-between rounded-lg py-2 px-3 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                            Product
-                                            <ChevronDownIcon aria-hidden="true" className="size-5" />
-                                        </DisclosureButton>
-                                        <DisclosurePanel className="mt-2 space-y-2">
-                                            {products.map((item) => (
-                                                <Link
-                                                    key={item.name}
-                                                    to={item.href}
-                                                    className="block rounded-lg py-2 px-6 text-sm font-semibold text-gray-900 hover:bg-gray-50"
-                                                >
-                                                    {item.name}
-                                                </Link>
-                                            ))}
-                                        </DisclosurePanel>
-                                    </Disclosure>
-                                    <Link to="/features" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                        Features
-                                    </Link>
-                                    <Link to="/marketplace" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                        Marketplace
-                                    </Link>
-                                    <Link to="/company" className="block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                        Company
-                                    </Link>
-                                </div>
-                                <div className="py-6">
-                                    <Link to="/login" className="block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50">
-                                        Log in
-                                    </Link>
-                                </div>
+                    {/* Sliding Panel */}
+                    <TransitionChild
+                        as={Fragment}
+                        enter="transition-transform duration-300 ease-in-out"
+                        enterFrom="-translate-x-full"
+                        enterTo="translate-x-0"
+                        leave="transition-transform duration-300 ease-in-out"
+                        leaveFrom="translate-x-0"
+                        leaveTo="-translate-x-full"
+                    >
+                        <DialogPanel className="fixed inset-y-0 left-0 top-[106px] z-20 w-2/3 overflow-y-auto bg-white px-6 py-6 shadow-lg">
+                            <div className="flex items-center justify-between">
+                                <Link to="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
+                                    <img
+                                        alt="Logo"
+                                        src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
+                                        className="h-8 w-auto"
+                                    />
+                                </Link>
+                                <button type="button" onClick={() => setMobileMenuOpen(false)} className="-m-2.5 p-2.5 text-gray-700">
+                                    <XMarkIcon className="size-6" aria-hidden="true" />
+                                </button>
                             </div>
-                        </div>
-                    ))}
 
-                </DialogPanel>
+                            <div className="mt-6 space-y-4">
+                                {data?.map((item, index) => (
+                                    <Disclosure key={index}>
+                                        <DisclosureButton className="flex w-full justify-between rounded-lg py-2 px-3 text-base font-semibold text-gray-900 hover:bg-gray-50">
+                                            {item.name}
+                                            {item.subcategory?.length > 0 && <ChevronDownIcon className="size-5" aria-hidden="true" />}
+                                        </DisclosureButton>
+                                        {item.subcategory?.length > 0 && (
+                                            <DisclosurePanel className="mt-2 space-y-2">
+                                                {item.subcategory.map((subItem, subIndex) => (
+                                                    <p
+                                                        key={subIndex}
+                                                        className="block rounded-lg py-2 px-6 text-sm font-semibold text-gray-900 hover:bg-gray-50 cursor-pointer"
+                                                        onClick={() => handleCategoryClick(item.name, subItem.name)}
+                                                    >
+                                                        {subItem.name}
+                                                    </p>
+                                                ))}
+                                            </DisclosurePanel>
+                                        )}
+                                    </Disclosure>
+                                ))}
+                            </div>
+
+                            <div className="py-6">
+                                <Link
+                                    to="/login"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                                >
+                                    Log in
+                                </Link>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </Transition>
             </Dialog>
-        </header >
+        </header>
     );
 }
 
