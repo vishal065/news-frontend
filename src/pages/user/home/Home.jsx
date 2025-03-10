@@ -72,7 +72,7 @@ const Home = () => {
 
                     <div className="pt-4 pb-4 flex flex-wrap gap-2">
                       {subItem?.tags[0]?.split(",")?.map((tag, index) => (
-                        <span key={index} className="bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">{(tag).slice(0, 10)}</span>
+                        <span key={index} className="bg-gray-200 rounded-full px-4 py-2 text-xs font-semibold text-gray-700">{`#${(tag).slice(0, 10)}`}</span>
                       ))}
                     </div>
 
@@ -111,7 +111,6 @@ const Home = () => {
       </div >
       {isFetchingNextPage && <div>Loading more...</div>}
 
-      {/* <StoriesSlider /> */}
     </div >
   );
 };

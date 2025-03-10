@@ -1,5 +1,5 @@
-import About from "../../pages/user/about/About";
-import Contact from "../../pages/user/contact/Contact";
+import Contact from "../../pages/user/home/Contact";
+import About from "../../pages/user/home/About";
 import Home from "../../pages/user/home/Home";
 import HomeDetails from "../../pages/user/home/HomeDetails";
 
@@ -13,11 +13,11 @@ export const UserPublicRoutes = [
         element: <HomeDetails />
     },
     {
-        path: "/contact",
+        path: "/contact-us",
         element: <Contact />
     },
     {
-        path: "/about",
+        path: "/about-us",
         element: <About />
     },
     {

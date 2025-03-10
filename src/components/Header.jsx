@@ -21,13 +21,13 @@ function Header() {
     };
 
     return (
-        <header className="bg-orange-700 text-white fixed top-0 left-0 w-full shadow-lg z-50">
-            <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
-                <div className="flex lg:flex-1">
+        <header className="bg-[#c70101] text-white fixed top-0 left-0 w-full shadow-lg z-50">
+            <nav aria-label="Global" className="mx-3 flex max-w-7xl items-center justify-between p-6 lg:px-2">
+                <div className="flex lg:flex-2">
                     <Link to="/" onClick={() => dispatch(homeData(null))} className="-m-1.5 p-1.5">
                         <img
                             alt="Logo"
-                            src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8Rqjs4j3gxwYpm4oM7c9yyPomBHiTjdHGw&s"
                             className="h-14 w-auto"
                         />
                     </Link>
@@ -46,19 +46,19 @@ function Header() {
                     {data?.map((item, index) => (
                         <Popover key={index} className="relative">
                             <PopoverButton
-                                className="flex items-center gap-x-1 font-bold text-white cursor-pointer"
-                                onClick={() => handleCategoryClick(item.name)}
+                                className="flex items-center gap-x-1 outline-none px-4 font-bold text-white cursor-pointer uppercase"
+                                onClick={() => handleCategoryClick(item?.name)}
                             >
-                                {item.name}
-                                {item.subcategory?.length > 0 && <ChevronDownIcon className="size-5" aria-hidden="true" />}
+                                {item?.name}
+                                {item.subcategory?.length > 0 && <ChevronDownIcon className="size-6 font-bold" aria-hidden="true" />}
                             </PopoverButton>
                             {item.subcategory?.length > 0 && (
                                 <PopoverPanel className="absolute top-full left-0 z-10 mt-2 bg-white shadow-lg ring-1 ring-gray-900/5 rounded-lg">
                                     <div className="p-2">
-                                        {item.subcategory.map((subItem, subIndex) => (
+                                        {item?.subcategory?.map((subItem, subIndex) => (
                                             <p
                                                 key={subIndex}
-                                                className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50 cursor-pointer"
+                                                className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-50 cursor-pointer uppercase"
                                                 onClick={() => handleCategoryClick(item.name, subItem.name)}
                                             >
                                                 {subItem.name}
@@ -71,11 +71,11 @@ function Header() {
                     ))}
                 </div>
 
-                <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                    <Link to="/login" className="font-bold text-white">
+                {/* <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                    <Link to="/login" className="font-bold text-white uppercase">
                         Log in &rarr;
                     </Link>
-                </div>
+                </div> */}
             </nav>
 
             <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
@@ -123,7 +123,7 @@ function Header() {
                             <div className="mt-6 space-y-4">
                                 {data?.map((item, index) => (
                                     <Disclosure key={index}>
-                                        <DisclosureButton className="flex w-full justify-between rounded-lg py-2 px-3 text-base font-semibold text-gray-900 hover:bg-gray-50">
+                                        <DisclosureButton className="flex w-full justify-between rounded-lg py-2 px-3 text-base uppercase font-semibold text-gray-900 hover:bg-gray-50">
                                             {item.name}
                                             {item.subcategory?.length > 0 && <ChevronDownIcon className="size-5" aria-hidden="true" />}
                                         </DisclosureButton>
@@ -132,7 +132,7 @@ function Header() {
                                                 {item.subcategory.map((subItem, subIndex) => (
                                                     <p
                                                         key={subIndex}
-                                                        className="block rounded-lg py-2 px-6 text-sm font-semibold text-gray-900 hover:bg-gray-50 cursor-pointer"
+                                                        className="block rounded-lg py-2 px-6 text-sm font-semibold text-gray-900 hover:bg-gray-50 cursor-pointer uppercase"
                                                         onClick={() => handleCategoryClick(item.name, subItem.name)}
                                                     >
                                                         {subItem.name}
@@ -144,15 +144,15 @@ function Header() {
                                 ))}
                             </div>
 
-                            <div className="py-6">
+                            {/* <div className="py-6">
                                 <Link
                                     to="/login"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                                    className="block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50 uppercase"
                                 >
                                     Log in
                                 </Link>
-                            </div>
+                            </div> */}
                         </DialogPanel>
                     </TransitionChild>
                 </Transition>

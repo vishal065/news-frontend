@@ -12,7 +12,7 @@ const Anchor = () => {
 
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
-        initialValues: { name: toggleModal?.path === "create" ? "" : prevData?.name ??""},
+        initialValues: { name: toggleModal?.path === "create" ? "" : prevData?.name ?? "" },
         validationSchema: createAnchorSchema,
         enableReinitialize: true,
         onSubmit: (value) => {
@@ -24,10 +24,10 @@ const Anchor = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-xl font-bold mb-4">Anchors List</h2>
+            <h2 className="text-2xl font-bold mb-4 text-red-700">Anchors List</h2>
             <div className='flex justify-end'>
                 <button
-                    className="mb-4 bg-red-600 font-bold text-white px-4 py-2 rounded hover:bg-red-700"
+                    className="mb-4 bg-red-700 cursor-pointer font-bold text-white px-4 py-2 rounded hover:bg-red-600"
                     onClick={() => setToggleModal((prev) => ({ ...prev, path: "create", state: !prev.state }))}
                 > + Add Anchor</button>
             </div>
@@ -49,8 +49,8 @@ const Anchor = () => {
                                     <button onClick={() => {
                                         setToggleModal((prev) => ({ ...prev, path: "update", state: !prev?.state }))
                                         setPrevData(item)
-                                    }} className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">Edit</button>
-                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+                                    }} className="bg-blue-600 cursor-pointer font-bold text-white px-3 py-1 rounded mr-2 hover:bg-blue-500">Edit</button>
+                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-700 text-white px-3 py-1 cursor-pointer font-bold rounded hover:bg-red-600">Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -78,7 +78,7 @@ const Anchor = () => {
                             <div className="flex justify-end">
                                 <button
                                     type="submit"
-                                    className="bg-gray-400 text-white px-4 py-2 rounded mr-2 hover:bg-gray-500"
+                                    className="bg-gray-500 text-white px-4 py-2 rounded mr-2 hover:bg-gray-400 font-bold cursor-pointer"
                                     onClick={() => setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state }))}
                                 >
                                     Cancel
@@ -86,7 +86,7 @@ const Anchor = () => {
                                 <button
                                     type="submit"
                                     disabled={isPending}
-                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                    className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer font-bold hover:bg-blue-500"
                                 >
                                     {isPending ? "Adding..." : "Add"}
                                 </button>

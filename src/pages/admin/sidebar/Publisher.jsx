@@ -26,10 +26,10 @@ const Publisher = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-xl font-bold mb-4">Publisher List</h2>
+            <h2 className="text-2xl font-bold mb-4 text-red-700">Publisher Table</h2>
             <div className='flex justify-end'>
                 <button
-                    className="mb-4 bg-red-600 font-bold text-white px-4 py-2 rounded hover:bg-red-700"
+                    className="mb-4 bg-red-700 font-bold text-white px-4 py-2 cursor-pointer rounded hover:bg-red-600"
                     onClick={() => setToggleModal((prev) => ({ ...prev, path: "create", state: !prev.state }))}
                 >
                     + Add Publisher
@@ -53,8 +53,8 @@ const Publisher = () => {
                                     <button onClick={() => {
                                         setToggleModal((prev) => ({ ...prev, path: "update", state: !prev?.state }))
                                         setPrevData(item)
-                                    }} className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">Edit</button>
-                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+                                    }} className="bg-blue-600 text-white px-3 py-1 rounded mr-2 hover:bg-blue-500 cursor-pointer font-bold">Edit</button>
+                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-700 text-white px-3 py-1 rounded cursor-pointer font-bold hover:bg-red-600">Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -82,7 +82,7 @@ const Publisher = () => {
                             <div className="flex justify-end">
                                 <button
                                     type="submit"
-                                    className="bg-gray-400 text-white px-4 py-2 rounded mr-2 hover:bg-gray-500"
+                                    className="bg-gray-400 text-white px-4 py-2 cursor-pointer rounded mr-2 hover:bg-gray-500"
                                     onClick={() => setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state }))}
                                 >
                                     Cancel
@@ -90,7 +90,7 @@ const Publisher = () => {
                                 <button
                                     type="submit"
                                     disabled={isPending}
-                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                    className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
                                 >
                                     {isPending ? "Adding..." : "Add"}
                                 </button>

@@ -30,7 +30,6 @@ const verifyOtp = async (data) => {
 const login = async (data) => {
     try {
         const res = await AxiosHandler.post("/auth/login", data);
-        // console.log("Response", res?.data?.data)
         return res;
     } catch (error) {
         console.log(error);
@@ -39,7 +38,6 @@ const login = async (data) => {
 const logout = async (data) => {
     try {
         const res = await AxiosHandler.post(`/auth/logout`)
-
         return res
 
     } catch (error) {

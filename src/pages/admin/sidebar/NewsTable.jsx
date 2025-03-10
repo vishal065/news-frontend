@@ -25,7 +25,7 @@ const NewsTable = () => {
 
     return (
         <div className="overflow-x-auto p-2">
-            <h2 className="text-xl font-bold mb-6">News Table List</h2>
+            <h2 className="text-2xl font-bold mb-6 text-red-700 pb-6 px-6">News Table</h2>
             <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
                 <thead>
                     <tr className="bg-gray-100 border-b uppercase">
@@ -61,13 +61,13 @@ const NewsTable = () => {
 
                             <td className="px-4 py-2">
                                 <button
-                                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+                                    className="bg-blue-600 hover:bg-blue-500 cursor-pointer font-bold text-white px-2 py-1 rounded mr-2"
                                     onClick={() => handleEdit(item._id)}
                                 >
                                     Edit
                                 </button>
                                 <button
-                                    className="bg-red-500 text-white px-2 py-1 rounded"
+                                    className="bg-red-700 hover:bg-red-600 cursor-pointer font-bold text-white px-2 py-1 rounded"
                                     onClick={() => mutate({ id: item?._id, path: "/news/delete" }
                                     )}
                                 >

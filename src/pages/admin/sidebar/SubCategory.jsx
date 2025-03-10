@@ -35,9 +35,9 @@ const SubCategory = () => {
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
-            <h2 className="text-xl font-semibold mb-4">SubCategory Table</h2>
+            <h2 className="text-2xl font-bold mb-4 text-red-700">Sub Category Table</h2>
             <div className='flex justify-end'>
-                <button onClick={() => setToggleModal((prev) => ({ ...prev, path: "create", state: !prev.state }))} className="mb-4 bg-red-600 hover:bg-red-700 cursor-pointer duration-300 text-white px-4 py-2 rounded">+ Add SubCategory</button>
+                <button onClick={() => setToggleModal((prev) => ({ ...prev, path: "create", state: !prev.state }))} className="mb-4 bg-red-700 hover:bg-red-600 cursor-pointer duration-300 text-white px-4 py-2 font-bold rounded">+ Add SubCategory</button>
             </div>
             <div className="overflow-x-auto">
                 <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -54,15 +54,15 @@ const SubCategory = () => {
 
                             <tr key={index} className="border-b">
                                 <td className="py-2 px-4">{index + 1}</td>
-                                <td className="py-2 px-4">{item.name}</td>
+                                <td className="py-2 px-4">{item?.name}</td>
                                 <td className="py-2 px-4">{item?.category.name}</td>
                                 <td className="py-2 px-4">
                                     <button onClick={() => {
                                         setToggleModal((prev) => ({ ...prev, path: "update", state: !prev.state }))
                                         setOldData(item)
 
-                                    }} className="bg-blue-500 text-white px-2 py-1 rounded mr-2">Edit</button>
-                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+                                    }} className="bg-blue-600 cursor-pointer hover:bg-blue-500 font-bold text-white px-3 py-1 rounded mr-2">Edit</button>
+                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-700 text-white hover:bg-red-600 cursor-pointer font-bold px-2 py-1 rounded">Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -120,8 +120,8 @@ const SubCategory = () => {
                             ) : null}
 
                             <div className="flex justify-end">
-                                <button type="button" onClick={() => (setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state })), setStoreCategoryId(null), setOldData(null))} className="mr-2 bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-                                <button type="submit" disabled={isPending} className="bg-blue-500 text-white px-4 py-2 rounded">{oldData?._id ? isPending ? 'updating...' : 'Update' : isPending ? "Adding" : "Add"}</button>
+                                <button type="button" onClick={() => (setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state })), setStoreCategoryId(null), setOldData(null))} className="mr-2 bg-gray-500 hover:bg-gray-400 cursor-pointer font-bold text-white px-4 py-2 rounded">Cancel</button>
+                                <button type="submit" disabled={isPending} className="bg-blue-600 hover:bg-blue-500 cursor-pointer font-bold text-white px-4 py-2 rounded">{oldData?._id ? isPending ? 'updating...' : 'Update' : isPending ? "Adding" : "Add"}</button>
                             </div>
                         </form>
                     </div>
