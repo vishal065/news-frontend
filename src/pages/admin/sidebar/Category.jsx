@@ -29,10 +29,10 @@ const Category = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-xl font-bold mb-4">Category List</h2>
+            <h2 className="text-2xl font-bold mb-4 text-red-700">Category List</h2>
             <div className='flex justify-end'>
                 <button
-                    className="mb-4 bg-red-600 font-bold text-white px-4 py-2 rounded hover:bg-red-700"
+                    className="mb-4 bg-red-700 font-bold text-white cursor-pointer px-4 py-2 rounded hover:bg-red-600 duration-300"
                     onClick={() => setToggleModal((prev) => ({ ...prev, path: "create", state: !prev.state }))}
                 >
                     Add Category
@@ -56,8 +56,8 @@ const Category = () => {
                                     <button onClick={() => {
                                         setToggleModal((prev) => ({ ...prev, path: "update", state: !prev.state }))
                                         setOldData(item)
-                                    }} className="bg-blue-500 text-white px-3 py-1 rounded mr-2 hover:bg-blue-600">Edit</button>
-                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+                                    }} className="bg-blue-600 font-bold text-white px-3 cursor-pointer py-1 rounded mr-2 hover:bg-blue-500">Edit</button>
+                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-700 text-white px-3 py-1 cursor-pointer font-bold rounded hover:bg-red-600">Delete</button>
                                 </td>
                             </tr>
                         ))}
@@ -86,7 +86,7 @@ const Category = () => {
                             <div className="flex justify-end">
                                 <button
                                     type="submit"
-                                    className="bg-gray-400 text-white px-4 py-2 rounded mr-2 hover:bg-gray-500"
+                                    className="bg-gray-400 cursor-pointer text-white px-4 py-2 rounded mr-2 hover:bg-gray-500"
                                     onClick={() => setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state }))}
 
                                 >
@@ -94,7 +94,7 @@ const Category = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                    className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded hover:bg-blue-600"
                                     disabled={isPending}
                                 >
                                     {isPending ? 'Adding...' : 'Add'}

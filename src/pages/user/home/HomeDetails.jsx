@@ -23,8 +23,10 @@ const HomeDetails = () => {
     return (
         <div>
             {(state || data) &&
-                <div div className="max-w-7xl mx-auto px-4 py-8 mt-20">
+                <div div className="max-w-auto mx-auto px-8 py-8 mt-20">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                        {/* News Details  */}
                         <div className="md:col-span-2 bg-white shadow-lg rounded-lg overflow-hidden">
                             <div className="w-full">
                                 <img
@@ -35,11 +37,11 @@ const HomeDetails = () => {
                                 />
                             </div>
                             <div className="p-6">
-                                <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                                <h1 className="text-3xl text-center font-bold text-gray-900 mb-4">
                                     {state?.title ?? data?.title}
                                 </h1>
                                 <div className="p-6">
-                                    <p className="text-gray-700 text-base"
+                                    <p className="text-gray-700 text-lg tracking-wide word-spacing-wide"
                                         dangerouslySetInnerHTML={{
                                             __html: DOMPurify.sanitize(
                                                 state?.description ?? data?.description)
@@ -47,10 +49,12 @@ const HomeDetails = () => {
                                     />
 
                                 </div>
-                                <iframe width="100%" height="300px" src={state?.videoURL ?? data?.videoURL} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
-
                                 <div>
-                                    <span className="text-sm text-gray-500">{state?.publisher?.name ?? data?.publisher?.name}</span>
+                                    <iframe width="100%" height="300px" src={state?.videoURL ?? data?.videoURL} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                                </div>
+
+                                <div className='flex justify-between px-6 pt-6'>
+                                    <span className="text-sm text-gray-500">{`Published by - ${state?.publisher?.name ?? data?.publisher?.name}`}</span>
                                     <span className="text-sm text-gray-500">
                                         {new Date(state?.updatedAt ?? data?.updatedAt).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}
                                     </span>
@@ -63,32 +67,81 @@ const HomeDetails = () => {
                         <div className="bg-white shadow-lg rounded-lg p-6 hidden sm:block">
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Related News</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-6">
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-                                    <Link to="/related-article-1" className="text-lg font-semibold text-blue-600 hover:underline">
-                                        Related News Article 1
-                                    </Link>
-                                    <p className="text-sm text-gray-500">Description of the related article.</p>
+                                <div className="bg-gray-50 p-4 rounded-lg shadow-md flex items-center">
+                                    <img
+                                        src="https://img.freepik.com/premium-photo/beautiful-beach-view-tropical-island-sea-beach-with-palms-around-holiday-vacation-concept_663265-1453.jpg"
+                                        alt="Related News Article 1"
+                                        className="w-16 h-16 object-cover mr-4 rounded"
+                                    />
+                                    <div>
+                                        <Link
+                                            to="/related-article-1"
+                                            className="text-lg font-semibold text-blue-600 hover:underline"
+                                        >
+                                            Related News Article 1
+                                        </Link>
+                                        <p className="text-sm text-gray-500">
+                                            Description of the related article.
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-                                    <Link to="/related-article-2" className="text-lg font-semibold text-blue-600 hover:underline">
-                                        Related News Article 2
-                                    </Link>
-                                    <p className="text-sm text-gray-500">Description of the related article.</p>
+                                <div className="bg-gray-50 p-4 rounded-lg shadow-md flex items-center">
+                                    <img
+                                        src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/486250926.jpg?k=f79069eeb900c17b5a819ef92d00f63f4d467277cdf2d11101304fb5015b88e2&o=&hp=1"
+                                        alt="Related News Article 2"
+                                        className="w-16 h-16 object-cover mr-4 rounded"
+                                    />
+                                    <div>
+                                        <Link
+                                            to="/related-article-2"
+                                            className="text-lg font-semibold text-blue-600 hover:underline"
+                                        >
+                                            Related News Article 2
+                                        </Link>
+                                        <p className="text-sm text-gray-500">
+                                            Description of the related article.
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-                                    <Link to="/related-article-3" className="text-lg font-semibold text-blue-600 hover:underline">
-                                        Related News Article 3
-                                    </Link>
-                                    <p className="text-sm text-gray-500">Description of the related article.</p>
+                                <div className="bg-gray-50 p-4 rounded-lg shadow-md flex items-center">
+                                    <img
+                                        src="https://i.ytimg.com/vi/qEeRWH01eDE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDDaA_Rb0MxkbQXP0NC1UlXSN3jEQ"
+                                        alt="Related News Article 3"
+                                        className="w-16 h-16 object-cover mr-4 rounded"
+                                    />
+                                    <div>
+                                        <Link
+                                            to="/related-article-3"
+                                            className="text-lg font-semibold text-blue-600 hover:underline"
+                                        >
+                                            Related News Article 3
+                                        </Link>
+                                        <p className="text-sm text-gray-500">
+                                            Description of the related article.
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-md">
-                                    <Link to="/related-article-4" className="text-lg font-semibold text-blue-600 hover:underline">
-                                        Related News Article 4
-                                    </Link>
-                                    <p className="text-sm text-gray-500">Description of the related article.</p>
+                                <div className="bg-gray-50 p-4 rounded-lg shadow-md flex items-center">
+                                    <img
+                                        src="https://eu-assets.simpleview-europe.com/essex/imageresizer/?image=%2Fdmsimgs%2FWestBeach-1220x715_1267292058.jpg&action=ProductDetailImage"
+                                        alt="Related News Article 4"
+                                        className="w-16 h-16 object-cover mr-4 rounded"
+                                    />
+                                    <div>
+                                        <Link
+                                            to="/related-article-4"
+                                            className="text-lg font-semibold text-blue-600 hover:underline"
+                                        >
+                                            Related News Article 4
+                                        </Link>
+                                        <p className="text-sm text-gray-500">
+                                            Description of the related article.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     {/* Bottom: Suggested News */}
@@ -144,6 +197,7 @@ const HomeDetails = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>}
 
         </div >

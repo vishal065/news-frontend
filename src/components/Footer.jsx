@@ -24,7 +24,7 @@ function Footer() {
                     <h2 className="text-xl font-semibold text-white mb-4">Quick Links</h2>
                     <ul className="space-y-2">
                         <li>
-                            <Link to="/" className="hover:text-white transition duration-200"  >
+                            <Link to="/about-us" className="hover:text-white transition duration-200"  >
                                 About Us
                             </Link>
                         </li>
@@ -40,7 +40,7 @@ function Footer() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/contact" className="hover:text-white transition duration-200">
+                            <Link to="/contact-us" className="hover:text-white transition duration-200">
                                 Contact Us
                             </Link>
                         </li>
@@ -52,7 +52,7 @@ function Footer() {
                     <h2 className="text-xl font-semibold text-white mb-4">Quick Links</h2>
                     <ul className="space-y-2">
                         <li>
-                            <Link to="/" className="hover:text-white transition duration-200"  >
+                            <Link to="/about-us" className="hover:text-white transition duration-200"  >
                                 About Us
                             </Link>
                         </li>
@@ -68,7 +68,7 @@ function Footer() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/contact" className="hover:text-white transition duration-200">
+                            <Link to="/contact-us" className="hover:text-white transition duration-200">
                                 Contact Us
                             </Link>
                         </li>
