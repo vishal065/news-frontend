@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getLatestNews, getNewsBySlug, getPublicCategory } from "../actions/user/publicActions";
+import { getLatestNews, getNewsBySlug, getPublicCategory, getRelatedNews } from "../actions/user/publicActions";
 
 
 // Category fetched 
@@ -18,17 +18,14 @@ const useLatestQueryNews = (state) => {
     return useInfiniteQuery({
         queryKey: ["latest-news", state],
         queryFn: ({ queryKey, pageParam = 1 }) => {
-            const [, category, subcategory, publisher, anchor] = queryKey;
-
-
-            return getLatestNews(category, subcategory, publisher, anchor, pageParam);
+            // const [, category, subcategory, publisher, anchor] = queryKey;
+            return getLatestNews(queryKey, pageParam);
         },
         getNextPageParam: (currPage, allPages) => {
-            return currPage.length === 2 ? allPages.length + 1 : undefined;
+            return currPage.length === 6 ? allPages[0].length + 1 : undefined;
         },
     });
 };
-
 
 
 // news by slug
@@ -43,5 +40,17 @@ const useNewsBySlug = (slug) => {
     });
 }
 
+// Releted News 
+const useRelatedNews = (category) => {
+    return useQuery({
+        queryKey: ["related-news", category],
+        queryFn: () => getRelatedNews(category),
+        _optimisticResults: "optimistic",
+        enabled: !!category,
+        gcTime: 2000,
+        staleTime: 2000
+    })
+}
 
-export { usePublicQueryCategory, useLatestQueryNews, useNewsBySlug };
+
+export { usePublicQueryCategory, useLatestQueryNews, useNewsBySlug, useRelatedNews };

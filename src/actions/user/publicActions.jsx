@@ -1,3 +1,4 @@
+import { data } from "react-router-dom";
 import AxiosHandler from "../AxiosHandler";
 
 
@@ -14,9 +15,14 @@ const getPublicCategory = async () => {
 }
 
 // Latest News
-const getLatestNews = async ({ category, subcategory, publisher, anchor }, pageParam = 1) => {
+const getLatestNews = async ({ category, subcategory, publisher, anchor }, pageParam) => {
     try {
-        const res = await AxiosHandler.get(`/u/get?category=${category}&subcategory=${subcategory}&publisher=${publisher}&anchor=${anchor}&page=${pageParam}&limit=5`);
+
+
+        const res = await AxiosHandler.get(`/u/get?category=${category}&subcategory=${subcategory}&publisher=${publisher}&anchor=${anchor}&page=${pageParam}&limit=${6}`);
+        // console.log(res);
+
+
         return res?.data?.data;
 
     } catch (error) {
@@ -38,6 +44,19 @@ const getNewsBySlug = async (slug) => {
     }
 }
 
+// Related news 
+const getRelatedNews = async (category) => {
+    try {
+        const res = await AxiosHandler.get(`u/related-news?category=${category}`);
+        // console.log("related news by action", res?.data?.data);
+        return res?.data?.data;
+
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
 
 
-export { getPublicCategory, getLatestNews, getNewsBySlug };
+
+export { getPublicCategory, getLatestNews, getNewsBySlug, getRelatedNews };

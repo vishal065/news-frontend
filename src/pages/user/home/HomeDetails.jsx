@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import { useNewsBySlug } from '../../../hooks/usePublicQuery';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLatestQueryNews, useNewsBySlug, useRelatedNews } from '../../../hooks/usePublicQuery';
 
 const HomeDetails = () => {
     const { slug } = useParams();
     const [isNavigated, setIsNavigated] = useState(null)
     const { data } = useNewsBySlug(isNavigated);
     const { state } = useLocation();
-    console.log("news by slug", data)
+    const { data: relatedNews } = useRelatedNews(data?.category.name ?? state?.category.name);
+    const { data: suggestedNews } = useLatestQueryNews();
+    const navigate = useNavigate();
 
+    console.log("suggestedNews", suggestedNews)
 
     useEffect(() => {
         if (state !== null) {
@@ -31,7 +34,6 @@ const HomeDetails = () => {
                             <div className="w-full">
                                 <img
                                     src={state?.Image?.ImageURL ?? data?.Image?.ImageURL}
-
                                     alt={state?.alt ?? data?.alt}
                                     className="w-full h-full object-cover"
                                 />
@@ -64,81 +66,32 @@ const HomeDetails = () => {
                         </div>
 
                         {/* Right Side: Related News */}
+
                         <div className="bg-white shadow-lg rounded-lg p-6 hidden sm:block">
                             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Related News</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-6">
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-md flex items-center">
-                                    <img
-                                        src="https://img.freepik.com/premium-photo/beautiful-beach-view-tropical-island-sea-beach-with-palms-around-holiday-vacation-concept_663265-1453.jpg"
-                                        alt="Related News Article 1"
-                                        className="w-16 h-16 object-cover mr-4 rounded"
-                                    />
-                                    <div>
-                                        <Link
-                                            to="/related-article-1"
-                                            className="text-lg font-semibold text-blue-600 hover:underline"
-                                        >
-                                            Related News Article 1
-                                        </Link>
-                                        <p className="text-sm text-gray-500">
-                                            Description of the related article.
-                                        </p>
+                                {relatedNews?.length > 0 && relatedNews?.slice(0, 5).map((item, index) => (
+                                    <div onClick={() => navigate(`/news/${item?.slug}`, { state: item })} key={index} className="bg-gray-50 p-4 rounded-lg cursor-pointer shadow-md flex items-center">
+                                        <img
+                                            src={item?.Image?.ImageURL}
+                                            alt={item?.alt}
+                                            className="w-16 h-16 object-cover mr-4 rounded"
+                                        />
+                                        <div>
+                                            <p className="text-lg font-semibold text-blue-600">
+                                                {item?.title?.slice(0, 40)}
+                                            </p>
+                                            <p className="text-gray-700 text-base"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: DOMPurify.sanitize(
+                                                        item?.description?.split(" ").slice(0, 30).join(" ") +
+                                                        (item?.description?.split(" ").length > 30 ? "..." : "")
+                                                    )
+                                                }}
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-md flex items-center">
-                                    <img
-                                        src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/486250926.jpg?k=f79069eeb900c17b5a819ef92d00f63f4d467277cdf2d11101304fb5015b88e2&o=&hp=1"
-                                        alt="Related News Article 2"
-                                        className="w-16 h-16 object-cover mr-4 rounded"
-                                    />
-                                    <div>
-                                        <Link
-                                            to="/related-article-2"
-                                            className="text-lg font-semibold text-blue-600 hover:underline"
-                                        >
-                                            Related News Article 2
-                                        </Link>
-                                        <p className="text-sm text-gray-500">
-                                            Description of the related article.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-md flex items-center">
-                                    <img
-                                        src="https://i.ytimg.com/vi/qEeRWH01eDE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDDaA_Rb0MxkbQXP0NC1UlXSN3jEQ"
-                                        alt="Related News Article 3"
-                                        className="w-16 h-16 object-cover mr-4 rounded"
-                                    />
-                                    <div>
-                                        <Link
-                                            to="/related-article-3"
-                                            className="text-lg font-semibold text-blue-600 hover:underline"
-                                        >
-                                            Related News Article 3
-                                        </Link>
-                                        <p className="text-sm text-gray-500">
-                                            Description of the related article.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-md flex items-center">
-                                    <img
-                                        src="https://eu-assets.simpleview-europe.com/essex/imageresizer/?image=%2Fdmsimgs%2FWestBeach-1220x715_1267292058.jpg&action=ProductDetailImage"
-                                        alt="Related News Article 4"
-                                        className="w-16 h-16 object-cover mr-4 rounded"
-                                    />
-                                    <div>
-                                        <Link
-                                            to="/related-article-4"
-                                            className="text-lg font-semibold text-blue-600 hover:underline"
-                                        >
-                                            Related News Article 4
-                                        </Link>
-                                        <p className="text-sm text-gray-500">
-                                            Description of the related article.
-                                        </p>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
 
@@ -148,53 +101,24 @@ const HomeDetails = () => {
                     <div className="mt-8 bg-white shadow-lg rounded-lg p-6">
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Read this also</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                            <div className="bg-gray-50 p-4 rounded-lg shadow-md flex flex-col">
-                                <img
-                                    src="https://cdn.create.vista.com/api/media/small/223454176/stock-photo-partial-view-businesspeople-digital-devices-working-workplace-papers"
-                                    alt="Suggested News 1"
-                                    className="w-full h-40 object-cover rounded-md mb-4"
-                                />
-                                <Link to="/suggested-article-1" className="text-lg font-semibold text-blue-600 hover:underline">
-                                    Suggested News Article 1
-                                </Link>
-                                <p className="text-sm text-gray-500">Brief description of the suggested article.</p>
-                            </div>
-
-                            <div className="bg-gray-50 p-4 rounded-lg shadow-md flex flex-col">
-                                <img
-                                    src="https://photographyforrealestate.net/wp-content/uploads/photographyforrealestate-how-much-sell-photo-rights-for-04.jpg"
-                                    alt="Suggested News 2"
-                                    className="w-full h-40 object-cover rounded-md mb-4"
-                                />
-                                <Link to="/suggested-article-2" className="text-lg font-semibold text-blue-600 hover:underline">
-                                    Suggested News Article 2
-                                </Link>
-                                <p className="text-sm text-gray-500">Brief description of the suggested article.</p>
-                            </div>
-
-                            <div className="bg-gray-50 p-4 rounded-lg shadow-md flex flex-col">
-                                <img
-                                    src="https://cdn.create.vista.com/api/media/small/223454176/stock-photo-partial-view-businesspeople-digital-devices-working-workplace-papers"
-                                    alt="Suggested News 3"
-                                    className="w-full h-40 object-cover rounded-md mb-4"
-                                />
-                                <Link to="/suggested-article-3" className="text-lg font-semibold text-blue-600 hover:underline">
-                                    Suggested News Article 3
-                                </Link>
-                                <p className="text-sm text-gray-500">Brief description of the suggested article.</p>
-                            </div>
-
-                            <div className="bg-gray-50 p-4 rounded-lg shadow-md flex flex-col">
-                                <img
-                                    src="https://cdn.create.vista.com/api/media/small/223454176/stock-photo-partial-view-businesspeople-digital-devices-working-workplace-papers"
-                                    alt="Suggested News 4"
-                                    className="w-full h-40 object-cover rounded-md mb-4"
-                                />
-                                <Link to="/suggested-article-4" className="text-lg font-semibold text-blue-600 hover:underline">
-                                    Suggested News Article 4
-                                </Link>
-                                <p className="text-sm text-gray-500">Brief description of the suggested article.</p>
-                            </div>
+                            {suggestedNews?.pages[0]?.length > 0 && suggestedNews?.pages[0]?.slice(0, 4).map((item, index) => (
+                                <div onClick={() => (navigate(`/news/${item?.slug}`, { state: item }), window.scrollTo({ top: 0, behavior: "smooth" }))} key={index} className="bg-gray-50 p-4 cursor-pointer rounded-lg shadow-md flex flex-col" >
+                                    <img
+                                        src={item?.Image?.ImageURL}
+                                        alt={item?.alt}
+                                        className="w-full h-40 object-cover rounded-md mb-4"
+                                    />
+                                    <h3 className="text-lg font-semibold text-blue-600">{item?.title}</h3>
+                                    <p className="text-gray-700 text-base"
+                                        dangerouslySetInnerHTML={{
+                                            __html: DOMPurify.sanitize(
+                                                item?.description?.split(" ").slice(0, 30).join(" ") +
+                                                (item?.description?.split(" ").length > 30 ? "..." : "")
+                                            )
+                                        }}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
 
