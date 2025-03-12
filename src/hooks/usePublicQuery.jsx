@@ -22,14 +22,10 @@ const useLatestQueryNews = (state1, state2) => {
         publisher: state1?.publisher ?? state2?.publisher,
         anchor: state1?.anchor ?? state2?.anchor
     }
-
     return useInfiniteQuery({
         queryKey: ["latest-news", state],
         queryFn: ({ queryKey, pageParam = 1 }) => {
             const { category, subcategory, publisher, anchor } = queryKey?.[1];
-
-
-
             return getLatestNews(category, subcategory, publisher, anchor, pageParam);
         },
         getNextPageParam: (currPage, allPages) => {

@@ -171,9 +171,9 @@ const Register = () => {
                         <button
                             type="submit"
                             disabled={isPending}
-                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-md font-medium text-white  focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ${isPending ? <Loader /> : "bg-red-700 hover:bg-red-600 focus:ring-red-500"}`}
+                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-md font-medium text-white  focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 uppercase ${isPending ? "bg-red-700 hover:bg-red-600 focus:ring-red-500" : "bg-blue-700 hover:bg-blue-600 focus:ring-blue-500"}`}
                         >
-                            Sign Up
+                            {isPending ? <span>Please wait...</span> : "SignUp"}
                         </button>
                     </div>
                     <div className='flex justify-end'>
