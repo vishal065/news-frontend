@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import { useLatestQueryNews } from '../../../hooks/usePublicQuery';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Home = () => {
-
+  const { id, id2 } = useParams();
   const state = useSelector((state) => state.home)
-  const { data, hasNextPage, fetchNextPage, status, isFetchingNextPage } = useLatestQueryNews(state);
+  const { data, hasNextPage, fetchNextPage, status, isFetchingNextPage } = useLatestQueryNews(state , { category: id, subcategory: id2, publisher: null, anchor: null });
   const navigate = useNavigate();
+
+
 
   const handleScroll = () => {
     const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 3;
@@ -16,7 +18,6 @@ const Home = () => {
       fetchNextPage();
     }
   }
-  console.log("home data", data)
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -79,10 +80,16 @@ const Home = () => {
                 </div>
                 <div className="p-6">
 
-                  <div className="pt-4 pb-4 flex flex-wrap gap-2">
+                  {/* <div className="pt-4 pb-4 flex flex-wrap gap-2">
                     {item?.tags[0]?.split(",")?.map((tag, index) => (
-                      <span key={index} className="bg-gray-200 rounded-full px-4 py-2 text-xs font-semibold text-gray-700">{`#${(tag).slice(0, 10)}`}</span>
+                      <span key={index} className="bg-gray-200 rounded-full px-4 py-2 text-xs font-semibold text-gray-700">{`${(tag).slice(0, 10)}`}</span>
                     ))}
+                  </div> */}
+
+                  <div className="pt-4 pb-4 flex flex-wrap gap-2">
+
+                    <span key={index} className="bg-gray-200 rounded-full px-4 py-2 text-xs font-semibold text-gray-700">{item?.category?.name}</span>
+
                   </div>
 
                   <div className="font-bold text-xl mb-2">{item?.title}</div>

@@ -12,7 +12,7 @@ const SubCategory = () => {
     const [storeCategoryId, setStoreCategoryId] = useState(null);
     const { data: category } = useQueryCategory();
     const { data: subCategory } = useQuerySubCategory(pageNumber);
-    console.log(subCategory)
+    
 
     const { values, touched, errors, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
         initialValues: {

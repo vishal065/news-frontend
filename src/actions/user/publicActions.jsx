@@ -1,4 +1,3 @@
-import { data } from "react-router-dom";
 import AxiosHandler from "../AxiosHandler";
 
 
@@ -9,24 +8,23 @@ const getPublicCategory = async () => {
         return res?.data?.data;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
 
 // Latest News
-const getLatestNews = async ({ category, subcategory, publisher, anchor }, pageParam) => {
+const getLatestNews = async (category = null, subcategory = null, publisher = null, anchor = null, pageParam = 1) => {
     try {
+       
 
 
-        const res = await AxiosHandler.get(`/u/get?category=${category}&subcategory=${subcategory}&publisher=${publisher}&anchor=${anchor}&page=${pageParam}&limit=${6}`);
-        // console.log(res);
-
+        const res = await AxiosHandler.get(`/u/get?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}&publisher=${encodeURIComponent(publisher)}&anchor=${encodeURIComponent(anchor)}&page=${pageParam}&limit=${6}`);
 
         return res?.data?.data;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -39,20 +37,19 @@ const getNewsBySlug = async (slug) => {
         return res?.data?.data[0];
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
 
 // Related news 
-const getRelatedNews = async (category) => {
+const getRelatedNews = async (category=null) => {
     try {
-        const res = await AxiosHandler.get(`u/related-news?category=${category}`);
-        // console.log("related news by action", res?.data?.data);
+        const res = await AxiosHandler.get(`u/related-news?category=${encodeURIComponent(category)}`);
         return res?.data?.data;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }

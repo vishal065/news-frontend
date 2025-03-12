@@ -8,7 +8,7 @@ const createPublisher = async (data) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -20,7 +20,7 @@ const getPublisher = async () => {
         return res?.data;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -32,7 +32,7 @@ const updatePublisher = async (id, data) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -44,7 +44,7 @@ const deletePublisher = async (id) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }

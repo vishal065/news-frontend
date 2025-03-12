@@ -10,7 +10,7 @@ const NewsTable = () => {
     const { data: SingleNews } = useQueryNewsByID(ID)
     const { mutate, isPending } = useCreateAndUpdateNews();
     const navigate = useNavigate();
-    console.log(news?.data)
+    
 
     const handleEdit = (id) => {
         setID(id)

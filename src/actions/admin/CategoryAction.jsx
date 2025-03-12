@@ -7,7 +7,7 @@ const createCategory = async (data) => {
         return await AxiosHandler.post("/category/create", data);
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -19,7 +19,7 @@ const getAdminCategory = async () => {
         return res?.data?.data;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -31,7 +31,7 @@ const updateCategory = async (id, data) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -43,7 +43,7 @@ const deleteCategory = async (id) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }

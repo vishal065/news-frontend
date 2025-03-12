@@ -1,6 +1,5 @@
 import AxiosHandler from "./AxiosHandler"
 
-// const axiosInstance = AxiosHandler();
 
 // Regisetr Admin 
 const registerAdmin = async (data, code) => {
@@ -8,7 +7,7 @@ const registerAdmin = async (data, code) => {
         const res = await AxiosHandler.post(`/auth/admin/signup?verifycode=${code}`, data)
         return res;
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -20,7 +19,7 @@ const verifyOtp = async (data) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -32,16 +31,17 @@ const login = async (data) => {
         const res = await AxiosHandler.post("/auth/login", data);
         return res;
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
-const logout = async (data) => {
+
+const logout = async () => {
     try {
         const res = await AxiosHandler.post(`/auth/logout`)
-        return res
+        return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
     }
 }
