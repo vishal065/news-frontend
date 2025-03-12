@@ -18,8 +18,8 @@ const Navbar = () => {
             onSuccess: (data) => {
                 if (data.status === 200) {
                     dispatch(authLogout())
-                    persistStore.purge();
                     navigate("/");
+                    persistStore.purge();
                 }
             }
         })

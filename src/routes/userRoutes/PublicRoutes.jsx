@@ -21,7 +21,7 @@ export const UserPublicRoutes = [
         element: <About />
     },
     {
-        path: "/*",
+        path: "/:id/:id2?",
         element: <Home />
     },
 

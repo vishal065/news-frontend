@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useLatestQueryNews, useNewsBySlug, useRelatedNews } from '../../../hooks/usePublicQuery';
+import { useAlsoReadThis, useLatestQueryNews, useNewsBySlug, useRelatedNews } from '../../../hooks/usePublicQuery';
 
 const HomeDetails = () => {
     const { slug } = useParams();
@@ -9,10 +9,11 @@ const HomeDetails = () => {
     const { data } = useNewsBySlug(isNavigated);
     const { state } = useLocation();
     const { data: relatedNews } = useRelatedNews(data?.category.name ?? state?.category.name);
-    const { data: suggestedNews } = useLatestQueryNews();
+    const { data: suggestedNews } = useAlsoReadThis(null);
     const navigate = useNavigate();
 
-    console.log("suggestedNews", suggestedNews)
+
+    
 
     useEffect(() => {
         if (state !== null) {
@@ -101,7 +102,7 @@ const HomeDetails = () => {
                     <div className="mt-8 bg-white shadow-lg rounded-lg p-6">
                         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Read this also</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                            {suggestedNews?.pages[0]?.length > 0 && suggestedNews?.pages[0]?.slice(0, 4).map((item, index) => (
+                            {suggestedNews?.length > 0 && suggestedNews?.slice(0, 4).map((item, index) => (
                                 <div onClick={() => (navigate(`/news/${item?.slug}`, { state: item }), window.scrollTo({ top: 0, behavior: "smooth" }))} key={index} className="bg-gray-50 p-4 cursor-pointer rounded-lg shadow-md flex flex-col" >
                                     <img
                                         src={item?.Image?.ImageURL}

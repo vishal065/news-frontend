@@ -27,7 +27,7 @@ const authSlice = createSlice({
             state.accessToken = null;
             state.refreshToken = null;
             state.isAuthentictaed = false
-            console.log(state);
+            
             
 
 

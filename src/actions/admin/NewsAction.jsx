@@ -5,7 +5,7 @@ import AxiosHandler from "../AxiosHandler";
 
 const createNews = async (data) => {
     try {
-        console.log(data);
+
 
         const res = await AxiosHandler.post("/news/create", data, {
             headers: {
@@ -15,7 +15,7 @@ const createNews = async (data) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -26,7 +26,7 @@ const getNews = async (page) => {
         const res = await AxiosHandler.get(`/news/get?page=${page}&limit=${6}`)
         return res?.data?.data
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -38,7 +38,7 @@ const getNewsByID = async (id) => {
         const res = await AxiosHandler.get(`/news/get/${id}`)
         return res?.data?.data;
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -55,12 +55,12 @@ const updateNews = async (id, data) => {
         });
 
 
-        console.log(res);
+
 
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -72,7 +72,7 @@ const deleteNews = async (id) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
