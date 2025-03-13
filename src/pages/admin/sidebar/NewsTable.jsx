@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQueryNews, useQueryNewsByID } from "../../../hooks/useAdminQuery";
 import { useCreateAndUpdateNews } from "../../../hooks/admin/useAdminHooks";
+import Loader from "../../../components/Loader";
 
 const NewsTable = () => {
     const [ID, setID] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
-    const { data: news } = useQueryNews(pageNumber);
+    const { data: news, isLoading: newsTableLoading } = useQueryNews(pageNumber);
     const { data: SingleNews } = useQueryNewsByID(ID)
     const { mutate, isPending } = useCreateAndUpdateNews();
     const navigate = useNavigate();
-    
 
     const handleEdit = (id) => {
         setID(id)
@@ -26,58 +26,63 @@ const NewsTable = () => {
     return (
         <div className="overflow-x-auto p-2">
             <h2 className="text-2xl font-bold mb-6 text-red-700 pb-6 px-6">News Table</h2>
-            <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
-                <thead>
-                    <tr className="bg-gray-100 border-b uppercase">
-                        <th className="px-4 py-2 text-left">S.No.</th>
-                        <th className="px-4 py-2 text-left">Image</th>
-                        <th className="px-4 py-2 text-left">Title</th>
-                        <th className="px-4 py-2 text-left">Slug</th>
-                        <th className="px-4 py-2 text-left">Category</th>
-                        <th className="px-4 py-2 text-left">Sub Category</th>
-                        <th className="px-4 py-2 text-left">anchor</th>
-                        <th className="px-4 py-2 text-left">Publisher</th>
-                        <th className="px-4 py-2 text-left">Total Views</th>
-                        <th className="px-4 py-2 text-left">Active</th>
+            {
+                newsTableLoading ? <Loader className="w-full h-[60vh]" /> : <>
+                    <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-lg">
+                        <thead>
+                            <tr className="bg-gray-100 border-b uppercase">
+                                <th className="px-4 py-2 text-left">S.No.</th>
+                                <th className="px-4 py-2 text-left">Image</th>
+                                <th className="px-4 py-2 text-left">Title</th>
+                                <th className="px-4 py-2 text-left">Slug</th>
+                                <th className="px-4 py-2 text-left">Category</th>
+                                <th className="px-4 py-2 text-left">Sub Category</th>
+                                <th className="px-4 py-2 text-left">anchor</th>
+                                <th className="px-4 py-2 text-left">Publisher</th>
+                                <th className="px-4 py-2 text-left">Total Views</th>
+                                <th className="px-4 py-2 text-left">Active</th>
 
-                        <th className="px-4 py-2 text-left">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {news?.data?.map((item, index) => (
-                        <tr key={item._id} className="border-b hover:bg-gray-50">
-                            <td className="px-4 py-2 text-left">{index + 1}</td>
-                            <td className="px-4 py-2 text-left">
-                                <img src={item?.Image?.ImageURL} alt="image" className="w-16 h-16 object-cover rounded text-left" />
-                            </td>
-                            <td className="px-4 py-2 text-left">{item?.title?.slice(0, 10)}</td>
-                            <td className="px-4 py-2 text-left">{item?.slug?.slice(0, 10)}</td>
-                            <td className="px-4 py-2 text-left">{item?.category?.slice(0, 10)}</td>
-                            <td className="px-4 py-2 text-left">{item?.subcategory?.slice(0, 10)}</td>
-                            <td className="px-4 py-2 text-left">{item?.anchor?.slice(0, 10)}</td>
-                            <td className="px-4 py-2 text-left">{item?.publisher?.slice(0, 10)}</td>
-                            <td className="px-4 py-2 text-center">{item?.views}</td>
-                            <td className="px-4 py-2 text-center"><p className={`w-[15px] h-[15px] rounded-2xl  ${item?.status ? "bg-green-400" : "bg-red-500"}`}></p></td>
+                                <th className="px-4 py-2 text-left">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {news?.data?.map((item, index) => (
+                                <tr key={item._id} className="border-b hover:bg-gray-50">
+                                    <td className="px-4 py-2 text-left">{index + 1}</td>
+                                    <td className="px-4 py-2 text-left">
+                                        <img src={item?.Image?.ImageURL} alt="image" className="w-16 h-16 object-cover rounded text-left" />
+                                    </td>
+                                    <td className="px-4 py-2 text-left">{item?.title?.slice(0, 10)}</td>
+                                    <td className="px-4 py-2 text-left">{item?.slug?.slice(0, 10)}</td>
+                                    <td className="px-4 py-2 text-left">{item?.category?.slice(0, 10)}</td>
+                                    <td className="px-4 py-2 text-left">{item?.subcategory?.slice(0, 10)}</td>
+                                    <td className="px-4 py-2 text-left">{item?.anchor?.slice(0, 10)}</td>
+                                    <td className="px-4 py-2 text-left">{item?.publisher?.slice(0, 10)}</td>
+                                    <td className="px-4 py-2 text-center">{item?.views}</td>
+                                    <td className="px-4 py-2 text-center"><p className={`w-[15px] h-[15px] rounded-2xl  ${item?.status ? "bg-green-400" : "bg-red-500"}`}></p></td>
 
-                            <td className="px-4 py-2">
-                                <button
-                                    className="bg-blue-600 hover:bg-blue-500 cursor-pointer font-bold text-white px-2 py-1 rounded mr-2"
-                                    onClick={() => handleEdit(item._id)}
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    className="bg-red-700 hover:bg-red-600 cursor-pointer font-bold text-white px-2 py-1 rounded"
-                                    onClick={() => mutate({ id: item?._id, path: "/news/delete" }
-                                    )}
-                                >
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+                                    <td className="px-4 py-2">
+                                        <button
+                                            className="bg-blue-600 hover:bg-blue-500 cursor-pointer font-bold text-white px-2 py-1 rounded mr-2"
+                                            onClick={() => handleEdit(item._id)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            className="bg-red-700 hover:bg-red-600 cursor-pointer font-bold text-white px-2 py-1 rounded"
+                                            onClick={() => mutate({ id: item?._id, path: "/news/delete" }
+                                            )}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </>
+            }
+
             <div className='flex justify-center items-center pt-4'>
                 <button
                     disabled={pageNumber === 1 ? true : false}

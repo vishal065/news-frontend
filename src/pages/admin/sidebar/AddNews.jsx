@@ -128,7 +128,6 @@ const AddNews = () => {
     }, [setFieldValue]);
 
 
-
     return (
         <div className="w-full mx-auto p-8 bg-white shadow-md rounded-lg overflow-y-auto" style={{ maxHeight: "100vh" }}>
             <h1 className="text-2xl font-bold mb-6 text-red-700">Create News</h1>
@@ -395,12 +394,11 @@ const AddNews = () => {
                     </Switch>
                 </div>
 
-                <button type="submit" className="w-full bg-blue-600 text-white font-bold cursor-pointer duration-300 p-2 rounded-md hover:bg-blue-500">
-                    Publish News
+                <button type="submit" disabled={isPending} className="w-full bg-blue-600 text-white font-bold cursor-pointer duration-300 p-2 rounded-md hover:bg-blue-500">
+                    {isPending ? "Please wait..." : "Publish News"}
                 </button>
             </form >
         </div >
-
     );
 };
 

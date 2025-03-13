@@ -46,7 +46,6 @@ const Category = () => {
                             </tr>
                         </thead>
                         <tbody>
-
                             {data && data?.map((item, index) => (
                                 <tr key={index} className="border-b border-gray-300 hover:bg-gray-50">
                                     <td className="py-2 px-4">{index + 1}</td>
@@ -63,14 +62,12 @@ const Category = () => {
                         </tbody>
                     </table>
                 </>}
-
             </div>
 
             {toggleModal?.state && (
                 <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-5 rounded shadow-lg w-96">
                         <h3 className="text-lg font-bold mb-3">{toggleModal?.path == "create" ? "Create" : "Update"} Category </h3>
-
                         <form onSubmit={handleSubmit}>
                             <input
                                 type="text"
@@ -89,7 +86,6 @@ const Category = () => {
                                     type="submit"
                                     className="bg-gray-400 cursor-pointer text-white px-4 py-2 rounded mr-2 hover:bg-gray-500"
                                     onClick={() => setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state }))}
-
                                 >
                                     Cancel
                                 </button>
