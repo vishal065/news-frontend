@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useLogout } from "../../../hooks/useAuth";
 import persistStore from "redux-persist/es/persistStore";
 import { authLogout } from "../../../redux/features/authSlice";
+import logo from "../../../../public/logo2.webp";
 
 const Navbar = () => {
     const [showLogout, setShowLogout] = useState(false);
@@ -43,9 +44,8 @@ const Navbar = () => {
             <div className="flex lg:flex-1">
                 <Link to="/" className="-m-1.5 p-1.5">
                     <img
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8Rqjs4j3gxwYpm4oM7c9yyPomBHiTjdHGw&s"
-                        alt="Logo"
-                        className="h-10 w-auto"
+                        src={logo}
+                        className="w-full h-16 rounded-full"
                     />
                 </Link>
             </div>

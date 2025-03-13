@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { usePublicQueryCategory } from '../hooks/usePublicQuery';
 import { useDispatch } from 'react-redux';
 import { homeData } from '../redux/features/homeSlice';
+import logo from "../../public/logo2.webp"
 
 function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -21,14 +22,14 @@ function Header() {
     };
 
     return (
-        <header className="bg-[#c70101] text-white fixed top-0 left-0 w-full shadow-lg z-50">
-            <nav aria-label="Global" className="mx-3 flex max-w-7xl items-center justify-between p-6 lg:px-2">
+        <header className="bg-[#e36630] text-white fixed top-0 left-0 w-full shadow-lg z-50">
+            <nav aria-label="Global" className="mx-3 flex max-w-7xl items-center justify-between p-4 lg:px-2">
                 <div className="flex lg:flex-2">
                     <Link to="/" onClick={() => dispatch(homeData(null))} className="-m-1.5 p-1.5">
                         <img
                             alt="Logo"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8Rqjs4j3gxwYpm4oM7c9yyPomBHiTjdHGw&s"
-                            className="h-14 w-auto"
+                            src={logo}
+                            className="h-17 w-17 rounded-full"
                         />
                     </Link>
                 </div>
@@ -106,13 +107,13 @@ function Header() {
                         leaveFrom="translate-x-0"
                         leaveTo="-translate-x-full"
                     >
-                        <DialogPanel className="fixed inset-y-0 left-0 top-[106px] z-20 w-2/3 overflow-y-auto bg-white px-6 py-6 shadow-lg">
+                        <DialogPanel className="fixed inset-y-0 left-0 top-[100px] z-20 w-2/3 overflow-y-auto bg-white px-6 py-6 shadow-lg">
                             <div className="flex items-center justify-between">
                                 <Link to="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
                                     <img
                                         alt="Logo"
-                                        src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
-                                        className="h-8 w-auto"
+                                        src={logo}
+                                        className="h-8 w-auto rounded-full"
                                     />
                                 </Link>
                                 <button type="button" onClick={() => setMobileMenuOpen(false)} className="-m-2.5 p-2.5 text-gray-700">
