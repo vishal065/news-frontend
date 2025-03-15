@@ -2,10 +2,8 @@ import AxiosHandler from "../AxiosHandler";
 
 
 // create news 
-
 const createNews = async (data) => {
     try {
-
 
         const res = await AxiosHandler.post("/news/create", data, {
             headers: {
@@ -46,16 +44,11 @@ const getNewsByID = async (id) => {
 // Update News 
 const updateNews = async (id, data) => {
     try {
-
-
         const res = await AxiosHandler.put(`news/update/${id}`, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         });
-
-
-
 
         return res;
 
@@ -76,6 +69,32 @@ const deleteNews = async (id) => {
         return error;
     }
 }
+const DashboardCardData = async () => {
+    try {
+        const res = await AxiosHandler.get(`/dashboard/cards`)
+        
+        if (res?.data?.statusCode === 200) {
+            return res.data.data
+        }
+        return {}
+
+    } catch (error) {
+        return error
+    }
+}
+const PopularNews = async () => {
+    try {
+        const res = await AxiosHandler.get(`/dashboard/popular-news`)
+        
+        if (res?.data?.statusCode === 200) {
+            return res.data.data
+        }
+        return []
+
+    } catch (error) {
+        return error
+    }
+}
 
 
-export { createNews, getNews, updateNews, deleteNews, getNewsByID };
+export { createNews, getNews, updateNews, deleteNews, getNewsByID, DashboardCardData, PopularNews };

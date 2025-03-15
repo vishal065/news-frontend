@@ -1,31 +1,19 @@
-import React, { useEffect, useState } from 'react';
 import DOMPurify from 'dompurify';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAlsoReadThis, useNewsBySlug, useRelatedNews } from '../../../hooks/usePublicQuery';
 import Loader from '../../../components/Loader';
 
 const HomeDetails = () => {
     const { slug } = useParams();
-    const [isNavigated, setIsNavigated] = useState(null)
-    const { data, isLoading: detailsNewsLoading } = useNewsBySlug(isNavigated);
-    const { state } = useLocation();
-    const { data: relatedNews, isLoading: relatedNewsLoading } = useRelatedNews(data?.category.name ?? state?.category.name);
+    const { data, isLoading: detailsNewsLoading } = useNewsBySlug(slug);
+    const { data: relatedNews, isLoading: relatedNewsLoading } = useRelatedNews(data?.category.name ?? null);
     const { data: suggestedNews, isLoading: suggestedNewsLoading } = useAlsoReadThis(null);
     const navigate = useNavigate();
 
 
-    useEffect(() => {
-        if (state !== null) {
-            setIsNavigated(null);
-        } else {
-            setIsNavigated(slug);
-        }
-    }, [state])
-
-
     return (
         <div>
-            {(state || data) &&
+            {data &&
                 <div div className="max-w-auto mx-auto px-2 md:px-8 py-8 mt-20">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
@@ -34,32 +22,32 @@ const HomeDetails = () => {
                             <div className="md:col-span-2 bg-white shadow-lg rounded-lg overflow-hidden">
                                 <div className="w-full">
                                     <img
-                                        src={state?.Image?.ImageURL ?? data?.Image?.ImageURL}
-                                        alt={state?.alt ?? data?.alt}
+                                        src={data?.Image?.ImageURL}
+                                        alt={data?.alt}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
                                 <div className="p-2 md:p-6">
                                     <h1 className="text-3xl text-center font-bold text-gray-900 mb-4">
-                                        {state?.title ?? data?.title}
+                                        {data?.title}
                                     </h1>
                                     <div className="p-6">
                                         <p className="text-gray-700 text-lg tracking-wide word-spacing-wide"
                                             dangerouslySetInnerHTML={{
                                                 __html: DOMPurify.sanitize(
-                                                    state?.description ?? data?.description)
+                                                    data?.description)
                                             }}
                                         />
 
                                     </div>
                                     <div>
-                                        <iframe width="100%" height="300px" src={state?.videoURL ?? data?.videoURL} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                                        <iframe width="100%" height="300px" src={data?.videoURL} title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
                                     </div>
 
                                     <div className='flex justify-between px-6 pt-6'>
-                                        <span className="text-sm text-gray-500">{`Published by - ${state?.publisher?.name ?? data?.publisher?.name}`}</span>
+                                        <span className="text-sm text-gray-500">{`Published by - ${data?.publisher?.name}`}</span>
                                         <span className="text-sm text-gray-500">
-                                            {new Date(state?.updatedAt ?? data?.updatedAt).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}
+                                            {new Date(data?.updatedAt).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}
                                         </span>
 
                                     </div>
@@ -74,7 +62,7 @@ const HomeDetails = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-6">
                                 {relatedNewsLoading ? <Loader className="w-full h-screen" /> : <>
                                     {relatedNews?.length > 0 && relatedNews?.slice(0, 5).map((item, index) => (
-                                        <div onClick={() => navigate(`/news/${item?.slug}`, { state: item })} key={index} className="bg-gray-50 p-4 rounded-lg cursor-pointer shadow-md flex items-center lg:flex-row md:flex-col md:items-start">
+                                        <div onClick={() => navigate(`/news/${item?.slug}`)} key={index} className="bg-gray-50 p-4 rounded-lg cursor-pointer shadow-md flex items-center lg:flex-row md:flex-col md:items-start">
                                             <img
                                                 src={item?.Image?.ImageURL}
                                                 alt={item?.alt}
@@ -106,7 +94,7 @@ const HomeDetails = () => {
                         {suggestedNewsLoading ? <Loader className="w-full h-80" /> : <>
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                                 {suggestedNews?.length > 0 && suggestedNews?.slice(0, 4).map((item, index) => (
-                                    <div onClick={() => (navigate(`/news/${item?.slug}`, { state: item }), window.scrollTo({ top: 0, behavior: "smooth" }))} key={index} className="bg-gray-50 lg:p-4 md:p-0 cursor-pointer rounded-lg shadow-md flex flex-col" >
+                                    <div onClick={() => (navigate(`/news/${item?.slug}`), window.scrollTo({ top: 0, behavior: "smooth" }))} key={index} className="bg-gray-50 lg:p-4 md:p-0 cursor-pointer rounded-lg shadow-md flex flex-col" >
                                         <img
                                             src={item?.Image?.ImageURL}
                                             alt={item?.alt}
@@ -125,9 +113,7 @@ const HomeDetails = () => {
                                 ))}
                             </div>
                         </>}
-
                     </div>
-
                 </div>}
         </div >
     );
