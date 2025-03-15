@@ -37,7 +37,7 @@ const Home = () => {
         <div className="grid grid-cols-1 gap-6 mb-8">
           {isLoading ? <Loader className="w-full h-96" /> : <>
             {data?.pages[0]?.length > 0 && data?.pages[0]?.slice(0, 1).map((item, index) => (
-              <div key={index} onClick={() => navigate(`/news/${item?.slug}`, { state: item })} className="w-full bg-white rounded-lg overflow-hidden shadow-lg cursor-pointer">
+              <div key={index} onClick={() => navigate(`/news/${item?.slug}`)} className="w-full bg-white rounded-lg overflow-hidden shadow-lg cursor-pointer">
                 <div className="overflow-hidden">
                   <img
                     className="w-full h-auto max-h-96 object-cover transition-transform duration-300 hover:scale-105"

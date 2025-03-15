@@ -2,7 +2,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query"
 import { getAdminCategory } from "../actions/admin/CategoryAction"
 import { getAnchor } from "../actions/admin/AnchorAction";
 import { getPublisher } from "../actions/admin/PublisherAction";
-import { getNews, getNewsByID } from "../actions/admin/NewsAction.jsx";
+import { DashboardCardData, getNews, getNewsByID, PopularNews } from "../actions/admin/NewsAction.jsx";
 import { getSubCategory } from "../actions/admin/subCategoryAction";
 
 
@@ -44,8 +44,6 @@ const useQueryNews = (page) => {
 };
 
 const useQueryNewsByID = (id) => {
-
-
     return useQuery({
         queryKey: ["newsByID-query", id],
         queryFn: () => getNewsByID(id),
@@ -53,9 +51,25 @@ const useQueryNewsByID = (id) => {
         gcTime: 20000,
         staleTime: 20000
     });
+};
 
+const useDashboardCards = () => {
+    return useQuery({
+        queryKey: ["dashboard-cards",],
+        queryFn: () => DashboardCardData(),
+        gcTime: 20000,
+        staleTime: 20000
+    });
+};
+const usePopularNews = () => {
+    return useQuery({
+        queryKey: ["Popular-news",],
+        queryFn: () => PopularNews(),
+        gcTime: 20000,
+        staleTime: 20000
+    });
 };
 
 
 
-export { useQueryCategory, useQueryAnchor, useQueryPublisher, useQueryNews, useQuerySubCategory, useQueryNewsByID };
+export { useQueryCategory, useQueryAnchor, useQueryPublisher, useQueryNews, useQuerySubCategory, useQueryNewsByID, useDashboardCards, usePopularNews };

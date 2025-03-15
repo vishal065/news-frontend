@@ -58,7 +58,7 @@ const AddNews = () => {
     }
 
     const handleSlugChange = useCallback((e) => {
-        const formattedSlug = e.target.value.replace(/\s+/g, "-");
+        const formattedSlug = e.target.value.replace(/\s+/g, "-").replace(/[\/]+/g, "");;
         setSlug(formattedSlug);
         setFieldValue("slug", formattedSlug);
     }, [setFieldValue]);
