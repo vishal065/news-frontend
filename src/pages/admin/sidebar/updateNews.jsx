@@ -29,6 +29,9 @@ const UpdateNews = () => {
 
 
 
+    console.log(subCategory?.data);
+
+
 
 
     const { values, errors, touched, handleChange, handleBlur, handleSubmit, setFieldValue, setFieldError, resetForm } = useFormik({
@@ -38,6 +41,8 @@ const UpdateNews = () => {
         // validateOnBlur: true,
         enableReinitialize: true,
         onSubmit: (value) => {
+
+
 
             if (pathname.includes("/news/update")) {
 

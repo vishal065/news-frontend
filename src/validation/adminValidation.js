@@ -62,9 +62,9 @@ export const createNewsTableSchema = yup.object({
     status: yup.string().required("Status is required"),
     videoURL: yup.string().url("Enter a valid URL"),
     categoryId: yup.string().required("Category is required"),
-    subCategoryId: yup.string().required("Subcategory is required"),
+    subCategoryId: yup.string().nullable().optional(),
     publisherId: yup.string().required("Publisher is required"),
-    anchorId: yup.string().required("Anchor is required"),
+    anchorId: yup.string().nullable().optional(),
 }).test(
     "image-or-video-required",
     "Either an image or a video is required",
