@@ -259,7 +259,7 @@ const AddNews = () => {
                         value={values.subCategoryId}
                         className="mt-1 p-2 w-full rounded-md  border border-red-200 focus:border-red-300 outline-none"
                     >
-                        <option value=""> Select Category first</option>
+                        <option value={null}> Select Category first</option>
                         {values?.categoryId && subCategory?.data?.filter((item) => item?.categoryId === values.categoryId)?.map((item, i) => (
                             <option key={i} value={item?._id}>{item?.name}</option>
                         ))}

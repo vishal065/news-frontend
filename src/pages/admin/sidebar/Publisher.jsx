@@ -45,7 +45,7 @@ const Publisher = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data && data?.data.map((item, index) => (
+                            {data && data?.data?.map((item, index) => (
                                 <tr key={index} className="border-b border-gray-300 hover:bg-gray-50">
                                     <td className="py-2 px-4">{index + 1}</td>
                                     <td className="py-2 px-4">{item.name}</td>
