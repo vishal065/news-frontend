@@ -2,7 +2,6 @@ import AxiosHandler from "../AxiosHandler";
 
 
 
-
 // Create Admin Anchor 
 const createAnchor = async (data) => {
     try {

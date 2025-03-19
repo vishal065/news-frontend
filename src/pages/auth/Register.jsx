@@ -7,6 +7,7 @@ import { useAdminRegister } from "../../hooks/useAuth"
 import { useFormik } from 'formik';
 import { adminRegisterState } from '../../validation/authState';
 import { adminRegisterSchema } from '../../validation/authValidation';
+import logo from "../../../public/logo2.webp"
 
 const Register = () => {
     const navigate = useNavigate();
@@ -33,8 +34,8 @@ const Register = () => {
             <div className="w-full max-w-md space-y-8">
                 <div>
                     <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8Rqjs4j3gxwYpm4oM7c9yyPomBHiTjdHGw&s"
+                        className="mx-auto h-20 w-auto rounded-md"
+                        src={logo}
                         alt="Your Company"
                     />
                     <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">

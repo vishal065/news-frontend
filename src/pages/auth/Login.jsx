@@ -8,8 +8,8 @@ import { loginState } from '../../validation/authState';
 import { loginSchema } from '../../validation/authValidation';
 import { useDispatch } from 'react-redux';
 import { authLogin } from '../../redux/features/authSlice';
+import logo from "../../../public/logo2.webp"
 import Cookies from "js-cookie";
-import Loader from '../../components/Loader';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -34,8 +34,8 @@ const Login = () => {
             <div className="w-full max-w-md space-y-8">
                 <div>
                     <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8Rqjs4j3gxwYpm4oM7c9yyPomBHiTjdHGw&s"
+                        className="mx-auto h-20 w-auto rounded-md"
+                        src={logo}
                         alt="Your Company"
                     />
                     <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
