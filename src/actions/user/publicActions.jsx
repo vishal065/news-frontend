@@ -16,8 +16,6 @@ const getPublicCategory = async () => {
 // Latest News
 const getLatestNews = async (category = null, subcategory = null, publisher = null, anchor = null, pageParam = 1) => {
     try {
-       
-
 
         const res = await AxiosHandler.get(`/u/get?category=${encodeURIComponent(category)}&subcategory=${encodeURIComponent(subcategory)}&publisher=${encodeURIComponent(publisher)}&anchor=${encodeURIComponent(anchor)}&page=${pageParam}&limit=${6}`);
 
@@ -43,9 +41,9 @@ const getNewsBySlug = async (slug) => {
 }
 
 // Related news 
-const getRelatedNews = async (category=null) => {
+const getRelatedNews = async (category = null) => {
     try {
-        const res = await AxiosHandler.get(`u/related-news?category=${encodeURIComponent(category)}`);
+        const res = await AxiosHandler.get(`/u/related-news?category=${encodeURIComponent(category)}`);
         return res?.data?.data;
 
     } catch (error) {
@@ -54,6 +52,19 @@ const getRelatedNews = async (category=null) => {
     }
 }
 
+//Create Contact
+const createContact = async (data) => {
+    try {
+        const res = await AxiosHandler("/contact/create", data);
+        console.log(res);
+        return res;
+
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
 
 
-export { getPublicCategory, getLatestNews, getNewsBySlug, getRelatedNews };
+
+export { getPublicCategory, getLatestNews, getNewsBySlug, getRelatedNews, createContact };

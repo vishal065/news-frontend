@@ -6,15 +6,15 @@ import logo from "../../public/logo2.webp";
 function Footer() {
     return (
         <footer className="bg-gray-900 text-gray-300 py-8">
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+            <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4">
                 {/* Logo and Description */}
                 <div className="space-y-4">
                     <img
                         src={logo}
-                        alt="NewsToday Logo"
+                        alt="logo"
                         className="h-18 w-auto rounded-md"
                     />
-                    <p className="text-sm">
+                    <p className="text-sm font-semibold">
                         Stay updated with the latest news from around the world. Bringing
                         you accurate and reliable information 24/7.
                     </p>
@@ -25,24 +25,52 @@ function Footer() {
                     <h2 className="text-xl font-semibold text-white mb-4">Quick Links</h2>
                     <ul className="space-y-2">
                         <li>
-                            <Link to="/about-us" className="hover:text-white transition duration-200"  >
+                            <Link to="/about-us" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition duration-200 font-semibold"  >
                                 About Us
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/contact-us" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition duration-200 font-semibold">
+                                Contact Us
                             </Link>
                         </li>
 
                         <li>
-                            <Link to="/politics" className="hover:text-white transition duration-200">
+                            <Link to="/crime" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition duration-200 font-semibold">
                                 Crime Updates
                             </Link>
                         </li>
                         <li>
-                            <Link to="/sports" className="hover:text-white transition duration-200">
+                            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition duration-200 font-semibold">
                                 Breaking News
                             </Link>
                         </li>
+
+                    </ul>
+                </div>
+
+                <div>
+                    <h2 className="text-xl font-semibold text-white mb-4">Quick Links</h2>
+                    <ul className="space-y-2">
                         <li>
-                            <Link to="/contact-us" className="hover:text-white transition duration-200">
-                                Contact Us
+                            <Link to="/law%20&%20justice" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition duration-200 font-semibold"  >
+                                Law & Justice
+                            </Link>
+                        </li>
+
+                        <li>
+                            <Link to="/astrology" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition duration-200 font-semibold">
+                                Astrology
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/spiritual" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition duration-200 font-semibold">
+                                Spiritual
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/entertainment" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition duration-200 font-semibold">
+                                Entertainment
                             </Link>
                         </li>
                     </ul>
@@ -54,7 +82,7 @@ function Footer() {
                     <div className="flex space-x-4">
                         <Link
                             to="https://www.facebook.com/paras.guruji"
-                            className="hover:text-blue-400 transition duration-200"
+                            className="hover:text-blue-500 transition duration-200"
                             aria-label="Facebook"
                             target="_blank"
                             rel="noopener noreferrer"
