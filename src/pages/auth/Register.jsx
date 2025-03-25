@@ -7,6 +7,7 @@ import { useAdminRegister } from "../../hooks/useAuth"
 import { useFormik } from 'formik';
 import { adminRegisterState } from '../../validation/authState';
 import { adminRegisterSchema } from '../../validation/authValidation';
+import logo from "../../../public/logo2.webp"
 
 const Register = () => {
     const navigate = useNavigate();
@@ -33,12 +34,12 @@ const Register = () => {
             <div className="w-full max-w-md space-y-8">
                 <div>
                     <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
+                        className="mx-auto h-20 w-auto rounded-md"
+                        src={logo}
                         alt="Your Company"
                     />
                     <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-                        Sign up
+                        Registration
                     </h2>
                 </div>
                 <form onSubmit={handleSubmit} className="mt-8 space-y-6 bg-white p-6 rounded-lg shadow-md">
@@ -171,9 +172,9 @@ const Register = () => {
                         <button
                             type="submit"
                             disabled={isPending}
-                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isPending ? <Loader /> : "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"}`}
+                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-md font-medium text-white  focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 uppercase ${isPending ? "bg-red-700 hover:bg-red-600 focus:ring-red-500" : "bg-blue-700 hover:bg-blue-600 focus:ring-blue-500"}`}
                         >
-                            Sign up
+                            {isPending ? <span>Please wait...</span> : "SignUp"}
                         </button>
                     </div>
                     <div className='flex justify-end'>
@@ -185,7 +186,7 @@ const Register = () => {
 
                 <p className="mt-2 text-center text-sm text-gray-600">
                     Don't have an account ?
-                    <Link to={"/login"} className="px-2 hover:underline font-medium cursor-pointer text-indigo-600 hover:text-indigo-500">
+                    <Link to={"/login"} className="px-2 hover:underline text-md font-bold cursor-pointer text-red-600 hover:text-red-500">
                         Login
                     </Link>
                 </p>

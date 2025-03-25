@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { createSubCategorySchema } from '../../../validation/adminValidation';
 import { useCreateAndUpdateSubCategory } from '../../../hooks/admin/useAdminHooks';
 import { useQueryCategory, useQuerySubCategory } from '../../../hooks/useAdminQuery';
+import Loader from '../../../components/Loader';
 
 const SubCategory = () => {
     const [toggleModal, setToggleModal] = useState({ path: null, state: false });
@@ -11,8 +12,7 @@ const SubCategory = () => {
     const { mutate, isPending } = useCreateAndUpdateSubCategory();
     const [storeCategoryId, setStoreCategoryId] = useState(null);
     const { data: category } = useQueryCategory();
-    const { data: subCategory } = useQuerySubCategory(pageNumber);
-    console.log(subCategory)
+    const { data: subCategory, isLoading: subCategoryLoading } = useQuerySubCategory(pageNumber);
 
     const { values, touched, errors, handleChange, handleBlur, handleSubmit, resetForm } = useFormik({
         initialValues: {
@@ -22,7 +22,6 @@ const SubCategory = () => {
         validationSchema: createSubCategorySchema,
         enableReinitialize: true,
         onSubmit: (value) => {
-
 
             mutate({ path: toggleModal.path, id: oldData?._id, ...value })
             resetForm();
@@ -35,56 +34,57 @@ const SubCategory = () => {
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
-            <h2 className="text-xl font-semibold mb-4">SubCategory Table</h2>
+            <h2 className="text-2xl font-bold mb-4 text-red-700">Sub Category Table</h2>
             <div className='flex justify-end'>
-                <button onClick={() => setToggleModal((prev) => ({ ...prev, path: "create", state: !prev.state }))} className="mb-4 bg-red-600 hover:bg-red-700 cursor-pointer duration-300 text-white px-4 py-2 rounded">+ Add SubCategory</button>
+                <button onClick={() => setToggleModal((prev) => ({ ...prev, path: "create", state: !prev.state }))} className="mb-4 bg-red-700 hover:bg-red-600 cursor-pointer duration-300 text-white px-4 py-2 font-bold rounded">+ Add SubCategory</button>
             </div>
             <div className="overflow-x-auto">
-                <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
-                    <thead className="bg-gray-200">
-                        <tr>
-                            <th className="py-2 px-4 text-left">S.NO.</th>
-                            <th className="py-2 px-4 text-left">Sub Category Name</th>
-                            <th className="py-2 px-4 text-left">Parent Name</th>
-                            <th className="py-2 px-4 text-left">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {subCategory?.data?.map((item, index) => (
-
-                            <tr key={index} className="border-b">
-                                <td className="py-2 px-4">{index + 1}</td>
-                                <td className="py-2 px-4">{item.name}</td>
-                                <td className="py-2 px-4">{item?.category.name}</td>
-                                <td className="py-2 px-4">
-                                    <button onClick={() => {
-                                        setToggleModal((prev) => ({ ...prev, path: "update", state: !prev.state }))
-                                        setOldData(item)
-
-                                    }} className="bg-blue-500 text-white px-2 py-1 rounded mr-2">Edit</button>
-                                    <button onClick={() => mutate({ id: item?._id })} className="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
-                                </td>
+                {subCategoryLoading ? <Loader className="w-full h-[60vh]" /> : <>
+                    <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+                        <thead className="bg-gray-200">
+                            <tr>
+                                <th className="py-2 px-4 text-left">S.NO.</th>
+                                <th className="py-2 px-4 text-left">Sub Category Name</th>
+                                <th className="py-2 px-4 text-left">Parent Name</th>
+                                <th className="py-2 px-4 text-left">Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {subCategory?.data?.map((item, index) => (
+
+                                <tr key={index} className="border-b">
+                                    <td className="py-2 px-4">{index + 1}</td>
+                                    <td className="py-2 px-4">{item?.name}</td>
+                                    <td className="py-2 px-4">{item?.category.name}</td>
+                                    <td className="py-2 px-4">
+                                        <button onClick={() => {
+                                            setToggleModal((prev) => ({ ...prev, path: "update", state: !prev.state }))
+                                            setOldData(item)
+
+                                        }} className="bg-blue-600 cursor-pointer hover:bg-blue-500 font-bold text-white px-3 py-1 rounded mr-2">Edit</button>
+                                        <button onClick={() => mutate({ id: item?._id })} className="bg-red-700 text-white hover:bg-red-600 cursor-pointer font-bold px-2 py-1 rounded">Delete</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </>}
             </div>
 
             {/* Modal */}
             {toggleModal?.state && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                     <div className="bg-white p-6 rounded shadow-lg w-96">
-                        <h3 className="text-lg font-semibold mb-4">{oldData?._id ? 'Update' : 'Add'} SubCategory</h3>
+                        <h3 className="text-lg font-semibold mb-4">{toggleModal?.path === "create" ? 'Create' : 'Update'} SubCategory</h3>
                         <form onSubmit={handleSubmit}>
                             <select
                                 name="categoryId"
                                 value={oldData?.categoryId ?? values?.categoryId}
                                 onChange={(e) => {
                                     const selectedCategoryId = e.target.value;
-
                                     setStoreCategoryId(selectedCategoryId);
                                     handleChange(e);
-
                                     const selectedCategory = category?.find(item => item._id === selectedCategoryId);
                                     if (selectedCategory) {
                                         setOldData(prev => ({
@@ -120,8 +120,10 @@ const SubCategory = () => {
                             ) : null}
 
                             <div className="flex justify-end">
-                                <button type="button" onClick={() => (setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state })), setStoreCategoryId(null), setOldData(null))} className="mr-2 bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
-                                <button type="submit" disabled={isPending} className="bg-blue-500 text-white px-4 py-2 rounded">{oldData?._id ? isPending ? 'updating...' : 'Update' : isPending ? "Adding" : "Add"}</button>
+                                <button type="button" onClick={() => (setToggleModal((prev) => ({ ...prev, path: null, state: !prev.state })), setStoreCategoryId(null), setOldData(null))} className="mr-2 bg-gray-500 hover:bg-gray-400 cursor-pointer font-bold text-white px-4 py-2 rounded">Cancel</button>
+                                <button
+                                    type="submit" disabled={isPending} className="bg-blue-600 hover:bg-blue-500 cursor-pointer font-bold text-white px-4 py-2 rounded">  {!isPending ? toggleModal?.path === "create" ? 'Create' : 'Update' : "Please wait..."}
+                                </button>
                             </div>
                         </form>
                     </div>

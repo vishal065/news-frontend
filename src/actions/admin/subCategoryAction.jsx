@@ -9,7 +9,7 @@ const createSubCategory = async (data) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -17,13 +17,13 @@ const createSubCategory = async (data) => {
 // Fetched Sub Category 
 const getSubCategory = async (page) => {
     try {
-        console.log(page);
+
 
         const res = await AxiosHandler.get(`/subCategory/get-list?page=${page}&limit=${10}`);
         return res?.data?.data;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -34,7 +34,7 @@ const updateSubCategory = async (id, data) => {
         const res = await AxiosHandler.put(`/subCategory/update/${id}`, data);
         return res;
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -46,7 +46,7 @@ const deleteSubCategory = async (id) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }

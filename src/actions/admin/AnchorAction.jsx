@@ -2,15 +2,13 @@ import AxiosHandler from "../AxiosHandler";
 
 
 
-
 // Create Admin Anchor 
 const createAnchor = async (data) => {
     try {
         const res = await AxiosHandler.post("/anchor/create", data);
-        console.log(res);
         return res;
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return
     }
 }
@@ -22,7 +20,7 @@ const getAnchor = async () => {
         return res?.data;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -34,7 +32,7 @@ const updateAnchor = async (id, data) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -46,7 +44,7 @@ const deleteAnchor = async (id) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }

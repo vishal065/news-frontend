@@ -17,6 +17,6 @@ export const verifyOTPSchema = yup.object({
 
 
 export const loginSchema = yup.object({
-    email: yup.string().email().trim().required("email.is required"),
+    email: yup.string().email().trim().required("email is required"),
     password: yup.string().trim().required("password is required")
 });

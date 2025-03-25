@@ -2,10 +2,8 @@ import AxiosHandler from "../AxiosHandler";
 
 
 // create news 
-
 const createNews = async (data) => {
     try {
-        console.log(data);
 
         const res = await AxiosHandler.post("/news/create", data, {
             headers: {
@@ -15,7 +13,7 @@ const createNews = async (data) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -26,7 +24,7 @@ const getNews = async (page) => {
         const res = await AxiosHandler.get(`/news/get?page=${page}&limit=${6}`)
         return res?.data?.data
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -38,7 +36,7 @@ const getNewsByID = async (id) => {
         const res = await AxiosHandler.get(`/news/get/${id}`)
         return res?.data?.data;
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -46,21 +44,16 @@ const getNewsByID = async (id) => {
 // Update News 
 const updateNews = async (id, data) => {
     try {
-
-
         const res = await AxiosHandler.put(`news/update/${id}`, data, {
             headers: {
                 "Content-Type": "multipart/form-data",
             },
         });
 
-
-        console.log(res);
-
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
     }
 }
@@ -72,10 +65,36 @@ const deleteNews = async (id) => {
         return res;
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return error;
+    }
+}
+const DashboardCardData = async () => {
+    try {
+        const res = await AxiosHandler.get(`/dashboard/cards`)
+        
+        if (res?.data?.statusCode === 200) {
+            return res.data.data
+        }
+        return {}
+
+    } catch (error) {
+        return error
+    }
+}
+const PopularNews = async () => {
+    try {
+        const res = await AxiosHandler.get(`/dashboard/popular-news`)
+        
+        if (res?.data?.statusCode === 200) {
+            return res.data.data
+        }
+        return []
+
+    } catch (error) {
+        return error
     }
 }
 
 
-export { createNews, getNews, updateNews, deleteNews, getNewsByID };
+export { createNews, getNews, updateNews, deleteNews, getNewsByID, DashboardCardData, PopularNews };

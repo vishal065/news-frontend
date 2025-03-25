@@ -8,6 +8,7 @@ import { loginState } from '../../validation/authState';
 import { loginSchema } from '../../validation/authValidation';
 import { useDispatch } from 'react-redux';
 import { authLogin } from '../../redux/features/authSlice';
+import logo from "../../../public/logo2.webp"
 import Cookies from "js-cookie";
 
 const Login = () => {
@@ -33,8 +34,8 @@ const Login = () => {
             <div className="w-full max-w-md space-y-8">
                 <div>
                     <img
-                        className="mx-auto h-12 w-auto"
-                        src="https://w7.pngwing.com/pngs/937/360/png-transparent-ncr-hd-logo-thumbnail.png"
+                        className="mx-auto h-20 w-auto rounded-md"
+                        src={logo}
                         alt="Your Company"
                     />
                     <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
@@ -105,9 +106,9 @@ const Login = () => {
                         <button
                             type="submit"
                             disabled={isPending}
-                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 ${isPending ? "bg-red-600 hover:bg-red-700 focus:ring-indigo-500" : "bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500"}`}
+                            className={`group relative flex w-full justify-center cursor-pointer rounded-md border border-transparent  py-2 px-4 text-sm font-medium text-white  focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ${isPending ? "bg-red-600 hover:bg-red-700 focus:ring-red-500" : "bg-red-700 hover:bg-red-600 focus:ring-red-500 font-bold uppercase duration-300"}`}
                         >
-                            Login
+                            {isPending ? <span>Please wait...</span> : "LOGIN"}
                         </button>
                     </div>
 
@@ -120,7 +121,7 @@ const Login = () => {
 
                 <p className="mt-2 text-center text-sm text-gray-600">
                     Don't have an account?
-                    <Link to="/admin/register" className="px-2 hover:underline font-medium cursor-pointer text-indigo-600 hover:text-indigo-500">
+                    <Link to="/admin/register" className="px-2 font-bold hover:underline cursor-pointer text-indigo-600 hover:text-indigo-500">
                         Sign up
                     </Link>
                 </p>
